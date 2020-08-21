@@ -127,15 +127,23 @@ class Events(commands.Cog):
 				collection = db[f"{member.guild.name}"]
 				time_join = collection.find_one({"id": member.id})
 				time_join = time_join["time"]
+				print(time_join)
 				time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
+				print(time_join)
 				time_now = datetime.datetime.now(tz=None)
+				print(time_now)
 				time_in_voice_hrs = time_now.hour - time_join.hour
+				print(time_in_voice_hrs)
 				time_in_voice_hrs = time_in_voice_hrs * 60
+				print(time_in_voice_hrs)
 				time_in_voice_minute = time_now.minute - time_join.minute
+				print(time_in_voice_minute)
 				time_in_voice_all = time_in_voice_minute + time_in_voice_hrs
+				print(time_in_voice_all)
 				minvoice = collection.find_one({"id": int(member.id)})
 				minvoice = minvoice["minvoice"]
 				minvoice = minvoice + time_in_voice_all
+				print(minvoice)
 				#coins before
 				coins = collection.find_one({"id": member.id})
 				coins = coins["coins"]

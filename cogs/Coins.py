@@ -2,6 +2,7 @@ import discord
 from discord import utils
 import pymongo
 import datetime
+import os
 from pymongo import MongoClient
 import json
 from discord.ext import commands

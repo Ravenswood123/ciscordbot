@@ -27,5 +27,5 @@ for filename in os.listdir('./cogs'):
         print(f'+ {filename}')
 
 if __name__ == '__main__':
-    TOKEN = os.environ.get('CISCORD_TOKEN')
-    bot.run(TOKEN)
+	TOKEN = os.environ.get('CISCORD_TOKEN')
+	bot.run(TOKEN)

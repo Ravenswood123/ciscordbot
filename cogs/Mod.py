@@ -25,6 +25,17 @@ class Mod(commands.Cog):
 		await ctx.channel.purge(limit = ammout + 1)
 		emb = discord.Embed(description = f':white_check_mark: {ctx.author.mention}, **успешно** удалил **{msgs}** сообщений!', colour = discord.Colour.from_rgb(217, 152, 39))
 		await ctx.send(embed=emb, delete_after=5)
+	@commands.command()
+	async def clear(ctx, amount: int = None):
+    		if not amount:
+        		return await ctx.send("Укажите кол-во")
+
+	    	msgs = 0
+    		async for msg in ctx.channel.history(limit = amount):
+        		msgs += 1
+		await ctx.channel.purge(limit=amount)
+    		emb = discord.Embed(description = f':ballot_box_with_check: {ctx.author.mention}, successfuly deleted **{msgs}** mesages!', colour = discord.Colour.from_rgb(217, 152, 39))
+		await ctx.send(embed=emb, delete_after=5)
 
 	#Kick command
 	@commands.command()

@@ -218,8 +218,7 @@ class Events(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
-		if before.voice_channel is None and after.voice_channel is not None:
-			print("s")
+		print(after.member.voice.mute)
 
 #Add cog files
 def setup(bot):

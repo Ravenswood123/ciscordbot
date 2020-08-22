@@ -111,7 +111,9 @@ class Events(commands.Cog):
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		try:
 			members = after.channel.members
-			if len(members) > len(before.channel.members):
+			members_before = before.channel.members
+			print(members_before)
+			if len(members) > len(members_before):
 				print("зашёл")
 		except AttributeError:
 			print('вышел')

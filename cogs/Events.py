@@ -106,51 +106,17 @@ class Events(commands.Cog):
 		collection = db[f'{member.guild.name}']
 		collection.delete_one({"id": member.id, })
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
-
+  
 	@commands.Cog.listener()
-	async def on_voice_state_update(self, member: discord.Member, before, after, guild = discord.Guild):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
+	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
+		print('2')
 		try:
-			if len(after.channel.members) >= 2:
-				for member in after.channel.members:
-					db = cluster["ciscord"]
-					collection = db[f"{member.guild.name}"]
-					time_now = datetime.datetime.now(tz=None).strftime("%d-%m-%Y %H:%M:%S")
-					time_str = str(time_now)
-					collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
-			members = after.channel.members
-		#если вышел
+			if len(after.channel.members) > len(before.channel.members):
+				if len(after.channel.members) >= 2:
+			print("зашёл")
 		except AttributeError:
-			for member in before.channel.members:
-				db = cluster["ciscord"]
-				collection = db[f"{member.guild.name}"]
-				time_join = collection.find_one({"id": member.id})
-				time_join = time_join["time"]
-				print(time_join)
-				time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
-				print(time_join)
-				time_now = datetime.datetime.now(tz=None)
-				print(time_now)
-				time_in_voice_hrs = time_now.hour - time_join.hour
-				print(time_in_voice_hrs)
-				time_in_voice_hrs = time_in_voice_hrs * 60
-				print(time_in_voice_hrs)
-				time_in_voice_minute = time_now.minute - time_join.minute
-				print(time_in_voice_minute)
-				time_in_voice_all = time_in_voice_minute + time_in_voice_hrs
-				print(time_in_voice_all)
-				minvoice = collection.find_one({"id": int(member.id)})
-				minvoice = minvoice["minvoice"]
-				minvoice = minvoice + time_in_voice_all
-				print(minvoice)
-				#coins before
-				coins = collection.find_one({"id": member.id})
-				coins = coins["coins"]
-				coins = coins + time_in_voice_all
-				print(time_in_voice_all)
-				collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
-				collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
+			print('вышел')
+
 
 #Add cog files
 def setup(bot):

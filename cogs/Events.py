@@ -112,6 +112,8 @@ class Events(commands.Cog):
 		try:
 			members = after.channel.members
 			print(len(after.channel.members)
+			print("текст")
+		except AttributeError:
 			print("вышел")
 
 

@@ -151,7 +151,6 @@ class Events(commands.Cog):
 				print(time_in_voice_all)
 				collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
 				collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
-				continue
 
 #Add cog files
 def setup(bot):

@@ -109,9 +109,9 @@ class Events(commands.Cog):
   
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
+		print(len(after.channel.members)
 		try:
 			members = after.channel.members
-			print(len(after.channel.members)
 		except AttributeError:
 			      print('вышел')
 

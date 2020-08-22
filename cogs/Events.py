@@ -112,6 +112,8 @@ class Events(commands.Cog):
 		try:
 			members_before = None
 			members = len(after.channel.members.id)
+			for i in members:
+				print(i)
 			try:
 				members_before = len(before.channel.members.id)
 				print(members_before)

@@ -218,10 +218,9 @@ class Events(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
-		members = before.channel.members.id
-		if len(after.channel.members.id) > len(before.channel.members.id):
+		if len(after.channel.members) > len(before.channel.members):
 			print("Joined")
-		elif len(before.channel.members.id) > len(after.channel.members.id):
+		elif len(before.channel.members) > len(after.channel.members):
 			print("leave")
 
 

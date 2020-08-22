@@ -106,7 +106,16 @@ class Events(commands.Cog):
 		collection = db[f'{member.guild.name}']
 		collection.delete_one({"id": member.id, })
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
-  
+
+	@commands.Cog.listener()
+	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
+		try:
+			members = after.channel.members
+			print(len(members))
+			print('1')
+		except AttributeError:
+			print('вышел')
+
 
 
 #Add cog files

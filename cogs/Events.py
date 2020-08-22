@@ -235,6 +235,8 @@ class Events(commands.Cog):
 				collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
 			elif members_before > members_after:
 				print("вышел")
+				mongo_token=os.environ.get('MONGO_TOKEN')
+				cluster = MongoClient(mongo_token)
 				db = cluster["ciscord"]
 				collection = db[f"{member.guild.name}"]
 				time_join = collection.find_one({"id": member.id})
@@ -258,6 +260,8 @@ class Events(commands.Cog):
 		except AttributeError:
 			print("вышел")
 			db = cluster["ciscord"]
+				mongo_token=os.environ.get('MONGO_TOKEN')
+				cluster = MongoClient(mongo_token)
 				collection = db[f"{member.guild.name}"]
 				time_join = collection.find_one({"id": member.id})
 				time_join = time_join["time"]

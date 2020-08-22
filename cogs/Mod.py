@@ -19,8 +19,11 @@ class Mod(commands.Cog):
 	#Clear command
 	@commands.command()
 	async def clear(self, ctx, ammout = 100):
+		msgs = 0
+		async for msg in ctx.channel.history(limit = amount):
+			msgs += 1
 		await ctx.channel.purge(limit = ammout + 1)
-		emb = discord.Embed(description = f':white_check_mark: {ctx.author.mention}, **успешно** удалил **{ammout}** сообщений!', colour = discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description = f':white_check_mark: {ctx.author.mention}, **успешно** удалил **{msgs}** сообщений!', colour = 7703F2)
 		await ctx.send(embed=emb, delete_after=5)
 
 	#Kick command

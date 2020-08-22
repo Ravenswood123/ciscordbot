@@ -219,13 +219,13 @@ class Events(commands.Cog):
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		members_before = None
-		members__after = None
+		members_after = None
 		try:
 			members_before = len(before.channel.members)
 		except AttributeError:
 			members_before = 0
 		try:
-			members__after = len(after.channel.members)
+			members_after = len(after.channel.members)
 		except AttributeError:
 			members_after = 0
 		print(f"было {members_before}")

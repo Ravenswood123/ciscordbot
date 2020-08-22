@@ -225,8 +225,12 @@ class Events(commands.Cog):
 		except AttributeError:
 			members_before = 0
 		try:
-			members_after = len(after.channel.members)
+			if members_before < members_after:
+				print("зашёл")
+			elif members_before > members_after:
+				print("вышел")
 		except AttributeError:
+			print("вышел")
 			members_after = 0
 		print(f"было {members_before}")
 		print(f"стало {members_after}")

@@ -20,7 +20,7 @@ class Mod(commands.Cog):
 	@commands.command()
 	async def clear(self, ctx, ammout = 100):
 		msgs = 0
-		async for msg in ctx.channel.history(limit=ammout)
+		async for msg in ctx.channel.history(limit=ammout):
 			msgs+=1
 		await ctx.channel.purge(limit=ammout+1):ballot_box_with_check:
 		emb = discord.Embed(describtion = ":ballot_box_with_check: {ctx.author.mention}, успешно удалено **{msgs}** сообщений!")

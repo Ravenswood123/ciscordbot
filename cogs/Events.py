@@ -112,11 +112,6 @@ class Events(commands.Cog):
 		try:
 			members = after.channel.members
 			print(len(after.channel.members)
-			if len(after.channel.members) > len(before.channel.members):
-				print("зашёл")
-				if len(after.channel.members)>=2:
-					print("юзеров больше чем 2")
-		except AttributeError:
 			print("вышел")
 
 

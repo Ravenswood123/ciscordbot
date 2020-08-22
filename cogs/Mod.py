@@ -23,7 +23,7 @@ class Mod(commands.Cog):
 		async for msg in ctx.channel.history(limit = amount):
 			msgs += 1
 		await ctx.channel.purge(limit = ammout + 1)
-		emb = discord.Embed(description = f':white_check_mark: {ctx.author.mention}, **успешно** удалил **{msgs}** сообщений!', colour = discord.Colour.from_rgb(217, 152, 39)))
+		emb = discord.Embed(description = f':white_check_mark: {ctx.author.mention}, **успешно** удалил **{msgs}** сообщений!', colour = discord.Colour.from_rgb(217, 152, 39))
 		await ctx.send(embed=emb, delete_after=5)
 
 	#Kick command

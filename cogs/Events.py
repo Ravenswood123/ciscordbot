@@ -219,7 +219,7 @@ class Events(commands.Cog):
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		for member in after.channel.members:
-			print(member.mute)
+			print(member.id)
 
 #Add cog files
 def setup(bot):

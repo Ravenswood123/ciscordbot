@@ -22,7 +22,7 @@ class Mod(commands.Cog):
 		msgs = 0
 		async for msg in ctx.channel.history(limit=ammout):
 			msgs+=1
-		await ctx.channel.purge(limit=ammout+1):ballot_box_with_check:
+		await ctx.channel.purge(limit=ammout+1)
 		emb = discord.Embed(description = ":ballot_box_with_check: {ctx.author.mention}, успешно удалено **{msgs}** сообщений!", , colour = discord.Colour.from_rgb(102, 11, 237))
 		await ctx.send(embed=emb, delete_after=5)
 	#Kick command

@@ -150,35 +150,41 @@ class Events(commands.Cog):
 		print("db updated")
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
-		members_before = None
-		members_after = None
-		try:
-			members_before = len(before.channel.members)
-		except AttributeError:
-			members_before = 0
-		try:
-			members_after = len(after.channel.members)
-			if members_before < members_after:
-				print("зашёл")
-				if members_after > 2:
-					print("1")
+async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
+	members_before = None
+	members_after = None
+	try:
+		members_before = len(before.channel.members)
+	except AttributeError:
+		members_before = 0
+	try:
+		if members_after > members_before:				
+			if members_before > 2:
+				new_member=list(set(after.channel.members) - set(before.channel.members))
+				print(new_member)
+				start_count(new_member)
+				elif members_after > 2:
 					for member in after.channel.members:
 						start_count(member)
-					print("коины начисляются")
-			elif members_before > members_after:
-				print("вышел 1")
-
-		except AttributeError:
-			members_before = len(before.channel.members)
-			if members_before - 1 < 2:
-				print("юзеров стало меньше 2")
+						print("отсчёт начался")
+			elif members_after < members_before:
+				print("кто-то вышел, но юзеры остались")
+				if members_after < 2:
+					print("время остановилось")
+	except AttributeError:
+		try:
+			members_after = len(after.channel.members)
+			except AttributeError:
+				members_after = 0
+			
+			if members_after < 2:
 				for member in before.channel.members:
-					print(member.id)
-			elif members_after is None:
-				for member in members_before:
-					print("до этого был юзер один")
-					
-			print("вышел")
+					print("stop")
+			elif members_after > 2:
+				leaved_member=list(set(before.channel.members) - set(after.channel.members))
+				print(leaved_member)
+				print("один юзер ушёл, его время должно быть остановлено")
+
 		
 
 #Add cog files

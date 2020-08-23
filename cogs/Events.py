@@ -117,7 +117,7 @@ class Events(commands.Cog):
 		collection.delete_one({"id": member.id, })
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
 	
-	def stop_count(self, member: discord.Member, guild=discord.Guild):
+	async def stop_count(self, member: discord.Member, guild=discord.Guild):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
@@ -140,7 +140,7 @@ class Events(commands.Cog):
 		print(time_in_voice_all)
 		ollection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
 		collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
-		
+		await print("db updated")
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		members_before = None

@@ -123,7 +123,6 @@ class Events(commands.Cog):
 		except AttributeError:
 			members_before = 0
 		return members_before
-             return members_before
 	def start_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)

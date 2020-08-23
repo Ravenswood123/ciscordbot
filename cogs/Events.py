@@ -184,7 +184,7 @@ class Events(commands.Cog):
 			except AttributeError:
 				members_after = 0
 
-			if members_after <= 2:
+			if members_after < 2:
 				for member in before.channel.members:
 					self.stop_count(member)
 					print(f"stop - {member}")

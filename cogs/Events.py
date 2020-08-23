@@ -161,12 +161,14 @@ class Events(commands.Cog):
 			if members_after > members_before:
 				print("joined")	
 				if members_before > 2:
+					print("start")
 					new_member=list(set(after.channel.members) - set(before.channel.members))
 					print(new_member)
 					start_count(new_member)
 				elif members_after > 2:
-						for member in after.channel.members:
-							start_count(member)
+					print("start")
+					for member in after.channel.members:
+						start_count(member)
 						print("отсчёт начался")
 			elif members_after < members_before:
 				print("кто-то вышел, но юзеры остались")

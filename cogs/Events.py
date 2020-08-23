@@ -170,7 +170,7 @@ class Events(commands.Cog):
 					new_member=list(set(after.channel.members) - set(before.channel.members))
 					print(new_member)
 					self.start_count(new_member)
-				elif members_after <= 2:
+				elif members_after >= 2:
 					print("start")
 					for member in after.channel.members:
 						self.start_count(member)

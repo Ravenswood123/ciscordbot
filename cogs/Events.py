@@ -117,7 +117,7 @@ class Events(commands.Cog):
 		collection.delete_one({"id": member.id, })
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
 		
-	def get_members_before(self, before.channel.members):
+	def get_members_before(self, before):
 		try:
 			members_before = len(before.channel.members)
 		except AttributeError:

@@ -158,7 +158,8 @@ class Events(commands.Cog):
 			members_before = 0
 		try:
 			members_after = len(after.channel.members)
-			if members_after > members_before:				
+			if members_after > members_before:
+				print("joined")	
 				if members_before > 2:
 					new_member=list(set(after.channel.members) - set(before.channel.members))
 					print(new_member)

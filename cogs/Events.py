@@ -160,7 +160,7 @@ class Events(commands.Cog):
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		members_before = self.get_members_before(before)
-		if member.channel.id != 745611324360228887:
+		if member.voice.channel.id != 745611324360228887:
 			try:
 				members_after = len(after.channel.members)
 				print(members_after)

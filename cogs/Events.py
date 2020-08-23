@@ -161,19 +161,19 @@ class Events(commands.Cog):
 			print(members_after)
 			if members_after > members_before:
 				print("joined")	
-				if members_before > 2:
+				if members_before >= 2:
 					print("start")
 					new_member=list(set(after.channel.members) - set(before.channel.members))
 					print(new_member)
 					start_count(new_member)
-				elif members_after > 2:
+				elif members_after >= 2:
 					print("start")
 					for member in after.channel.members:
 						start_count(member)
 						print("отсчёт начался")
-			elif members_after < members_before:
+			elif members_after <= members_before:
 				print("кто-то вышел, но юзеры остались")
-				if members_after < 2:
+				if members_after <= 2:
 					print("время остановилось")
 		except AttributeError:
 			try:
@@ -181,10 +181,10 @@ class Events(commands.Cog):
 			except AttributeError:
 				members_after = 0
 
-			if members_after < 2:
+			if members_after <= 2:
 				for member in before.channel.members:
 					print("stop")
-			elif members_after > 2:
+			elif members_after >= 2:
 				leaved_member=list(set(before.channel.members) - set(after.channel.members))
 				print(leaved_member)
 				print("один юзер ушёл, его время должно быть остановлено")

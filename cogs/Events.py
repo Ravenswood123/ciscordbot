@@ -160,11 +160,6 @@ class Events(commands.Cog):
 		except AttributeError:
 			members_before = 0
 		try:
-			global members_before_list
-			members_before_list = before.channel.members
-		except AttributeError:
-			pass
-		try:
 			members_after = len(after.channel.members)
 			print(members_after)
 			if members_after > members_before:
@@ -195,8 +190,8 @@ class Events(commands.Cog):
 			except AttributeError:
 				members_after = 0
 
-			if members_after < 2:
-				for member in members_before_list:
+			if len(before.channel.members) - 1 < 2:
+				for member in before.channel.members:
 					print(len(before.channel.members))
 					self.stop_count(member)
 					print(f"stop - {member}")

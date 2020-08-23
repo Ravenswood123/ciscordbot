@@ -161,39 +161,40 @@ class Events(commands.Cog):
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		for guild in self.bot.guilds:
 			for vc in guild.voice_channels:
-				members_before = self.get_members_before(before)
-				try:
-					members_after = len(after.channel.members)
-					print(members_after)
-					if members_after > members_before:
-						print("joined")	
-						if members_before >= 2:
-							print("start")
-							new_member=list(set(after.channel.members) - set(before.channel.members))
-							print(new_member)
-							self.start_count(new_member)
-						elif members_after >= 2:
-							print("start")
-							for member in after.channel.members:
-								self.start_count(member)
-								print("отсчёт начался")
-						elif members_after < members_before:
-							leaved_member=list(set(before.channel.members) - set(after.channel.members))
-							print(leaved_member)
-							print("один юзер ушёл, его время должно быть остановлено")
-							for member in leaved_member:
-								self.stop_count(member)
-								print(f"{member} stopped")
-					if members_after < 2:
-						for member in before.channel.members:
-							self.stop_count(member)
-				except AttributeError:
-					for guild in self.bot.guilds:
-						for vc in guild.voice_channels:
-							if vc.id != id_afk_channel and len(vc.members) > 2:
-								for member in vc.members:
+				if vc.id != 745611324360228887
+					members_before = self.get_members_before(before)
+					try:
+						members_after = len(after.channel.members)
+						print(members_after)
+						if members_after > members_before:
+							print("joined")	
+							if members_before >= 2:
+								print("start")
+								new_member=list(set(after.channel.members) - set(before.channel.members))
+								print(new_member)
+								self.start_count(new_member)
+							elif members_after >= 2:
+								print("start")
+								for member in after.channel.members:
+									self.start_count(member)
+									print("отсчёт начался")
+							elif members_after < members_before:
+								leaved_member=list(set(before.channel.members) - set(after.channel.members))
+								print(leaved_member)
+								print("один юзер ушёл, его время должно быть остановлено")
+								for member in leaved_member:
 									self.stop_count(member)
 									print(f"{member} stopped")
+						if members_after < 2:
+							for member in before.channel.members:
+								self.stop_count(member)
+					except AttributeError:
+						for guild in self.bot.guilds:
+							for vc in guild.voice_channels:
+								if vc.id != 745611324360228887 and len(vc.members) > 2:
+									for member in vc.members:
+										self.stop_count(member)
+										print(f"{member} stopped")
 
 		
 

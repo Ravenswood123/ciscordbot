@@ -123,7 +123,7 @@ class Events(commands.Cog):
 		except AttributeError:
 			members_before = 0
 		return members_before
-	def start_count(self, member: discord.Member):
+	async def start_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
@@ -132,7 +132,7 @@ class Events(commands.Cog):
 		time_str = str(time_now)
 		collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
 		return
-	def stop_count(self, member: discord.Member):
+	async def stop_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
@@ -154,6 +154,7 @@ class Events(commands.Cog):
 		coins = coins + time_in_voice_all
 		print(time_in_voice_all)
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
+		await asyncio.sleep(3)
 		collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
 		print("db updated")
 		return

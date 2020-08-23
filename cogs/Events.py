@@ -172,6 +172,7 @@ class Events(commands.Cog):
 			if members_before - 1 < 2:
 				print("юзеров стало меньше 2")
 				for member in before.channel.members:
+					print(member.id)
 			elif members_after is None:
 				for member in members_before:
 					print("до этого был юзер один")

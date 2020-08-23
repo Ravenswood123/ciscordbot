@@ -175,16 +175,16 @@ class Events(commands.Cog):
 					for member in after.channel.members:
 						self.start_count(member)
 						print("отсчёт начался")
-				elif members_after < members_before:
-					leaved_member=list(set(before.channel.members) - set(after.channel.members))
-					print(leaved_member)
-					print("один юзер ушёл, его время должно быть остановлено")
-					for member in leaved_member:
-						self.stop_count(member)
-						print(f"{member} stopped")
-						if members_after < 2:
-							for member in before.channel.members:
-								self.stop_count(member)
+			elif members_after < members_before:
+				leaved_member=list(set(before.channel.members) - set(after.channel.members))
+				print(leaved_member)
+				print("один юзер ушёл, его время должно быть остановлено")
+				for member in leaved_member:
+					self.stop_count(member)
+					print(f"{member} stopped")
+					if members_after < 2:
+						for member in before.channel.members:
+							self.stop_count(member)
 		except AttributeError:
 			for guild in self.bot.guilds:
 				for vc in guild.voice_channels:

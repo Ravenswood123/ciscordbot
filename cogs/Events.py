@@ -116,12 +116,6 @@ class Events(commands.Cog):
 		collection = db[f'{member.guild.name}']
 		collection.delete_one({"id": member.id, })
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
-	async def start_count(self, member: discord.Member):
-		db = cluster["ciscord"]
-		collection = db[f"{member.guild.name}"]
-		time_now = datetime.datetime.now(tz=None).strftime("%d-%m-%Y %H:%M:%S")
-		time_str = str(time_now)
-		collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
 	async def stop_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
@@ -170,7 +164,13 @@ class Events(commands.Cog):
 			if members_before - 1 < 2:
 				print("юзеров стало меньше 2")
 				for member in before.channel.members:
-					stop_count(member)
+					mongo_token=os.environ.get('MONGO_TOKEN')
+					cluster = MongoClient(mongo_token)
+					db = cluster["ciscord"]
+					collection = db[f"{member.guild.name}"]
+					time_now = datetime.datetime.now(tz=None).strftime("%d-%m-%Y %H:%M:%S")
+					time_str = str(time_now)
+					collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
 			elif members_after is None:
 				for member in members_before:
 					print("до этого был юзер один")

@@ -150,8 +150,6 @@ class Events(commands.Cog):
 		print("db updated")
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
-		members_before = None
-		members_after = None
 		try:
 			members_before = len(before.channel.members)
 		except AttributeError:

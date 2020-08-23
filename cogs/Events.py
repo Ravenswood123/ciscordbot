@@ -234,6 +234,7 @@ class Events(commands.Cog):
 				print("вышел 1")
 
 		except AttributeError:
+			members_after = after.channels.members
 			if members_after < 2:
 				for member in after.channel.members:
 					print(member.id)

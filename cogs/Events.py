@@ -162,7 +162,7 @@ class Events(commands.Cog):
 			members_before = len(before.channel.members)
 			if members_before - 1 < 2:
 				print("юзеров стало меньше 2")
-				for member in members_before:
+				for member in before.channel.members:
 					stop_count(member)
 			elif members_after is None:
 				for member in members_before:

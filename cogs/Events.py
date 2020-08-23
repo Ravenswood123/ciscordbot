@@ -234,6 +234,9 @@ class Events(commands.Cog):
 				print("вышел 1")
 
 		except AttributeError:
+			members_before = len(before.channel.members)
+			if members_before - 1 < 2:
+				print("юзеров стало меньше 2")
 			print("вышел")
 
 #Add cog files

@@ -231,7 +231,7 @@ class Events(commands.Cog):
 				if members_after > 2:
 					print("коины начисляются")
 			elif members_before > members_after:
-				print("вышел")
+				print("вышел 1")
 
 		except AttributeError:
 			print("вышел")

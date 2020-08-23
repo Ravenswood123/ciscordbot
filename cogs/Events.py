@@ -189,7 +189,7 @@ class Events(commands.Cog):
 			except AttributeError:
 				for guild in self.bot.guilds:
 					for vc in guild.voice_channels:
-						if len(vc.members) > 2:
+						if vc.id != id_afk_channel and len(vc.members) > 2:
 							for member in vc.members:
 								self.stop_count(member)
 								print(f"{member} stopped")

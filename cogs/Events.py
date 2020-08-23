@@ -161,6 +161,7 @@ class Events(commands.Cog):
 			if members_before < members_after:
 				print("зашёл")
 				if members_after > 2:
+					print("1")
 					for member in after.channel.members:
 						start_count(member)
 					print("коины начисляются")

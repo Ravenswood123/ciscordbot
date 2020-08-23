@@ -147,7 +147,7 @@ class Events(commands.Cog):
 		coins = coins["coins"]
 		coins = coins + time_in_voice_all
 		print(time_in_voice_all)
-		ollection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
+		collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
 		collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
 		print("db updated")
 		return

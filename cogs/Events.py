@@ -116,7 +116,13 @@ class Events(commands.Cog):
 		collection = db[f'{member.guild.name}']
 		collection.delete_one({"id": member.id, })
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
-		
+	def get_members_before(before.channel.members):
+		try:
+			members_before = len(before.channel.members)
+		except AttributeError:
+			members_before = 0
+		return members_before
+             return members_before
 	def start_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
@@ -153,12 +159,7 @@ class Events(commands.Cog):
 		return
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
-		
-		try:
-			global members_before
-			members_before = len(before.channel.members)
-		except AttributeError:
-			members_before = 0
+		members_before = self.get_members_before(before.channel.members)
 		try:
 			members_after = len(after.channel.members)
 			print(members_after)

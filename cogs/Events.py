@@ -188,7 +188,7 @@ class Events(commands.Cog):
 				for member in before.channel.members:
 					self.stop_count(member)
 					print(f"stop - {member}")
-			elif members_after >= 2:
+			elif members_after > 2:
 				leaved_member=list(set(before.channel.members) - set(after.channel.members))
 				print(leaved_member)
 				print("один юзер ушёл, его время должно быть остановлено")

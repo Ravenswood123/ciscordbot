@@ -7,7 +7,7 @@ import json
 from discord.ext import commands
 
 class VoiceCount(commands.Cog):
-	def __init__(self, bot, db):
+	def __init__(self, bot):
 		self.bot = bot
 	def get_members_after(self, after):
 		try:

@@ -58,7 +58,6 @@ class VoiceCount(commands.Cog):
 		coins = coins + time_in_voice_all
 		print(time_in_voice_all)
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
-		collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
 		print("db updated")
 		return
 

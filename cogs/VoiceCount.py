@@ -9,8 +9,6 @@ from discord.ext import commands
 class VoiceCount(commands.Cog):
 	def __init__(self, bot, db):
 		self.bot = bot
-		self.db = db
-
 	def get_members_after(self, after):
 		try:
 			members_after = len(after.channel.members)
@@ -27,14 +25,18 @@ class VoiceCount(commands.Cog):
 
 
 	def start_count(self, member: discord.Member):
-		collection = self.db[f"{member.guild.name}"]
+		cluster = MongoClient(mongo_token)
+		db = cluster["ciscord"]
+		collection = db[f"{member.guild.name}"]
 		time_now = datetime.datetime.now(tz=None).strftime("%d-%m-%Y %H:%M:%S")
 		time_str = str(time_now)
 		collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
 		return
 
 	def stop_count(self, member: discord.Member):
-		collection = self.db[f"{member.guild.name}"]
+		cluster = MongoClient(mongo_token)
+		db = cluster["ciscord"]
+		collection = db[f"{member.guild.name}"]
 		time_join = collection.find_one({"id": member.id})
 		time_join = time_join["time"]
 		time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
@@ -43,11 +45,11 @@ class VoiceCount(commands.Cog):
 		time_in_voice_hrs = time_in_voice_hrs * 60
 		time_in_voice_minute = time_now.minute - time_join.minute
 		time_in_voice_all = time_in_voice_minute + time_in_voice_hrs
-		minvoice = self.collection.find_one({"id": int(member.id)})
+		minvoice = collection.find_one({"id": int(member.id)})
 		minvoice = minvoice["minvoice"]
 		minvoice = minvoice + time_in_voice_all
 		#coins before
-		coins = self.collection.find_one({"id": member.id})
+		coins = collection.find_one({"id": member.id})
 		coins = coins["coins"]
 		coins = coins + time_in_voice_all
 		print(time_in_voice_all)

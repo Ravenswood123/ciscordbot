@@ -4,8 +4,6 @@ from discord import utils
 import json
 import os
 import time
-import pymongo
-from pymongo import MongoClient
 from discord.ext import commands
 
 #Bot prefix
@@ -13,9 +11,6 @@ def get_prefix(client, message):
 	with open('prefixes.json', 'r') as f:
 		prefixes = json.load(f)
 	return prefixes[str(message.guild.id)]
-mongo_token=os.environ.get('MONGO_TOKEN')
-cluster = MongoClient(mongo_token)
-db = cluster["ciscord"]
 bot = commands.Bot(command_prefix=get_prefix)
 bot_prefix = get_prefix
 bot.remove_command('help')

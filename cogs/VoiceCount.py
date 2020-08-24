@@ -46,9 +46,12 @@ class VoiceCount(commands.Cog):
 		time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
 		time_now = datetime.datetime.now(tz=None)
 		time_in_voice_hrs = time_now.hour - time_join.hour
-		time_in_voice_hrs = time_in_voice_hrs * 60
-		time_in_voice_minute = time_now.minute - time_join.minute
-		time_in_voice_all = time_in_voice_minute + time_in_voice_hrs
+		time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute
+		if time_join.minute > time_now.minute:
+			time_in_voice_all = time_in_voice_hrs + time_now.minute
+		else:
+			time_in_voice_minute = time_now.minute - time_join.minute
+			time_in_voice_all = time_in_voice_minute + time_in_voice_hrs
 		minvoice = collection.find_one({"id": int(member.id)})
 		minvoice = minvoice["minvoice"]
 		minvoice = minvoice + time_in_voice_all

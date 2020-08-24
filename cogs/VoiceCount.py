@@ -31,7 +31,7 @@ class VoiceCount(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
-		time_now = datetime.datetime.now(tz=None).strftime("%d-%m-%Y %H:%M:%S")
+		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S')
 		time_str = str(time_now)
 		collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
 		return
@@ -44,7 +44,7 @@ class VoiceCount(commands.Cog):
 		time_join = collection.find_one({"id": member.id})
 		time_join = time_join["time"]
 		time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
-		time_now = datetime.datetime.now(tz=None).strftime("%d-%m-%Y %H:%M:%S")
+		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S')
 		time_in_voice_hrs = time_now.hour - time_join.hour
 		if time_in_voice_hrs == 0:
 			time_in_voice_minute = time_now.minute - time_join.minute

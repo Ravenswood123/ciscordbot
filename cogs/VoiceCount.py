@@ -30,12 +30,12 @@ class VoiceCount(commands.Cog):
 		collection = self.db[f"{member.guild.name}"]
 		time_now = datetime.datetime.now(tz=None).strftime("%d-%m-%Y %H:%M:%S")
 		time_str = str(time_now)
-		self.collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
+		collection.update_one({"id": member.id}, {"$set":{"time": time_str}})
 		return
 
 	def stop_count(self, member: discord.Member):
 		collection = self.db[f"{member.guild.name}"]
-		time_join = self.collection.find_one({"id": member.id})
+		time_join = collection.find_one({"id": member.id})
 		time_join = time_join["time"]
 		time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
 		time_now = datetime.datetime.now(tz=None)
@@ -51,8 +51,8 @@ class VoiceCount(commands.Cog):
 		coins = coins["coins"]
 		coins = coins + time_in_voice_all
 		print(time_in_voice_all)
-		self.collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
-		self.collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
+		collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
+		collection.update_one({"id": member.id}, {"$set": {"time": "NO INFO"}})
 		print("db updated")
 		return
 

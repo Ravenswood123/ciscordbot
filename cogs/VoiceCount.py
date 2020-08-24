@@ -9,6 +9,7 @@ from discord.ext import commands
 class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		
 	def get_members_after(self, after):
 		try:
 			members_after = len(after.channel.members)
@@ -65,9 +66,9 @@ class VoiceCount(commands.Cog):
 				if vc.id != 745611324360228887:
 					for member in vc.members:
 
-						members_after = get_members_after(after)
+						members_after = self.get_members_after(after)
 						print(f"Стало {members_after}")
-						members_before = get_members_before(before)
+						members_before = self.get_members_before(before)
 						print(f"Было {members_before}")
 						
 						#When member joined 

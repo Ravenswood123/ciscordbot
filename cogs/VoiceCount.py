@@ -27,6 +27,7 @@ class VoiceCount(commands.Cog):
 
 
 	def start_count(self, member: discord.Member):
+		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
@@ -36,6 +37,7 @@ class VoiceCount(commands.Cog):
 		return
 
 	def stop_count(self, member: discord.Member):
+		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]

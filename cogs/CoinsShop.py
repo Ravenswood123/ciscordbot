@@ -11,7 +11,7 @@ class CoinsShop(commands.Cog):
 		await ctx.send(embed=emb)
 
 	@commands.Cog.listener()
-	async def on_raw_reaction_add(payload):
+	async def on_raw_reaction_add(self, payload):
 		message_id = payload.message_id
 		if message_id == 747366393334333481:
 			guild_id = payload.guild_id

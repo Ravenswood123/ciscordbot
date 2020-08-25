@@ -13,7 +13,7 @@ class VoiceCount(commands.Cog):
 		
 	def get_members_before(self, before):
 		members_before = len(before.channel.members)
-		if before.channel.members is None:
+		if before.channel is None:
 			members_before = 0
 		return members_before
 	

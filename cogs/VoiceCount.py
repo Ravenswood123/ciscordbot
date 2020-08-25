@@ -11,7 +11,7 @@ class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		
-	def get_members_before_after(self, before, after):
+	def get_members_before_after(self, channel, before, after):
 		members_before = len(before.channel.members)
 		members_after = len(after.channel.members)
 		result = [members_before, members_after]
@@ -62,7 +62,7 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
 					for member in vc.members:
-						get_members = self.get_members_before_after(before, after)
+						get_members = self.get_members_before_after(vc, before, after)
 						members_before = get_members[0]
 						members_after = get_members[1]
 						print(f"Было {members_before}")

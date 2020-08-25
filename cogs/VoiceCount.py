@@ -68,10 +68,10 @@ class VoiceCount(commands.Cog):
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		members_before = self.get_members_before(before)
 		try:
-			for member in before.channel.members:
-				print(member.id)
+			print("ку")
+			print(len(before.channel.members)
 		except AttributeError:
-			print("опять неработает")
+			print("ку 0")
 		print(f"Было {members_before}")
 		for guild in self.bot.guilds:
 			for vc in guild.voice_channels:

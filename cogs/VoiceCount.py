@@ -51,7 +51,6 @@ class VoiceCount(commands.Cog):
 		coins = collection.find_one({"id": member.id})
 		coins = coins["coins"]
 		coins = coins + time_in_voice_all
-		print(time_in_voice_all)
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice}})
 		print("db updated")
 		return
@@ -75,7 +74,6 @@ class VoiceCount(commands.Cog):
 									self.start_count(member)
 
 						elif after.channel is None:
-							print(f"{member.id} leaved")
 							if len(before.channel.members) - 1 > 2:
 								print("count stoped for 1 member")
 								self.stop_count(member)

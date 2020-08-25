@@ -17,7 +17,7 @@ class VoiceCount(commands.Cog):
 		result = [members_before, members_after]
 		return result
 	
-	def get_count_status(self, member: discord.Member)
+	def get_count_status(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]

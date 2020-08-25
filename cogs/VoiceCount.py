@@ -61,7 +61,7 @@ class VoiceCount(commands.Cog):
 		for guild in self.bot.guilds:
 			for channel in guild.voice_channels:
 				if channel.id != 745611324360228887:
-					for member in vc.members:
+					for member in channel.members:
 						get_members = self.get_members_before_after(channel, before, after)
 						members_before = get_members[0]
 						members_after = get_members[1]

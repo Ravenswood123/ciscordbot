@@ -11,18 +11,17 @@ class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		
-	def get_members_before(self, before):
-		members_before = len(before.channel.members)
+	def get_members_before_after(self, before, after):
 		if before.channel is None:
 			members_before = 0
-		return members_before
-	
-	def get_members_after(self, after):
-		try:
-			members_after = len(after.channel.members)
-		except AttributeError:
+		else:
+			members_before = len(before.channel.members)
+		if after.channel is None:
 			members_after = 0
-		return members_after
+		else:
+			members_after = len(after.channel.members)
+		result = [members_before, members_after]
+		return result
 	
 	def start_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
@@ -69,11 +68,11 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
 					for member in vc.members:
-						members_before = self.get_members_before(before)
-						print(members_before)
-						members_after = self.get_members_after(after)
+						get_members = self.get_members_before_after(before, after)
+						members_before = get_members[0]
+						members_after = get_members[1]
+						print(f"Было {members_before}")
 						print(f"Стало {members_after}")
-						
 						
 						#When member joined 
 						if members_after > members_before:

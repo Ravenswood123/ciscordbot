@@ -62,7 +62,7 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
 					for member in vc.members:
-						if before.channel is None:
+						if after.channel is not None:
 							#user joined
 							#if users before member joined channel were biggest two
 							if len(after.channel.members) - 1 > 2:
@@ -72,7 +72,7 @@ class VoiceCount(commands.Cog):
 								for member in after.channel.members:
 									self.start_count(member)
 
-						elif before.channel not None:
+						elif after.channel is None:
 							if len(before.channel.members) - 1 > 2:
 								self.stop_count(member)
 								#if after member leave, users in channel > 2

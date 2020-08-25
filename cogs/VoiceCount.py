@@ -64,7 +64,7 @@ class VoiceCount(commands.Cog):
 						if before.channel is None:
 							#user joined
 							#if users before member joined channel were biggest two
-							if len(after.channel.members) - 1 > 2:
+							if len(after.vc.members) - 1 > 2:
 								print("count started for 1 member")
 								self.start_count(member)
 							#if users befor member joined were smallest two

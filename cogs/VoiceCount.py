@@ -12,8 +12,8 @@ class VoiceCount(commands.Cog):
 		self.bot = bot
 		
 	def get_members_before_after(self, before, after):
-		members_before = len(before.channel.members)
-		members_after = len(after.channel.members)
+		members_before = len(before.voicechannel.members)
+		members_after = len(after.voicechannel.members)
 		result = [members_before, members_after]
 		return result
 	

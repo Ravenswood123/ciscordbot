@@ -22,7 +22,7 @@ class VoiceCount(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
-		count_status = collection.find_one({"id": member.id})
+		count_status = collection.find_one({"_id": member.id})
 		count_status = count_status["count_status"]
 		return count_status
 	
@@ -33,7 +33,7 @@ class VoiceCount(commands.Cog):
 		collection = db[f"{member.guild.name}"]
 		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S')
 		time_str = str(time_now)
-		collection.update_one({"id": member.id}, {"$set":{"time": time_str, "count_status": "start"}})
+		collection.update_one({"_id": member.id}, {"$set":{"time": time_str, "count_status": "start"}})
 		return
 
 	def stop_count(self, member: discord.Member):
@@ -41,7 +41,7 @@ class VoiceCount(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
-		time_join = collection.find_one({"id": member.id})
+		time_join = collection.find_one({"_id": member.id})
 		time_join = time_join["time"]
 		time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
 		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S')
@@ -57,10 +57,10 @@ class VoiceCount(commands.Cog):
 		minvoice = minvoice["minvoice"]
 		minvoice = minvoice + time_in_voice_all
 		#coins before
-		coins = collection.find_one({"id": member.id})
+		coins = collection.find_one({"_id": member.id})
 		coins = coins["coins"]
 		coins = coins + time_in_voice_all
-		collection.update_one({"id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice, "count_status": "stop"}})
+		collection.update_one({"_id": member.id}, {"$set": {"coins": coins, "minvoice": minvoice, "count_status": "stop"}})
 		print("db updated")
 		return
 

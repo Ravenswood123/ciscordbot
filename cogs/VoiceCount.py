@@ -11,21 +11,20 @@ class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		
-	def get_members_after(self, after):
-		try:
-			members_after = len(after.channel.members)
-		except AttributeError:
-			members_after = 0
-		return members_after
-
 	def get_members_before(self, before):
 		try:
 			members_before = len(before.channel.members)
 		except AttributeError:
 			members_before = 0
 		return members_before
-
-
+	
+	def get_members_after(self, after):
+		try:
+			members_after = len(after.channel.members)
+		except AttributeError:
+			members_after = 0
+		return members_after
+	
 	def start_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
@@ -69,8 +68,6 @@ class VoiceCount(commands.Cog):
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		for guild in self.bot.guilds:
 			for vc in guild.voice_channels:
-				members_before = self.get_members_before(before)
-				print(f"Было {members_before}")
 				if vc.id != 745611324360228887:
 					for member in vc.members:
 						members_before = self.get_members_before(before)

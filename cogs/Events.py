@@ -50,7 +50,7 @@ class Events(commands.Cog):
 					collection.update_one(post, {'$set': post}, upsert=True)
 					counter +=1
 				except pymongo.errors.DuplicateKeyError:
-					collection.update_one({"id": member.id}, {"$set": {"minvoice": minvoice, "coins": coins, "time": time}})
+					collection.update_one({"id": member.id}, {"$set": {"minvoice": minvoice, "coins": coins, "time": time, "count status": "stop"}})
 					counter += 1
 
 		print(f"Adding {counter} data\n------------------------------------------------------------------------------------------------------------------------------------")

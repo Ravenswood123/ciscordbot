@@ -22,7 +22,7 @@ class Coins(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{member.guild.name}']
-		coins = collection.find_one({"id": int(member.id)})
+		coins = collection.find_one({"_id": int(member.id)})
 		coins = coins["coins"]
 		emb = discord.Embed(description=f'Ваш баланс: {coins} коинов',colour=discord.Colour.from_rgb(102, 11, 237))
 		emb.set_author(name = member.name, icon_url=member.avatar_url)
@@ -35,7 +35,7 @@ class Coins(commands.Cog):
 			cluster = MongoClient(mongo_token)
 			db = cluster["ciscord"]
 			collection = db[f'{ctx.author.guild.name}']
-			coins = collection.find_one({"id": int(ctx.author.id)})
+			coins = collection.find_one({"_id": int(ctx.author.id)})
 			coins = coins["coins"]
 			emb = discord.Embed(description=f'Ваш баланс: {coins} коинов', colour=discord.Colour.from_rgb(102, 11, 237))
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
@@ -46,7 +46,7 @@ class Coins(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{ctx.author.guild.name}']
-		coins = collection.find_one({"id": int(ctx.author.id)})
+		coins = collection.find_one({"_id": int(ctx.author.id)})
 		coins = coins["coins"]
 		coins = coins - coins_sum
 		if coins < 0:
@@ -59,7 +59,7 @@ class Coins(commands.Cog):
 			member_coins = collection.find_one({"id": int(member.id)})
 			member_coins = member_coins["coins"]
 			member_coins = member_coins + coins_sum
-			collection.update_one({"id": member.id}, {"$set": {"coins": member_coins}})
+			collection.update_one({"_id": member.id}, {"$set": {"coins": member_coins}})
 			await ctx.message.add_reaction('☑')
 
 	@coinscmd.command(name='award')
@@ -72,7 +72,7 @@ class Coins(commands.Cog):
 		coins = collection.find_one({"id": int(member.id)})
 		coins = coins["coins"]
 		coins = coins + coins_add
-		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
+		collection.update_one({"_id": member.id}, {"$set": {"coins": coins}})
 		await ctx.message.add_reaction('☑')
 
 	@coinscmd.command(name='remove')
@@ -82,10 +82,10 @@ class Coins(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{member.guild.name}']
-		coins = collection.find_one({"id": int(member.id)})
+		coins = collection.find_one({"_id": int(member.id)})
 		coins = coins["coins"]
 		coins = coins - coins_remove
-		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
+		collection.update_one({"_id": member.id}, {"$set": {"coins": coins}})
 		await ctx.message.add_reaction('☑')
 def setup(bot):
 	bot.add_cog(Coins(bot))

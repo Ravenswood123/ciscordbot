@@ -12,8 +12,8 @@ class VoiceCount(commands.Cog):
 		self.bot = bot
 		
 	def get_members_before_after(self, channel, before, after):
-		members_before = len(before.vc.members)
-		members_after = len(after.vc.members)
+		members_before = len(before.channel.members)
+		members_after = len(after.channel.members)
 		result = [members_before, members_after]
 		return result
 	
@@ -59,10 +59,10 @@ class VoiceCount(commands.Cog):
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		for guild in self.bot.guilds:
-			for vc in guild.voice_channels:
-				if vc.id != 745611324360228887:
+			for channel in guild.voice_channels:
+				if channel.id != 745611324360228887:
 					for member in vc.members:
-						get_members = self.get_members_before_after(vc, before, after)
+						get_members = self.get_members_before_after(channel, before, after)
 						members_before = get_members[0]
 						members_after = get_members[1]
 						print(f"Было {members_before}")

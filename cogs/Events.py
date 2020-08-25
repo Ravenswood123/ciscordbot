@@ -46,11 +46,11 @@ class Events(commands.Cog):
 
 				#If user already was in db, update him data
 				try:
-					post = {"id": member.id, "minvoice": minvoice, "coins": coins, "time": time, "count status": "stop"}
+					post = {"id": member.id, "minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"}
 					collection.update_one(post, {'$set': post}, upsert=True)
 					counter +=1
 				except pymongo.errors.DuplicateKeyError:
-					collection.update_one({"id": member.id}, {"$set": {"minvoice": minvoice, "coins": coins, "time": time, "count status": "stop"}})
+					collection.update_one({"id": member.id}, {"$set": {"minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"}})
 					counter += 1
 
 		print(f"Adding {counter} data\n------------------------------------------------------------------------------------------------------------------------------------")

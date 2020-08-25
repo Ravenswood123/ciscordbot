@@ -62,7 +62,7 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
 					for member in vc.members:
-						if after.channel is not None:
+						if before.channel is None:
 							print(f"{member.name} joined")
 							#user joined
 							#if users before member joined channel were biggest two

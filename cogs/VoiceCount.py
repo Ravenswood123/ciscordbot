@@ -75,7 +75,7 @@ class VoiceCount(commands.Cog):
 									print("count started for many members")
 									self.start_count(member)
 
-						elif after.channel is None:
+						elif member.after.channel is None:
 							print(f"{member.id} leaved")
 							if len(before.channel.members) - 1 > 2:
 								print("count stoped for 1 member")

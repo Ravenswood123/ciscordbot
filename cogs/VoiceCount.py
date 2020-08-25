@@ -17,6 +17,15 @@ class VoiceCount(commands.Cog):
 		result = [members_before, members_after]
 		return result
 	
+	def get_count_status(self, member: discord.Member)
+		mongo_token=os.environ.get('MONGO_TOKEN')
+		cluster = MongoClient(mongo_token)
+		db = cluster["ciscord"]
+		collection = db[f"{member.guild.name}"]
+		count_status = collection.find_one({"id": member.id})
+		count_status = count_status["count_status"]
+		return count_status
+	
 	def start_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
@@ -57,41 +66,36 @@ class VoiceCount(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
 		for guild in self.bot.guilds:
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
-					for old_member in vc.members:
-						collection = db[f"{member.guild.name}"]
+					for member in vc.members:
 						if before.channel is None:
 							#user joined
 							#if users before member joined channel were biggest two
 							if len(after.channel.members) - 1 > 2:
-								count_status = collection.find_one({"id": member.id})
-								count_status = count_status["count_status"]
+								count_status = self.get_count_status(member)
 								if count_status == "stop":
 									print("count started for 1 member")
 									self.start_count(member)
 							#if users befor member joined were smallest two
 							elif len(after.channel.members) - 1 < 2:
 								for member in after.channel.members:
-									count_status = collection.find_one({"id": member.id})
-									count_status = count_status["count_status"]
+									count_status = self.get_count_status(member)
 									if count_status == "stop":
 										print("count started for many members")
 										self.start_count(member)
 
 						elif after.channel is None:
 							if len(before.channel.members) - 1 > 2:
-								print("count stoped for 1 member")
-								self.stop_count(member)
+								count_status = self.get_count_status(member)
+								if count_status == "start":
+									print("count stoped for 1 member")
+									self.stop_count(member)
 								#if after member leave, users in channel > 2
 							elif len(before.channel.members) - 1 < 2:
 								for member in before.channel.members:
-									count_status = collection.find_one({"id": member.id})
-									count_status = count_status["count_status"]
+									count_status = self.get_count_status(member)
 									if count_status == "start":
 										print("count stoped for many members")
 										self.stop_count(member)

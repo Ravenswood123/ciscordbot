@@ -63,21 +63,27 @@ class VoiceCount(commands.Cog):
 				if vc.id != 745611324360228887:
 					for member in vc.members:
 						if after.channel is not None:
+							print(f"{member.id} joined")
 							#user joined
 							#if users before member joined channel were biggest two
 							if len(after.channel.members) - 1 > 2:
+								print("count started for 1 member")
 								self.start_count(member)
 							#if users befor member joined were smallest two
 							elif len(after.channel.members) - 1 < 2:
 								for member in after.channel.members:
+									print("count started for many members")
 									self.start_count(member)
 
 						elif after.channel is None:
+							print(f"{member.id} leaved")
 							if len(before.channel.members) - 1 > 2:
+								print("count stoped for 1 member")
 								self.stop_count(member)
 								#if after member leave, users in channel > 2
 							elif len(before.channel.members) - 1 < 2:
 								for member in before.channel.members:
+									print("count stoped for many members")
 									self.stop_count(member)
 									
 def setup(bot):

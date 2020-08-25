@@ -100,7 +100,7 @@ class VoiceCount(commands.Cog):
 										print("count stoped for many members")
 										self.stop_count(member)
 				else:
-					channel = discord.utils.get(server.channels, id = 745611324360228887, type="ChannelType.voice")
+					channel = discord.utils.get(guild.channels, id = 745611324360228887, type="ChannelType.voice")
 					for member in channel:
 						count_status = self.get_count_status(member)
 						if count_status == "start":

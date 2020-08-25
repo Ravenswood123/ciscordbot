@@ -61,37 +61,34 @@ class VoiceCount(commands.Cog):
 		for guild in self.bot.guilds:
 			for channel in guild.voice_channels:
 				if channel.id != 745611324360228887:
-					for member in channel.members:
-						get_members = self.get_members_before_after(channel, before, after)
-						members_before = get_members[0]
-						members_after = get_members[1]
-						print(f"Было {members_before}")
-						print(f"Стало {members_after}")
-						
-						#When member joined 
-						if members_after > members_before:
+					get_members = self.get_members_before_after(channel, before, after)
+					members_before = get_members[0]
+					members_after = get_members[1]
+					print(f"Было {members_before}")
+					print(f"Стало {members_after}")
+					
+					#When member joined 
+					if members_after > members_before:
+						#If before changes users in voice was biggest 2, start time for new member
+						if members_before > 2:
+							new_member=list(set(after.channel.members) - set(before.channel.members))
+							for member in new_member:
+								self.start_count(member)
+						#If before changes users in voice was smaller 2
+						elif members_before < 2:
+							for member in after.channel.members:
+								self.start_count(member)
 
-							#If before changes users in voice was biggest 2, start time for new member
-							if members_before > 2:
-								new_member=list(set(after.channel.members) - set(before.channel.members))
-								for member in new_member:
-									self.start_count(member)
-
-							#If before changes users in voice was smaller 2
-							elif members_before < 2:
-								for member in after.channel.members:
-									self.start_count(member)
-
-						#When member leaved
-						elif members_after < members_before:
-							if members_after > 2:
-								#If after leaving member, users in channel > 2, stoping time for leaved member
-								leaved_member=list(set(before.channel.members) - set(after.channel.members))
-								for member in leaved_member:
-									self.stop_count(member)
-							elif members_after < 2:
-								for member in before.channel.members:
-									self.stop_count(member)
-								#If after members < 2, stopped for all members
+					#When member leaved
+					elif members_after < members_before:
+						if members_after > 2:
+							#If after leaving member, users in channel > 2, stoping time for leaved member
+							leaved_member=list(set(before.channel.members) - set(after.channel.members))
+							for member in leaved_member:
+								self.stop_count(member)
+						elif members_after < 2:
+							for member in before.channel.members:
+								self.stop_count(member)
+							#If after members < 2, stopped for all members
 def setup(bot):
 	bot.add_cog(VoiceCount(bot))

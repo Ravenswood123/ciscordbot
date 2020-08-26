@@ -70,6 +70,23 @@ class Mod(commands.Cog):
 			await ctx.guild.unban(user)
 			emb = discord.Embed(description = f':white_check_mark: {user.mention} снова допущен к серверу с помощью {ctx.author.mention}', colour = discord.Colour.from_rgb(217, 152, 39))
 			await ctx.send(embed=emb, delete_after=15)
+	
+	
+	
+	
+	async def mute_submission(self, member):
+		role = discord.utils.get(member.server.roles, name="🤐Mute")
+		await self.bot.add_roles(member, role)
+		await asyncio.sleep(mute_time)
+		await self.bot.remove_roles(member, role)
+		
+	@commands.command()
+	@commands.has_permissions(administrator=True)
+	async def mute(self, ctx, member: discord.Member, mute_time: int = 1):
+		await ctx.message.delete()
+		self.bot.loop.create_task(search_submissions(member))
+		emb = discord.Embed(description = f"Вы замьючены на сервере. На {mute_time / 60} минут", colour = discord.Colour.from_rgb(102, 11, 237))
+		ctx.member.send(embed=emb)
 
 #Add cog file
 def setup(bot):

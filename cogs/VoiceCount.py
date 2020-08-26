@@ -34,6 +34,7 @@ class VoiceCount(commands.Cog):
 		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S')
 		time_str = str(time_now)
 		collection.update_one({"_id": member.id}, {"$set":{"time": time_str, "count_status": "start"}})
+		print("count started")
 		return
 
 	def stop_count(self, member: discord.Member):
@@ -71,15 +72,15 @@ class VoiceCount(commands.Cog):
 				if vc.id != 745611324360228887:
 					for member in vc.members:
 						if before.channel is None:
+							print(len(after.channel.members))
 							#user joined
 							#if users before member joined channel were biggest two
 							if len(after.channel.members) - 1 > 2:
 								count_status = self.get_count_status(member)
 								if count_status == "stop":
-									print("count started for 1 member")
 									self.start_count(member)
 							#if users befor member joined were smallest two
-							elif len(after.channel.members) - 1 < 2:
+							elif len(after.channel.members) >= 2:
 								for member in after.channel.members:
 									count_status = self.get_count_status(member)
 									if count_status == "stop":

@@ -74,7 +74,7 @@ class Mod(commands.Cog):
 	
 	
 	
-	async def mute_submission(self, user):
+	async def mute_submission(self, user, mute_time):
 		role = discord.utils.get(user.server.roles, name="🤐Mute")
 		self.bot.add_roles(user, role)
 		await asyncio.sleep(mute_time)
@@ -87,7 +87,7 @@ class Mod(commands.Cog):
 		emb = discord.Embed(description = f"Вы замьючены на сервере. На {mute_time / 60} минут", colour = discord.Colour.from_rgb(102, 11, 237))
 		await member.send(embed=emb)
 		user = member
-		await self.bot.loop.create_task(mute_submission(user))
+		await self.bot.loop.create_task(mute_submission(user, mute_tme))
 
 #Add cog file
 def setup(bot):

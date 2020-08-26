@@ -74,11 +74,11 @@ class Mod(commands.Cog):
 	
 	
 	
-	async def mute_submission(self, member):
-		role = discord.utils.get(member.server.roles, name="🤐Mute")
-		self.bot.add_roles(member, role)
+	async def mute_submission(self, user):
+		role = discord.utils.get(user.server.roles, name="🤐Mute")
+		self.bot.add_roles(user, role)
 		await asyncio.sleep(mute_time)
-		await self.bot.remove_roles(member, role)
+		await self.bot.remove_roles(user, role)
 		
 	@commands.command()
 	@commands.has_permissions(administrator=True)
@@ -86,7 +86,8 @@ class Mod(commands.Cog):
 		await ctx.message.delete()
 		emb = discord.Embed(description = f"Вы замьючены на сервере. На {mute_time / 60} минут", colour = discord.Colour.from_rgb(102, 11, 237))
 		await member.send(embed=emb)
-		await self.bot.loop.create_task(search_submissions(member))
+		user = member
+		await self.bot.loop.create_task(search_submissions(user))
 
 #Add cog file
 def setup(bot):

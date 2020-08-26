@@ -73,6 +73,7 @@ class VoiceCount(commands.Cog):
 					for member in vc.members:
 						if before.channel is None:
 							print(len(after.channel.members))
+							print(len(after.channel.members) - 1)
 							#user joined
 							#if users before member joined channel were biggest two
 							if len(after.channel.members) - 1 > 2:

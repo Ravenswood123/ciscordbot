@@ -59,7 +59,7 @@ class VoiceCount(commands.Cog):
 		print(time_in_voice_all)
 		time = "NO INFO"
 		count_status = "stop"
-		collection.update_one({"id": member.id}, {"$set":{"coins": coins, "minvoice": time_in_voice_all, "count_status": "stop"}})
+		collection.update_one({"id": member.id}, {"$set":{"coins": coins, "minvoice": minvoice, "count_status": "stop"}})
 		print("db updated")
 		return
 

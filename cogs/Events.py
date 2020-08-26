@@ -47,7 +47,7 @@ class Events(commands.Cog):
 				#If user already was in db, update him data
 				try:
 					post = {"id": member.id, "minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"}
-					collection.insert_one(post)
+					collection.update_one({"id": member.id}, {"$set": post}, upsert = False)
 					counter +=1
 				except pymongo.errors.DuplicateKeyError:
 					collection.replace_one({"id": member.id}, {"minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"})

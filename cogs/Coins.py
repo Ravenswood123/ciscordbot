@@ -56,7 +56,7 @@ class Coins(commands.Cog):
 		else:
 			collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
 			collection = db[f'{ctx.author.guild.name}']
-			member_coins = collection.find_one({"_id": int(member.id)})
+			member_coins = collection.find_one({"id": int(member.id)})
 			member_coins = member_coins["coins"]
 			member_coins = member_coins + coins_sum
 			collection.update_one({"id": member.id}, {"$set": {"coins": member_coins}})
@@ -69,7 +69,7 @@ class Coins(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{member.guild.name}']
-		coins = collection.find_one({"_id": int(member.id)})
+		coins = collection.find_one({"id": int(member.id)})
 		coins = coins["coins"]
 		coins = coins + coins_add
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})

@@ -87,7 +87,7 @@ class Mod(commands.Cog):
 		emb = discord.Embed(description = f"Вы замьючены на сервере. На {mute_time / 60} минут", colour = discord.Colour.from_rgb(102, 11, 237))
 		await member.send(embed=emb)
 		user = member
-		await self.bot.loop.create_task(search_submissions(user))
+		await self.bot.loop.create_task(mute_submission(user))
 
 #Add cog file
 def setup(bot):

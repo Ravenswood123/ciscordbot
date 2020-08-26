@@ -27,30 +27,30 @@ class Events(commands.Cog):
 			for member in guild.members:
 				#min voice adding
 				try:
-					minvoice = collection.find_one({"_id": int(member.id)})
+					minvoice = collection.find_one({"id": int(member.id)})
 					minvoice = minvoice["minvoice"]
 				except TypeError:
 					minvoice = 0
 
 				try:
-					coins = collection.find_one({"_id": member.id})
+					coins = collection.find_one({"id": member.id})
 					coins = coins["coins"]
 				except TypeError:
 					coins = 0
 				#last time adding
 				try:
-					time = collection.find_one({"_id": member.id})
+					time = collection.find_one({"id": member.id})
 					time = time["time"]
 				except TypeError:
 					time = "NO INFO"
 
 				#If user already was in db, update him data
 				try:
-					post = {"_id": member.id, "minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"}
+					post = {"id": member.id, "minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"}
 					collection.update_one(post, {'$set': post}, upsert=True)
 					counter +=1
 				except pymongo.errors.DuplicateKeyError:
-					collection.replace_one({"_id": member.id}, {"minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"})
+					collection.replace_one({"id": member.id}, {"minvoice": minvoice, "coins": coins, "time": time, "count_status": "stop"})
 					counter += 1
 
 		print(f"Adding {counter} data\n------------------------------------------------------------------------------------------------------------------------------------")
@@ -94,7 +94,7 @@ class Events(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{member.guild.name}']
-		post = {"_id": member.id, "minvoice": 0, "coins": 0, "time": "NO INFO", "count_status": "stop"}
+		post = {"id": member.id, "minvoice": 0, "coins": 0, "time": "NO INFO", "count_status": "stop"}
 		collection.update_one(post, {'$set': post}, upsert=True)
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been joined to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
 
@@ -105,19 +105,9 @@ class Events(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{member.guild.name}']
-		collection.delete_one({"_id": member.id, })
+		collection.delete_one({"id": member.id, })
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
 
-	#remove user database
-	@commands.Cog.listener()
-	async def on_member_remove(self, member):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f'{member.guild.name}']
-		collection.delete_one({"_id": member.id, })
-		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been left to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
-		
 #Add cog files
 def setup(bot):
 	bot.add_cog(Events(bot))

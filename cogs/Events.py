@@ -94,7 +94,7 @@ class Events(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{member.guild.name}']
-		post = {"_id": member.id, "minvoice": 0, "coins": 0, "time": "NO INFO"}
+		post = {"_id": member.id, "minvoice": 0, "coins": 0, "time": "NO INFO", "count_status": "stop"}
 		collection.update_one(post, {'$set': post}, upsert=True)
 		print(f"------------------------------------------------------------------------------------------------------------------------------------\n{member} has been joined to server {member.guild.name}, db has been successfuly updated!\n------------------------------------------------------------------------------------------------------------------------------------")
 

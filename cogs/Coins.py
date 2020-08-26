@@ -13,8 +13,7 @@ class Coins(commands.Cog):
 	@commands.group(name='coins', invoke_without_command=True)
 	async def coinscmd(self, ctx):
 		emb = discord.Embed(description='**Коины** - это основная валюта на сервере\nПри общение в голосовых каналах вам будет даватся **1 коин = 1 минута**, при условии того что в воисе сидит ещё как минимум один человек',colour=discord.Colour.from_rgb(102, 11, 237))
-		emb.add_field(name='**``coins balance <участник>``**',value='Можно узнать ваш баланс коинов', inline=False)
-		emb.add_field(name='**``coins send <участник> <сумма>``**',value='Перевод коинов на баланс другого участника, inline=False)
+		emb.add_field(name='**``coins balance <участник>``**' ,value = 'Можно узнать ваш баланс коинов', inline=False)
 		await ctx.send(embed=emb)
 
 	@coinscmd.command(name='balance')

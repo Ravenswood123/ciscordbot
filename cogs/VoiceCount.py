@@ -95,8 +95,7 @@ class VoiceCount(commands.Cog):
 								#if after member leave, users in channel > 2
 							elif len(before.channel.members) - 1 < 2:
 								print(len(before.channel.members))
-								if count_status == "start":
-									for member in before.channel.members:
+								for member in before.channel.members:
 									count_status = self.get_count_status(member)
 									if count_status == "start":
 										self.stop_count(member)

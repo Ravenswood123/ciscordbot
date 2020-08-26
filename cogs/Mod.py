@@ -76,7 +76,7 @@ class Mod(commands.Cog):
 	
 	async def mute_submission(self, member):
 		role = discord.utils.get(member.server.roles, name="🤐Mute")
-		await self.bot.add_roles(member, role)
+		self.bot.add_roles(member, role)
 		await asyncio.sleep(mute_time)
 		await self.bot.remove_roles(member, role)
 		

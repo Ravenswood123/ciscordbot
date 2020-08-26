@@ -99,6 +99,7 @@ class VoiceCount(commands.Cog):
 									count_status = self.get_count_status(member)
 									if count_status == "start":
 										self.stop_count(member)
+										
 								count_status = self.get_count_status(member)
 								if count_status == "start":
 									self.stop_count(member)

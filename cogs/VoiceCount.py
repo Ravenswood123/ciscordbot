@@ -11,18 +11,12 @@ class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		
-	def get_members_before_after(self, channel, before, after):
-		members_after = len(after.channel.members)
-		members_before = len(before.channel.members)
-		result = [members_before, members_after]
-		return result
-	
 	def get_count_status(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
-		count_status = collection.find_one({"_id": member.id})
+		count_status = collection.find_one({"id": member.id})
 		count_status = count_status["count_status"]
 		return count_status
 	
@@ -33,7 +27,7 @@ class VoiceCount(commands.Cog):
 		collection = db[f"{member.guild.name}"]
 		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S')
 		time_str = str(time_now)
-		collection.update_one({"_id": member.id}, {"$set":{"time": time_str, "count_status": "start"}})
+		collection.update_one({"id": member.id}, {"$set":{"time": time_str, "count_status": "start"}})
 		print("count started")
 		return
 
@@ -42,7 +36,7 @@ class VoiceCount(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
-		time_join = collection.find_one({"_id": member.id})
+		time_join = collection.find_one({"id": member.id})
 		time_join = time_join["time"]
 		time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S")
 		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S')
@@ -54,18 +48,18 @@ class VoiceCount(commands.Cog):
 		else:
 			time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute
 			time_in_voice_all = time_in_voice_hrs + time_now.minute	
-		minvoice = collection.find_one({"_id": int(member.id)})
+		minvoice = collection.find_one({"id": int(member.id)})
 		minvoice = minvoice["minvoice"]
 		minvoice = minvoice + time_in_voice_all
 		#coins before
-		coins = collection.find_one({"_id": member.id})
+		coins = collection.find_one({"id": member.id})
 		coins = coins["coins"]
 		coins = coins + time_in_voice_all
 		print(coins)
 		print(time_in_voice_all)
 		time = "NO INFO"
 		count_status = "stop"
-		collection.replace_one({"_id": member.id}, {"minvoice": time_in_voice_all, "coins": coins, "time": time, "count_status": count_status})
+		collection.update_one({"id": member.id}, {"$set":{"coins": coins, "minvoice:" time_in_voice_all, "count_status": "stop"}})
 		print("db updated")
 		return
 

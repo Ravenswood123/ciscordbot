@@ -53,7 +53,7 @@ class VoiceCount(commands.Cog):
 		else:
 			time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute
 			time_in_voice_all = time_in_voice_hrs + time_now.minute	
-		minvoice = collection.find_one({"id": int(member.id)})
+		minvoice = collection.find_one({"_id": int(member.id)})
 		minvoice = minvoice["minvoice"]
 		minvoice = minvoice + time_in_voice_all
 		#coins before

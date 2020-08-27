@@ -12,7 +12,7 @@ class CoinsShop(commands.Cog):
 		await ctx.message.add_reaction(f'1️⃣')
 
 	@commands.Cog.listener()
-	async def on_raw_reaction_add(payload):
+	async def on_raw_reaction_add(self, payload):
 		message_id = payload.message_id
 		if payload.message_id == 748425893566742540:
 			guild_id = payload.guild_id

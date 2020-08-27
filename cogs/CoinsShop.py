@@ -13,8 +13,9 @@ class CoinsShop(commands.Cog):
 	@commands.Cog.listener()
 	async def on_raw_reaction_add(self, payload):
 		message_id = payload.message_id
-		if message_id == 747366393334333481:
+		if message_id == 748404521822322719:
 			guild_id = payload.guild_id
+			guild = discord.utils.find(lambda g: g.id == guild_id, self.bot.guilds)
 			if payload.emoji.name == 'one':
 				role = discord.utils.get(guild.roles, name='👑Величайший')
 				await member.add_roles(role)

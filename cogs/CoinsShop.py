@@ -16,8 +16,9 @@ class CoinsShop(commands.Cog):
 		if message_id == 748404521822322719:
 			guild_id = payload.guild_id
 			guild = discord.utils.find(lambda g: g.id == guild_id, self.bot.guilds)
+			member = discord.utils.find(lambda m: m.id == payload.user_id, guild.members)
 			if payload.emoji.name == 'one':
-				role = discord.utils.get(guild.roles, name='👑Величайший')
+				role = discord.utils.get(guild.roles, name='🤪долбоеб')
 				await member.add_roles(role)
 def setup(bot):
 	bot.add_cog(CoinsShop(bot))

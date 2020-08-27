@@ -12,13 +12,17 @@ class CoinsShop(commands.Cog):
 		await ctx.message.add_reaction(f'1️⃣')
 
 	@commands.Cog.listener()
-	async def on_raw_reaction_add(self, payload):
-		if payload.channel_id == 745626579115442237:
-			if payload.emoji.name == "🔁":
-				channel = client.get_channel(745626579115442237)
-				message = await channel.fetch_message(payload.message_id)
-				reaction = get(message.reactions, emoji=payload.emoji.name)
-				if reaction and reaction.count > 4:
-					await message.delete()
+	async def on_raw_reaction_add(payload):
+		message_id = payload.message_id
+		if payload.message_id == 748425893566742540:
+			guild_id = payload.guild_id
+			guild = discord.utils.find(lambda g : g.id == guild_id, self.bot.guilds)
+			if payload.emoji.name == "✅":
+				role = discord.utils.get(guild.roles, name="🤪долбоеб")
+			if role in not None:
+				member = discord.utils.get(lambda m : m.id == payload.user.id, guild.members)
+				if member is not None:
+					await member.add_roles(role)
+					print("done")
 def setup(bot):
 	bot.add_cog(CoinsShop(bot))

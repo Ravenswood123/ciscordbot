@@ -87,8 +87,7 @@ class Coins(commands.Cog):
 		coins = coins - coins_remove
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 		await ctx.message.add_reaction('☑')
-		@coinscmd.command(name='list')
-	@commands.has_permissions(administrator=True)
+	@coinscmd.command(name='list')
 	async def list_subcommand(self, ctx):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)

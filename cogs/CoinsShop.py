@@ -17,7 +17,7 @@ class CoinsShop(commands.Cog):
 			guild_id = payload.guild_id
 			guild = discord.utils.find(lambda g: g.id == guild_id, self.bot.guilds)
 
-			if payload.emoji.id == '4️⃣':
+			if payload.emoji.name == 'four:
 				print("x")
 				member = discord.utils.find(lambda m: m.id == payload.user_id, guild.members)
 				role = discord.utils.get(guild.roles, name='🤪долбоеб')

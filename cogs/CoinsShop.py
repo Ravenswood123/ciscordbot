@@ -18,7 +18,7 @@ class CoinsShop(commands.Cog):
 			guild_id = payload.guild_id
 			guild = discord.utils.find(lambda g : g.id == guild_id, self.bot.guilds)
 			if payload.emoji.name == "✅":
-				role = discord.utils.find(guild.roles, name="🤪долбоеб")
+				role = discord.utils.get(guild.roles, name="🤪долбоеб")
 			if role is not None:
 				member = discord.utils.find(lambda m : m.id == payload.user.id, guild.members)
 				if member is not None:

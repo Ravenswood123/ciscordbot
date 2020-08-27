@@ -10,7 +10,7 @@ class CoinsShop(commands.Cog):
 		emb = discord.Embed(description = f"Самая первая версия магазина коинов!\nВы можете покупать роли, нажав на соответствующую реакцию. Предложить свои идеи для ролей в магазине <#746260296720580700>\n \n<@&747361225339568209>\n 1️⃣**``10.000 коинов``**\n \n <@&747362012861956116>\n 2️⃣**``7.500 коинов``**\n \n <@&747361735907737671>\n 3️⃣**``5.000 коинов``**\n \n <@&747345315505373197>\n 4️⃣**``2.500 коинов``**\n \n <@&747361500758409318>\n 5️⃣**``1.500 коинов``**\n \n <@&747345168453206036>\n 6️⃣ **``1.000 коинов``**\n \n", colour = discord.Colour.from_rgb(102, 11, 237))
 		await ctx.send(embed=emb)
 		reactions = [one, two, three, four, five, six]
-		for reaction in reactions:
+		async for reaction in reactions:
 			await ctx.message.add_reaction(f'{reaction}')
 
 	@commands.Cog.listener()

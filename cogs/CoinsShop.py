@@ -13,9 +13,9 @@ class CoinsShop(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_raw_reaction_add(self, payload):
-		if payload.channel_id == 614467771866021944:
+		if payload.channel_id == 745626579115442237:
         	if payload.emoji.name == "🔁":
-            		channel = client.get_channel(614467771866021944)
+            		channel = client.get_channel(745626579115442237)
             		message = await channel.fetch_message(payload.message_id)
             		reaction = get(message.reactions, emoji=payload.emoji.name)
             	if reaction and reaction.count > 4:

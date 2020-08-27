@@ -14,9 +14,10 @@ class CoinsShop(commands.Cog):
 	async def on_raw_reaction_add(self, payload):
 		message_id = payload.message_id
 		if message_id == 748404521822322719:
+			print("1")
 			guild_id = payload.guild_id
 			guild = discord.utils.find(lambda g: g.id == guild_id, self.bot.guilds)
-
+			print("2")
 			if payload.emoji.name == 'four':
 				print("x")
 				member = discord.utils.find(lambda m: m.id == payload.user_id, guild.members)

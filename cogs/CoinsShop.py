@@ -11,7 +11,7 @@ class CoinsShop(commands.Cog):
 		await ctx.send(embed=emb)
 		reactions = [one, two, three, four, five, six]
 		for reaction in reactions:
-			await ctx.message.add_reaction(f':{reaction}:')
+			await ctx.message.add_reaction(f'{reaction}')
 
 	@commands.Cog.listener()
 	async def on_raw_reaction_add(self, payload):

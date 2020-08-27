@@ -13,16 +13,12 @@ class CoinsShop(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_raw_reaction_add(self, payload):
-		message_id = payload.message_id
-		if message_id == 748418243407904819:
-			print("1")
-			guild_id = payload.guild_id
-			guild = discord.utils.find(lambda g: g.id == guild_id, self.bot.guilds)
-			print("2")
-			if payload.emoji.name == 'four':
-				print("x")
-				member = discord.utils.find(lambda m: m.id == payload.user_id, guild.members)
-				role = discord.utils.get(guild.roles, name='🤪долбоеб')
-				await member.add_roles(role)
+		if payload.channel_id == 614467771866021944:
+        	if payload.emoji.name == "🔁":
+            		channel = client.get_channel(614467771866021944)
+            		message = await channel.fetch_message(payload.message_id)
+            		reaction = get(message.reactions, emoji=payload.emoji.name)
+            	if reaction and reaction.count > 4:
+                	await message.delete()
 def setup(bot):
 	bot.add_cog(CoinsShop(bot))

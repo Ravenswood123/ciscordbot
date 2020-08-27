@@ -14,7 +14,7 @@ class CoinsShop(commands.Cog):
 	@commands.Cog.listener()
 	async def on_raw_reaction_add(self, payload):
 		message_id = payload.message_id
-		if message_id == 748404521822322719:
+		if message_id == 748418243407904819:
 			print("1")
 			guild_id = payload.guild_id
 			guild = discord.utils.find(lambda g: g.id == guild_id, self.bot.guilds)

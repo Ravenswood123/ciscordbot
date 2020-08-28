@@ -73,25 +73,30 @@ class Coins(commands.Cog):
 				await ctx.send(embed = emb)
 	@coinscmd.command(name='send')
 	async def send_subcommand(self, ctx, member: discord.Member, coins_sum=1):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f'{ctx.author.guild.name}']
-		coins = collection.find_one({"id": int(ctx.author.id)})
-		coins = coins["coins"]
-		coins = coins - coins_sum
-		if coins < 0:
-			emb = discord.Embed(description=f'У вас недостаточно коинов для перевода', colour=discord.Colour.from_rgb(102, 11, 237))
-			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-			await ctx.send(embed = emb)
-		else:
-			collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
+		if ctx.channel.id == 747433532770746469:
+			mongo_token=os.environ.get('MONGO_TOKEN')
+			cluster = MongoClient(mongo_token)
+			db = cluster["ciscord"]
 			collection = db[f'{ctx.author.guild.name}']
-			member_coins = collection.find_one({"id": int(member.id)})
-			member_coins = member_coins["coins"]
-			member_coins = member_coins + coins_sum
-			collection.update_one({"id": member.id}, {"$set": {"coins": member_coins}})
-			await ctx.message.add_reaction('☑')
+			coins = collection.find_one({"id": int(ctx.author.id)})
+			coins = coins["coins"]
+			coins = coins - coins_sum
+			if coins < 0:
+				emb = discord.Embed(description=f'У вас недостаточно коинов для перевода', colour=discord.Colour.from_rgb(102, 11, 237))
+				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+				await ctx.send(embed = emb)
+			else:
+				collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
+				collection = db[f'{ctx.author.guild.name}']
+				member_coins = collection.find_one({"id": int(member.id)})
+				member_coins = member_coins["coins"]
+				member_coins = member_coins + coins_sum
+				collection.update_one({"id": member.id}, {"$set": {"coins": member_coins}})
+				await ctx.message.add_reaction('☑')
+		else:
+			await ctx.message.delete()
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+			await ctx.send(embed = emb)
 
 	@coinscmd.command(name='award')
 	@commands.has_permissions(administrator=True)

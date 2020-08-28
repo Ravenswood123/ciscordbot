@@ -43,7 +43,7 @@ class Coins(commands.Cog):
 		emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
 		emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
 		emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
-		emb.set_author(name=member, icon_url=member.avatar_url)
+		emb.set_author(name=member.name, icon_url=member.avatar_url)
 		await ctx.send(embed=emb)
 	@balance_subcommand.error
 	async def balance_error(self, ctx, error):

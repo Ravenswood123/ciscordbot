@@ -11,7 +11,8 @@ class Coins(commands.Cog):
 		self.bot = bot
 
 
-	def get_balance(self, member):
+	def get_balance(self, id: int):
+		member = discord.utils.get(id)
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
@@ -37,7 +38,7 @@ class Coins(commands.Cog):
 		collection = db[f'{ctx.member.guild.name}']
 		coins = collection.find_one({"id": int(ctx.author.id)})
 		coins = coins["coins"]
-		hrsvoice = self.get_balance(member)
+		hrsvoice = self.get_balance(member.id)
 		emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
 		emb.add_field(name='**Кол-во коинов**',value='{coins}', inline=False)
 		emb.add_field(name='**Время в голосовых каналах**',value='{hrsvoice[0]}', inline=False)
@@ -52,8 +53,7 @@ class Coins(commands.Cog):
 			collection = db[f'{ctx.author.guild.name}']
 			coins = collection.find_one({"id": int(ctx.author.id)})
 			coins = coins["coins"]
-			member = author
-			hrsvoice = self.get_balance(member)
+			hrsvoice = self.get_balance(author.id)
 			emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
 			emb.add_field(name='**Кол-во коинов**',value='{coins}', inline=False)
 			emb.add_field(name='**Время в голосовых каналах**',value='{hrsvoice[0]}', inline=False)

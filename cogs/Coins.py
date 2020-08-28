@@ -11,7 +11,7 @@ class Coins(commands.Cog):
 		self.bot = bot
 
 
-	def get_balance(self, member: discord.Member):
+	def get_balance(self, member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]

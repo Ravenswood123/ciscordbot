@@ -10,6 +10,19 @@ class Coins(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+
+	def get_balance(self, member: discord.Member):
+		mongo_token=os.environ.get('MONGO_TOKEN')
+		cluster = MongoClient(mongo_token)
+		db = cluster["ciscord"]
+		collection = db[f'{member.guild.name}']
+		find_results = collection.find_one({"id": int(member.id)})
+		coins = find_results["coins"]
+		minvoice = find_results["minvoice"]
+		hrsvoice = minvoice // 60
+		results = [hrsvoice, coins]
+		return results
+
 	@commands.group(name='coins', invoke_without_command=True)
 	async def coinscmd(self, ctx):
 		emb = discord.Embed(description='**Коины** - это основная валюта на сервере\nПри общение в голосовых каналах вам будет даватся **1 коин = 1 минута**, при условии того что в воисе сидит ещё как минимум один человек',colour=discord.Colour.from_rgb(102, 11, 237))
@@ -37,7 +50,10 @@ class Coins(commands.Cog):
 			collection = db[f'{ctx.author.guild.name}']
 			coins = collection.find_one({"id": int(ctx.author.id)})
 			coins = coins["coins"]
-			emb = discord.Embed(description=f'Ваш баланс: {coins} коинов', colour=discord.Colour.from_rgb(102, 11, 237))
+			hrsvoice = self.get_balance(member)
+			emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
+			emb.add_field(name='**Кол-во коинов**',value='{coins}', inline=False)
+			emb.add_field(name='**Время в голосовых каналах**',value='{hrsvoice[0]}', inline=False)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed=emb)
 	@coinscmd.command(name='send')
@@ -111,3 +127,4 @@ class Coins(commands.Cog):
 		await ctx.send(embed = emb)
 def setup(bot):
 	bot.add_cog(Coins(bot))
+

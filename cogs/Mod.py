@@ -18,6 +18,7 @@ class Mod(commands.Cog):
 
 	#Clear command
 	@commands.command()
+	@commands.has_permissions(administrator=True)
 	async def clear(self, ctx, ammout = 100):
 		msgs = 0
 		async for msg in ctx.channel.history(limit=ammout):

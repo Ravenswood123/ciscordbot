@@ -110,26 +110,31 @@ class Coins(commands.Cog):
 		await ctx.message.add_reaction('☑')
 	@coinscmd.command(name='list')
 	async def list_subcommand(self, ctx):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f'CisCord']
-		find_result = collection.find().sort('minvoice', -1).limit(10)
-		minvoice = []
-		users = []
-		hrsvoice = []
-		for result in find_result:
-			member_minvoice = result["minvoice"]
-			member_id = result["id"]
-			user = self.bot.get_user(member_id)
-			minvoice.append(member_minvoice)
-			users.append(user.name)
-		for min in minvoice:
-			hrs = min/60
-			hrsvoice.append('%.1f' % hrs)
-		emb = discord.Embed(description=f'🥇 **{users[0]}** : **{hrsvoice[0]}**\n \n 🥈 **{users[1]}** : **{hrsvoice[1]}**\n \n 🥉 **{users[2]}** : **{hrsvoice[2]}**\n \n 4️⃣ {users[3]} : {hrsvoice[3]}\n \n 5️⃣ {users[4]} : {hrsvoice[4]}\n \n 6️⃣ {users[5]} : {hrsvoice[5]}\n \n 7️⃣ {users[6]} : {hrsvoice[6]}\n \n 8️⃣ {users[7]} : {hrsvoice[7]}\n \n 9️⃣ {users[8]} : {hrsvoice[8]}\n \n 🔟 {users[9]} : {hrsvoice[9]}',colour=discord.Colour.from_rgb(102, 11, 237))
-		emb.set_author(name='Топ участников по часам в голосовых каналах', icon_url=self.bot.user.avatar_url)
-		await ctx.send(embed = emb)
+		if ctx.channel.id == 747433532770746469:
+			mongo_token=os.environ.get('MONGO_TOKEN')
+			cluster = MongoClient(mongo_token)
+			db = cluster["ciscord"]
+			collection = db[f'CisCord']
+			find_result = collection.find().sort('minvoice', -1).limit(10)
+			minvoice = []
+			users = []
+			hrsvoice = []
+			for result in find_result:
+				member_minvoice = result["minvoice"]
+				member_id = result["id"]
+				user = self.bot.get_user(member_id)
+				minvoice.append(member_minvoice)
+				users.append(user.name)
+			for min in minvoice:
+				hrs = min/60
+				hrsvoice.append('%.1f' % hrs)
+			emb = discord.Embed(description=f'🥇 **{users[0]}** : **{hrsvoice[0]}**\n \n 🥈 **{users[1]}** : **{hrsvoice[1]}**\n \n 🥉 **{users[2]}** : **{hrsvoice[2]}**\n \n 4️⃣ {users[3]} : {hrsvoice[3]}\n \n 5️⃣ {users[4]} : {hrsvoice[4]}\n \n 6️⃣ {users[5]} : {hrsvoice[5]}\n \n 7️⃣ {users[6]} : {hrsvoice[6]}\n \n 8️⃣ {users[7]} : {hrsvoice[7]}\n \n 9️⃣ {users[8]} : {hrsvoice[8]}\n \n 🔟 {users[9]} : {hrsvoice[9]}',colour=discord.Colour.from_rgb(102, 11, 237))
+			emb.set_author(name='Топ участников по часам в голосовых каналах', icon_url=self.bot.user.avatar_url)
+			await ctx.send(embed = emb)
+		else:
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+			await ctx.send(embed = emb)
+			
 def setup(bot):
 	bot.add_cog(Coins(bot))
 

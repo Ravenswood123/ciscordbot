@@ -32,35 +32,45 @@ class Coins(commands.Cog):
 
 	@coinscmd.command(name='balance')
 	async def balance_subcommand(self, ctx, member: discord.Member):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f'{ctx.author.guild.name}']
-		find_results = collection.find_one({"id": int(member.id)})
-		coins = find_results["coins"]
-		minvoice = find_results["minvoice"]
-		hrsvoice = minvoice // 60
-		emb = discord.Embed(title = 'Статистика участника:', colour=discord.Colour.from_rgb(102, 11, 237))
-		emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
-		emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
-		emb.set_author(name=member.name, icon_url=member.avatar_url)
-		await ctx.send(embed=emb)
-	@balance_subcommand.error
-	async def balance_error(self, ctx, error):
-		if isinstance(error, commands.MissingRequiredArgument):
+		if ctx.channel.id == 747433532770746469:
 			mongo_token=os.environ.get('MONGO_TOKEN')
 			cluster = MongoClient(mongo_token)
 			db = cluster["ciscord"]
 			collection = db[f'{ctx.author.guild.name}']
-			find_results = collection.find_one({"id": int(ctx.author.id)})
+			find_results = collection.find_one({"id": int(member.id)})
 			coins = find_results["coins"]
 			minvoice = find_results["minvoice"]
 			hrsvoice = minvoice // 60
-			emb = discord.Embed(title = 'Ваша статистика:', colour=discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(title = 'Статистика участника:', colour=discord.Colour.from_rgb(102, 11, 237))
 			emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
 			emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
-			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+			emb.set_author(name=member.name, icon_url=member.avatar_url)
 			await ctx.send(embed=emb)
+		else:
+			await ctx.message.delete()
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+			await ctx.send(embed = emb)
+	@balance_subcommand.error
+	async def balance_error(self, ctx, error):
+		if isinstance(error, commands.MissingRequiredArgument):
+			if ctx.channel.id == 747433532770746469:
+				mongo_token=os.environ.get('MONGO_TOKEN')
+				cluster = MongoClient(mongo_token)
+				db = cluster["ciscord"]
+				collection = db[f'{ctx.author.guild.name}']
+				find_results = collection.find_one({"id": int(ctx.author.id)})
+				coins = find_results["coins"]
+				minvoice = find_results["minvoice"]
+				hrsvoice = minvoice // 60
+				emb = discord.Embed(title = 'Ваша статистика:', colour=discord.Colour.from_rgb(102, 11, 237))
+				emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
+				emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
+				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+				await ctx.send(embed=emb)
+			else:
+				await ctx.message.delete()
+				emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+				await ctx.send(embed = emb)
 	@coinscmd.command(name='send')
 	async def send_subcommand(self, ctx, member: discord.Member, coins_sum=1):
 		mongo_token=os.environ.get('MONGO_TOKEN')
@@ -132,6 +142,7 @@ class Coins(commands.Cog):
 			emb.set_author(name='Топ участников по часам в голосовых каналах', icon_url=self.bot.user.avatar_url)
 			await ctx.send(embed = emb)
 		else:
+			await ctx.message.delete()
 			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
 			await ctx.send(embed = emb)
 			

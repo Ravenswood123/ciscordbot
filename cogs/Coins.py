@@ -52,7 +52,7 @@ class Coins(commands.Cog):
 			cluster = MongoClient(mongo_token)
 			db = cluster["ciscord"]
 			collection = db[f'{ctx.author.guild.name}']
-			find_results = collection.find_one({"id": int(ctx.member.id)})
+			find_results = collection.find_one({"id": int(ctx.author.id)})
 			coins = find_results["coins"]
 			minvoice = find_results["minvoice"]
 			hrsvoice = minvoice // 60

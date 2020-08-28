@@ -42,7 +42,7 @@ class Coins(commands.Cog):
 		hrsvoice = minvoice // 60
 		emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
 		emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
-		emb.add_field(name='**Время в голосовых каналах**',value=f'{hrsvoice}', inline=False)
+		emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
 		emb.set_author(name=member, icon_url=member.avatar_url)
 		await ctx.send(embed=emb)
 	@balance_subcommand.error
@@ -58,7 +58,7 @@ class Coins(commands.Cog):
 			hrsvoice = minvoice // 60
 			emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
 			emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
-			emb.add_field(name='**Время в голосовых каналах**',value=f'{hrsvoice}', inline=False)
+			emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed=emb)
 	@coinscmd.command(name='send')

@@ -49,6 +49,7 @@ class Coins(commands.Cog):
 		else:
 			await ctx.message.delete()
 			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb)
 	@balance_subcommand.error
 	async def balance_error(self, ctx, error):
@@ -70,7 +71,8 @@ class Coins(commands.Cog):
 			else:
 				await ctx.message.delete()
 				emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
-				await ctx.send(embed = emb)
+				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+				await ctx.send(embed = emb, delete_after=15)
 	@coinscmd.command(name='send')
 	async def send_subcommand(self, ctx, member: discord.Member, coins_sum=1):
 		if ctx.channel.id == 747433532770746469:
@@ -96,7 +98,8 @@ class Coins(commands.Cog):
 		else:
 			await ctx.message.delete()
 			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
-			await ctx.send(embed = emb)
+			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+			await ctx.send(embed = emb, delete_after=15)
 
 	@coinscmd.command(name='award')
 	@commands.has_permissions(administrator=True)
@@ -149,7 +152,8 @@ class Coins(commands.Cog):
 		else:
 			await ctx.message.delete()
 			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
-			await ctx.send(embed = emb)
+			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+			await ctx.send(embed = emb, delete_after=15)
 			
 def setup(bot):
 	bot.add_cog(Coins(bot))

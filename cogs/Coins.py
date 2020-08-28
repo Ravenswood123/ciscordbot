@@ -52,7 +52,8 @@ class Coins(commands.Cog):
 			collection = db[f'{ctx.author.guild.name}']
 			coins = collection.find_one({"id": int(ctx.author.id)})
 			coins = coins["coins"]
-			hrsvoice = self.get_balance(author)
+			member = author
+			hrsvoice = self.get_balance(member)
 			emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
 			emb.add_field(name='**Кол-во коинов**',value='{coins}', inline=False)
 			emb.add_field(name='**Время в голосовых каналах**',value='{hrsvoice[0]}', inline=False)

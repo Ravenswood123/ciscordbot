@@ -34,13 +34,15 @@ class Coins(commands.Cog):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
-		collection = db[f'{member.guild.name}']
-		coins = collection.find_one({"id": int(member.id)})
+		collection = db[f'{ctx.member.guild.name}']
+		coins = collection.find_one({"id": int(ctx.author.id)})
 		coins = coins["coins"]
-		emb = discord.Embed(description=f'Ваш баланс: {coins} коинов',colour=discord.Colour.from_rgb(102, 11, 237))
-		emb.set_author(name = member.name, icon_url=member.avatar_url)
-		await ctx.send(embed = emb)
-
+		hrsvoice = self.get_balance(member)
+		emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
+		emb.add_field(name='**Кол-во коинов**',value='{coins}', inline=False)
+		emb.add_field(name='**Время в голосовых каналах**',value='{hrsvoice[0]}', inline=False)
+		emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+		await ctx.send(embed=emb)
 	@balance_subcommand.error
 	async def balance_error(self, ctx, error):
 		if isinstance(error, commands.MissingRequiredArgument):
@@ -50,7 +52,7 @@ class Coins(commands.Cog):
 			collection = db[f'{ctx.author.guild.name}']
 			coins = collection.find_one({"id": int(ctx.author.id)})
 			coins = coins["coins"]
-			hrsvoice = self.get_balance(member)
+			hrsvoice = self.get_balance(author)
 			emb = discord.Embed(title = 'Ваш баланс:', colour=discord.Colour.from_rgb(102, 11, 237))
 			emb.add_field(name='**Кол-во коинов**',value='{coins}', inline=False)
 			emb.add_field(name='**Время в голосовых каналах**',value='{hrsvoice[0]}', inline=False)

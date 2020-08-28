@@ -12,7 +12,7 @@ class Coins(commands.Cog):
 
 
 	def get_balance(self, id):
-		member = utils.get(bot.get_all_members(), id=f"{id}")
+		member = utils.get(self.bot.get_all_members(), id=f"{id}")
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]

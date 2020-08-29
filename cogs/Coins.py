@@ -164,8 +164,8 @@ class Coins(commands.Cog):
 			mongo_token=os.environ.get('MONGO_TOKEN')
 			cluster = MongoClient(mongo_token)
 			db = cluster["ciscord"]
-			collection = db[f'{member.guild.name}']
-			coins = collection.find_one({"id": int(member.id)})
+			collection = db[f'{ctx.author.guild.name}']
+			coins = collection.find_one({"id": int(ctx.author.id)})
 			coins = coins["coins"]
 			if coins - ammout <= 0:
 				await ctx.message.delete()
@@ -177,13 +177,13 @@ class Coins(commands.Cog):
 				if winner == 'bot':
 					print("bot")
 					coins = coins - ammout
-					collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
+					collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
 					emb = discord.Embed(description = f'Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 					await ctx.send(embed = emb)
 				elif winner == 'member':
 					print("member")
 					coins = coins + ammout
-					collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
+					collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
 					emb = discord.Embed(description = f'Победу одерживает {ctx.author.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 					await ctx.send(embed = emb)
 def setup(bot):

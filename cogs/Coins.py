@@ -157,37 +157,42 @@ class Coins(commands.Cog):
 			await ctx.send(embed = emb, delete_after=15)
 	@coinscmd.command(name='casino')
 	async def casino_subcommand(self, ctx, ammout: int = None):
-		if ammout is None:
-			await ctx.message.delete()
-			emb = discord.Embed(description = f'Укажите сумму на которую будете играть',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
-			await ctx.author.send(embed = emb)
-		else:
-			mongo_token=os.environ.get('MONGO_TOKEN')
-			cluster = MongoClient(mongo_token)
-			db = cluster["ciscord"]
-			collection = db[f'{ctx.author.guild.name}']
-			coins = collection.find_one({"id": int(ctx.author.id)})
-			coins = coins["coins"]
-			print(coins)
-			if coins - ammout <= 0:
+		if ctx.channel.id == 747433532770746469:
+			if ammout is None:
 				await ctx.message.delete()
-				emb = discord.Embed(description = f'У вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+				emb = discord.Embed(description = f'Укажите сумму на которую будете играть',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 				await ctx.author.send(embed = emb)
 			else:
-				casino_members = ['bot', 'member']
-				winner = random.choice(casino_members)
-				if winner == 'bot':
-					print("bot")
-					coins = coins - ammout
-					collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-					emb = discord.Embed(description = f'Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
-					await ctx.send(embed = emb)
-				elif winner == 'member':
-					print("member")
-					coins = coins + ammout
-					collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-					emb = discord.Embed(description = f'Победу одерживает {ctx.author.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
-					await ctx.send(embed = emb)
+				mongo_token=os.environ.get('MONGO_TOKEN')
+				cluster = MongoClient(mongo_token)
+				db = cluster["ciscord"]
+				collection = db[f'{ctx.author.guild.name}']
+				coins = collection.find_one({"id": int(ctx.author.id)})
+				coins = coins["coins"]
+				print(coins)
+				if coins - ammout <= 0:
+					await ctx.message.delete()
+					emb = discord.Embed(description = f'У вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+					await ctx.author.send(embed = emb)
+				else:
+					casino_members = ['bot', 'member']
+					winner = random.choice(casino_members)
+					if winner == 'bot':
+						coins = coins - ammout
+						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
+						emb = discord.Embed(description = f'Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+						await ctx.send(embed = emb)
+					elif winner == 'member':
+						coins = coins + ammout
+						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
+						emb = discord.Embed(description = f'Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+						await ctx.send(embed = emb)
+		else:
+			await ctx.message.delete()
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now)
+			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+			await ctx.send(embed = emb, delete_after=15)
+		
 def setup(bot):
 	bot.add_cog(Coins(bot))
 

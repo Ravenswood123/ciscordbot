@@ -27,7 +27,7 @@ class Coins(commands.Cog):
 
 	@commands.group(name='coins', invoke_without_command=True)
 	async def coinscmd(self, ctx):
-		emb = discord.Embed(description='**Коины** - это основная валюта на сервере\nПри общение в голосовых каналах вам будет даватся **1 коин = 1 минута**, при условии того что в воисе сидит ещё как минимум один человек',colour=discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description='**Коины** - это основная валюта на сервере\nПри общение в голосовых каналах вам будет даватся **1 коин = 1 минута**, при условии того что в воисе сидит ещё как минимум один человек',colour=0xFFC700)
 		emb.add_field(name='**``coins balance <участник>``**' ,value = 'Можно узнать ваш баланс коинов', inline=False)
 		await ctx.send(embed=emb)
 
@@ -42,14 +42,14 @@ class Coins(commands.Cog):
 			coins = find_results["coins"]
 			minvoice = find_results["minvoice"]
 			hrsvoice = minvoice // 60
-			emb = discord.Embed(title = 'Статистика участника:', colour=discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(title = 'Статистика участника:', colour=0xFFC700)
 			emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
 			emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
 			emb.set_author(name=member.name, icon_url=member.avatar_url)
 			await ctx.send(embed=emb)
 		else:
 			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now())
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb)
 	@balance_subcommand.error
@@ -64,14 +64,14 @@ class Coins(commands.Cog):
 				coins = find_results["coins"]
 				minvoice = find_results["minvoice"]
 				hrsvoice = minvoice // 60
-				emb = discord.Embed(title = 'Ваша статистика:', colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+				emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())
 				emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
 				emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 				await ctx.send(embed=emb)
 			else:
 				await ctx.message.delete()
-				emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+				emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 				await ctx.send(embed = emb, delete_after=15)
 	@coinscmd.command(name='send')
@@ -85,7 +85,7 @@ class Coins(commands.Cog):
 			coins = coins["coins"]
 			coins = coins - coins_sum
 			if coins < 0:
-				emb = discord.Embed(description=f'У вас недостаточно коинов для перевода', colour=discord.Colour.from_rgb(102, 11, 237))
+				emb = discord.Embed(description=f'У вас недостаточно коинов для перевода', colour=0xFFC700)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 				await ctx.send(embed = emb)
 			else:
@@ -98,7 +98,7 @@ class Coins(commands.Cog):
 				await ctx.message.add_reaction('☑')
 		else:
 			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb, delete_after=15)
 
@@ -147,12 +147,12 @@ class Coins(commands.Cog):
 			for min in minvoice:
 				hrs = min/60
 				hrsvoice.append('%.1f' % hrs)
-			emb = discord.Embed(description=f'🥇 **{users[0]}** : **{hrsvoice[0]}**\n \n 🥈 **{users[1]}** : **{hrsvoice[1]}**\n \n 🥉 **{users[2]}** : **{hrsvoice[2]}**\n \n 4️⃣ {users[3]} : {hrsvoice[3]}\n \n 5️⃣ {users[4]} : {hrsvoice[4]}\n \n 6️⃣ {users[5]} : {hrsvoice[5]}\n \n 7️⃣ {users[6]} : {hrsvoice[6]}\n \n 8️⃣ {users[7]} : {hrsvoice[7]}\n \n 9️⃣ {users[8]} : {hrsvoice[8]}\n \n 🔟 {users[9]} : {hrsvoice[9]}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+			emb = discord.Embed(description=f'🥇 **{users[0]}** : **{hrsvoice[0]}**\n \n 🥈 **{users[1]}** : **{hrsvoice[1]}**\n \n 🥉 **{users[2]}** : **{hrsvoice[2]}**\n \n 4️⃣ {users[3]} : {hrsvoice[3]}\n \n 5️⃣ {users[4]} : {hrsvoice[4]}\n \n 6️⃣ {users[5]} : {hrsvoice[5]}\n \n 7️⃣ {users[6]} : {hrsvoice[6]}\n \n 8️⃣ {users[7]} : {hrsvoice[7]}\n \n 9️⃣ {users[8]} : {hrsvoice[8]}\n \n 🔟 {users[9]} : {hrsvoice[9]}',colour=0xFFC700, timestamp=datetime.datetime.now())
 			emb.set_author(name='Топ участников по часам в голосовых каналах', icon_url=self.bot.user.avatar_url)
 			await ctx.send(embed = emb)
 		else:
 			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now)
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb, delete_after=15)
 	@coinscmd.command(name='casino')
@@ -172,7 +172,7 @@ class Coins(commands.Cog):
 				print(coins)
 				if coins - ammout <= 0:
 					await ctx.message.delete()
-					emb = discord.Embed(description = f'{ctx.author.mention}, у вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+					emb = discord.Embed(description = f'{ctx.author.mention}, у вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=0xFFC700, timestamp=datetime.datetime.now())
 					await ctx.author.send(embed = emb)
 				else:
 					casino_members = ['bot', 'member']
@@ -180,16 +180,16 @@ class Coins(commands.Cog):
 					if winner == 'bot':
 						coins = coins - ammout
 						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-						emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+						emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
 						await ctx.send(embed = emb)
 					elif winner == 'member':
 						coins = coins + ammout
 						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-						emb = discord.Embed(description = f'🏆 Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+						emb = discord.Embed(description = f'🏆 Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
 						await ctx.send(embed = emb)
 		else:
 			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now)
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb, delete_after=15)
 		

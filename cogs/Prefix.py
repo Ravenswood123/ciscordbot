@@ -12,7 +12,7 @@ class Prefix(commands.Cog):
 		prefixes[str(ctx.guild.id)] = prefix
 		with open('prefixes.json', 'w') as f:
 			json.dump(prefixes, f, indent=4)
-		emb = discord.Embed(description=f':white_check_mark: Префикс **успешно** смененён на ``{prefix}``', colour=discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description=f':white_check_mark: Префикс **успешно** смененён на ``{prefix}``', colour=0xFFC700)
 		await ctx.send(embed=emb)
 def setup(bot):
 	bot.add_cog(Prefix(bot))

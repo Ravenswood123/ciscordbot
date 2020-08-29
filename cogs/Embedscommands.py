@@ -27,7 +27,7 @@ class Embedscommands(commands.Cog):
 	@embedscmd.command(name='rules')
 	async def rules_subcommand(self, ctx):
 		await ctx.message.delete()
-		emb = discord.Embed(description='**Если вы прочитали правила, то нажмите на галочку снизу для получения доступа к дискорд серверу**',colour=discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description='**Если вы прочитали правила, то нажмите на галочку снизу для получения доступа к дискорд серверу**',colour=colour=0xFFC700)
 		await ctx.send(embed=emb)
 
 

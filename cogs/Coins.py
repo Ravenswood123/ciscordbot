@@ -181,7 +181,7 @@ class Coins(commands.Cog):
 					emb = discord.Embed(description = f'Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 					await ctx.send(embed = emb)
 				elif winner == 'member':
-					print(""member)
+					print("member")
 					coins = coins + ammout
 					collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 					emb = discord.Embed(description = f'Победу одерживает {ctx.author.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())

@@ -160,7 +160,7 @@ class Coins(commands.Cog):
 		if ctx.channel.id == 747433532770746469:
 			if ammout is None:
 				await ctx.message.delete()
-				emb = discord.Embed(description = f'Укажите сумму на которую будете играть',colour=0xfff700, timestamp=datetime.datetime.now())
+				emb = discord.Embed(description = f'Укажите сумму на которую будете играть',colour=0xFFC700, timestamp=datetime.datetime.now())
 				await ctx.author.send(embed = emb)
 			else:
 				mongo_token=os.environ.get('MONGO_TOKEN')

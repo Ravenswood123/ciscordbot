@@ -154,8 +154,7 @@ class Coins(commands.Cog):
 			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb, delete_after=15)
-		@coinscmd.command(name='casino')
-	@commands.has_permissions(administrator=True)
+	@coinscmd.command(name='casino')
 	async def casino_subcommand(self, ctx, ammout: int = None):
 		if ammout is None:
 			await ctx.message.delete()

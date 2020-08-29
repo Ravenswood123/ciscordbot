@@ -172,7 +172,7 @@ class Coins(commands.Cog):
 				print(coins)
 				if coins - ammout <= 0:
 					await ctx.message.delete()
-					emb = discord.Embed(description = f'У вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+					emb = discord.Embed(description = f'{ctx.author.mention}, у вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 					await ctx.author.send(embed = emb)
 				else:
 					casino_members = ['bot', 'member']
@@ -180,12 +180,12 @@ class Coins(commands.Cog):
 					if winner == 'bot':
 						coins = coins - ammout
 						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-						emb = discord.Embed(description = f'Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+						emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 						await ctx.send(embed = emb)
 					elif winner == 'member':
 						coins = coins + ammout
 						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-						emb = discord.Embed(description = f'Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
+						emb = discord.Embed(description = f'🏆 Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 						await ctx.send(embed = emb)
 		else:
 			await ctx.message.delete()

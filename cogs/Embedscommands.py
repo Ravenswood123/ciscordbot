@@ -27,18 +27,10 @@ class Embedscommands(commands.Cog):
 	@embedscmd.command(name='rules')
 	async def rules_subcommand(self, ctx):
 		await ctx.message.delete()
-		emb = discord.Embed(description='**Если вы прочитали правила, то нажмите на галочку снизу для получения доступа к дискорд серверу**',colour=colour=0xFFC700)
+		emb = discord.Embed(description='**Если вы прочитали правила, то нажмите на галочку снизу для получения доступа к дискорд серверу**', colour=0xFFC700)
 		await ctx.send(embed=emb)
 
 
-
-	#Welcome
-	@embedscmd.command(name='welcome')
-	async def welcome_subcommand(self, ctx):
-		await ctx.message.delete()
-		emb = discord.Embed(description='Добро пожаловать на наш сервер. Он создан для объединения снг дизайнеров в одно большое и дружелюбное community. Здесь можно делиться своими работами, соц.сетями с дизайном и т.д. Главная цель сервера - _общение_. Поэтому соблюдайте правила, которые написаны в канале <#738623605251899422> чтобы сделать приятную атмосферу для каждого участника', colour=0xFFC700)
-		emb.set_author(name='Добро пожаловать!', icon_url=self.bot.user.avatar_url)
-		await ctx.send(embed=emb)
 	# Navigation
 	@embedscmd.command(name='clans')
 	async def clans_subcommand(self, ctx):

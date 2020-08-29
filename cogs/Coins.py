@@ -48,7 +48,7 @@ class Coins(commands.Cog):
 			await ctx.send(embed=emb)
 		else:
 			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb)
 	@balance_subcommand.error
@@ -63,7 +63,7 @@ class Coins(commands.Cog):
 				coins = find_results["coins"]
 				minvoice = find_results["minvoice"]
 				hrsvoice = minvoice // 60
-				emb = discord.Embed(title = 'Ваша статистика:', colour=discord.Colour.from_rgb(102, 11, 237))
+				emb = discord.Embed(title = 'Ваша статистика:', colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now)
 				emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
 				emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)

@@ -167,6 +167,7 @@ class Coins(commands.Cog):
 			collection = db[f'{ctx.author.guild.name}']
 			coins = collection.find_one({"id": int(ctx.author.id)})
 			coins = coins["coins"]
+			print(coins)
 			if coins - ammout <= 0:
 				await ctx.message.delete()
 				emb = discord.Embed(description = f'У вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())

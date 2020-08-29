@@ -166,6 +166,7 @@ class Coins(commands.Cog):
 			db = cluster["ciscord"]
 			collection = db[f'{member.guild.name}']
 			coins = collection.find_one({"id": int(member.id)})
+			coins = coins["coins"]
 			if coins - ammout <= 0:
 				await ctx.message.delete()
 				emb = discord.Embed(description = f'У вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
@@ -174,13 +175,13 @@ class Coins(commands.Cog):
 				casino_members = ['bot', 'member']
 				winner = random.choice(casino_members)
 				if winner == 'bot':
-					coins = coins["coins"]
+					print("bot")
 					coins = coins - ammout
 					collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 					emb = discord.Embed(description = f'Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())
 					await ctx.send(embed = emb)
 				elif winner == 'member':
-					coins = coins["coins"]
+					print(""member)
 					coins = coins + ammout
 					collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 					emb = discord.Embed(description = f'Победу одерживает {ctx.author.mention}. Его выигрыш состовляет {ammout}',colour=discord.Colour.from_rgb(102, 11, 237), timestamp=datetime.datetime.now())

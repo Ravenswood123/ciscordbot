@@ -20,7 +20,7 @@ class CoinsShop(commands.Cog):
 	@commands.Cog.listener()
 	async def on_raw_reaction_add(self, payload):
 		message_id = payload.message_id
-		if payload.message_id == 749488017277976617:
+		if payload.message_id == 749497348022992897:
 			guild_id = payload.guild_id
 			guild = discord.utils.find(lambda g : g.id == guild_id, self.bot.guilds)
 			if payload.emoji.name == "1️⃣":

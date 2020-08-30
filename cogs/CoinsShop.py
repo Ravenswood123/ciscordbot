@@ -37,7 +37,7 @@ class CoinsShop(commands.Cog):
 					coins = coins - price
 					if coins < 0:
 						emb = discord.Embed(description = f'У вас недостаточно коинов для преобретения данной роли.',colour=0xFFC700, timestamp=datetime.datetime.now())
-						await ctx.author.send(embed = emb)
+						await member.send(embed = emb)
 					elif coins >= 0:
 						collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 						await member.add_roles(role)

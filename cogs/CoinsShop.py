@@ -1,6 +1,9 @@
 import discord
 from discord.ext import commands
 import os
+import datetime
+import pymongo
+from pymongo import MongoClient
 
 class CoinsShop(commands.Cog):
 	def __init__(self, bot):

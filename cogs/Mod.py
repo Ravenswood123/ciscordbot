@@ -24,7 +24,7 @@ class Mod(commands.Cog):
 		async for msg in ctx.channel.history(limit=ammout):
 			msgs+=1
 		await ctx.channel.purge(limit=ammout+1)
-		emb = discord.Embed(description = f":ballot_box_with_check: {ctx.author.mention}, успешно удалено **{msgs}** сообщений!", colour = discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description = f":ballot_box_with_check: {ctx.author.mention}, успешно удалено **{msgs}** сообщений!", colour=0xFFC700)
 		await ctx.send(embed=emb, delete_after=5)
 	#Kick command
 	@commands.command()
@@ -32,15 +32,15 @@ class Mod(commands.Cog):
 	async def kick(self, ctx, member: discord.Member, *, reason = None):
 		await ctx.message.delete()
 		await member.kick(reason=reason)
-		emb = discord.Embed(description = f':white_check_mark: {member.mention} был **кикнут** с помощью {ctx.author.mention}.', colour = discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description = f':white_check_mark: {member.mention} был **кикнут** с помощью {ctx.author.mention}.', colour=0xFFC700)
 		await ctx.send(embed = emb)
 	@kick.error
 	async def kick_error(self, ctx, error):
 		if isinstance(error, commands.MissingRequiredArgument):
-			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, напишите пользователя, который должен быть **кикнут**', colour = discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, напишите пользователя, который должен быть **кикнут**', colour=0xFFC700)
 			await ctx.send(embed = emb)
 		if isinstance(error, commands.MissingPermissions):
-			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, у вас **недостаточно прав** для вызова этой команды', colour = discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, у вас **недостаточно прав** для вызова этой команды', colour=0xFFC700)
 			await ctx.send(embed = emb)
 
 	#Ban command
@@ -49,15 +49,15 @@ class Mod(commands.Cog):
 	async def ban(self, ctx, member: discord.Member, *, reason = None):
 		await ctx.message.delete()
 		await member.kick(reason=reason)
-		emb = discord.Embed(description = f':white_check_mark: {member.mention} был **исключён навечно** с помощью {ctx.author.mention}.', colour = discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description = f':white_check_mark: {member.mention} был **исключён навечно** с помощью {ctx.author.mention}.',colour=0xFFC700)
 		await ctx.send(embed=emb, delete_after=15)
 	@ban.error
 	async def ban_error(self, ctx, error):
 		if isinstance(error, commands.MissingRequiredArgument):
-			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, напишите пользователя, который должен быть **исключён навечно**', colour = discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, напишите пользователя, который должен быть **исключён навечно**',colour=0xFFC700)
 			await ctx.send(embed = emb)
 		if isinstance(error, commands.MissingPermissions):
-			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, у вас **недостаточно прав** для вызова этой команды', colour = discord.Colour.from_rgb(102, 11, 237))
+			emb = discord.Embed(description = f':no_entry_sign: **ОШИБКА** {ctx.author.mention}, у вас **недостаточно прав** для вызова этой команды', colour=0xFFC700)
 			await ctx.send(embed = emb)
 	
 	#Unban 
@@ -69,7 +69,7 @@ class Mod(commands.Cog):
 		for ban_entry in banned_users:
 			user = ban_entry.user
 			await ctx.guild.unban(user)
-			emb = discord.Embed(description = f':white_check_mark: {user.mention} снова допущен к серверу с помощью {ctx.author.mention}', colour = discord.Colour.from_rgb(217, 152, 39))
+			emb = discord.Embed(description = f':white_check_mark: {user.mention} снова допущен к серверу с помощью {ctx.author.mention}',colour=0xFFC700)
 			await ctx.send(embed=emb, delete_after=15)
 	
 	
@@ -85,7 +85,7 @@ class Mod(commands.Cog):
 	@commands.has_permissions(administrator=True)
 	async def mute(self, ctx, member: discord.Member, mute_time: int = 1):
 		await ctx.message.delete()
-		emb = discord.Embed(description = f"Вы замьючены на сервере. На {mute_time / 60} минут", colour = discord.Colour.from_rgb(102, 11, 237))
+		emb = discord.Embed(description = f"Вы замьючены на сервере. На {mute_time / 60} минут", colour=0xFFC700)
 		await member.send(embed=emb)
 		user = member
 		await self.bot.loop.create_task(mute_submission(user, mute_tme))

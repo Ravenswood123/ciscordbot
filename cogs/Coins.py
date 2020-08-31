@@ -175,7 +175,7 @@ class Coins(commands.Cog):
 					emb = discord.Embed(description = f'{ctx.author.mention}, у вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=0xFFC700, timestamp=datetime.datetime.now())
 					await ctx.author.send(embed = emb)
 				else:
-					casino_members = ['bot', 'member']
+					casino_members = ['bot', 'bot', 'bot', 'member']
 					winner = random.choice(casino_members)
 					if winner == 'bot':
 						coins = coins - ammout

@@ -179,6 +179,10 @@ class Coins(commands.Cog):
 						await ctx.message.delete()
 						emb = discord.Embed(description = f'{ctx.author.mention}, минимальная ставка **50** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
 						await ctx.author.send(embed = emb)
+					elif ammout > 5000:
+						await ctx.message.delete()
+						emb = discord.Embed(description = f'{ctx.author.mention}, максимальная ставка **5000** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
+						await ctx.author.send(embed = emb)
 					else:
 						casino_members = ['bot', 'bot', 'member']
 						winner = random.choice(casino_members)

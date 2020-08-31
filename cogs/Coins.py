@@ -175,11 +175,11 @@ class Coins(commands.Cog):
 					emb = discord.Embed(description = f'{ctx.author.mention}, у вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=0xFFC700, timestamp=datetime.datetime.now())
 					await ctx.author.send(embed = emb)
 				else:
-					if ammout <= 10:
+					if ammout < 49:
 						await ctx.message.delete()
 						emb = discord.Embed(description = f'{ctx.author.mention}, минимальная ставка **50** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
 						await ctx.author.send(embed = emb)
-					elif ammout > 5000:
+					elif ammout > 5000 :
 						await ctx.message.delete()
 						emb = discord.Embed(description = f'{ctx.author.mention}, максимальная ставка **5000** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
 						await ctx.author.send(embed = emb)

@@ -160,7 +160,7 @@ class Coins(commands.Cog):
 		if ctx.channel.id == 747433532770746469:
 			if ammout is None:
 				await ctx.message.delete()
-				emb = discord.Embed(description = f'Укажите сумму на которую будете играть',colour=0xFFC700, timestamp=datetime.datetime.now())
+				emb = discord.Embed(description = f'{ctx.author.mention}, укажите сумму на которую будете играть',colour=0xFFC700, timestamp=datetime.datetime.now())
 				await ctx.author.send(embed = emb)
 			else:
 				mongo_token=os.environ.get('MONGO_TOKEN')
@@ -177,7 +177,7 @@ class Coins(commands.Cog):
 				else:
 					if ammout < 10:
 						await ctx.message.delete()
-						emb = discord.Embed(description = f'{ctx.author.mention}, минимальная ставка *50* коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
+						emb = discord.Embed(description = f'{ctx.author.mention}, минимальная ставка **50** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
 						await ctx.author.send(embed = emb)
 					else:
 						casino_members = ['bot', 'bot', 'member']
@@ -200,4 +200,3 @@ class Coins(commands.Cog):
 		
 def setup(bot):
 	bot.add_cog(Coins(bot))
-

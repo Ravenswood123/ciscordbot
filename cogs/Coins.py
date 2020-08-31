@@ -175,18 +175,23 @@ class Coins(commands.Cog):
 					emb = discord.Embed(description = f'{ctx.author.mention}, у вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=0xFFC700, timestamp=datetime.datetime.now())
 					await ctx.author.send(embed = emb)
 				else:
-					casino_members = ['bot', 'bot', 'member']
-					winner = random.choice(casino_members)
-					if winner == 'bot':
-						coins = coins - ammout
-						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-						emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
-						await ctx.send(embed = emb)
-					elif winner == 'member':
-						coins = coins + ammout
-						collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-						emb = discord.Embed(description = f'🏆 Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
-						await ctx.send(embed = emb)
+					if ammout < 10:
+						await ctx.message.delete()
+						emb = discord.Embed(description = f'{ctx.author.mention}, минимальная ставка *50* коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
+						await ctx.author.send(embed = emb)
+					else:
+						casino_members = ['bot', 'bot', 'member']
+						winner = random.choice(casino_members)
+						if winner == 'bot':
+							coins = coins - ammout
+							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
+							emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
+							await ctx.send(embed = emb)
+						elif winner == 'member':
+							coins = coins + ammout
+							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
+							emb = discord.Embed(description = f'🏆 Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
+							await ctx.send(embed = emb)
 		else:
 			await ctx.message.delete()
 			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now)

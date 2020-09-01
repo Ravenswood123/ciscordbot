@@ -9,6 +9,12 @@ class CoinsShop(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+	@commands.command()
+	@commands.has_permissions(administrator=True)
+	async def free(self, ctx):
+		emb = discord.Embed(description = "#FREEBAT9\nНажмите на реакцию ниже, чтобы получить роль в поддержку разбана EVELONE на Twitch.", colour=0xd21150)
+		await ctx.send(embed=emb)
+		await ctx.message.add_reaction(f'1️⃣')
 
 	@commands.command()
 	@commands.has_permissions(administrator=True)

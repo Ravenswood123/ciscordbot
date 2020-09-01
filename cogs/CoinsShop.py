@@ -76,5 +76,14 @@ class CoinsShop(commands.Cog):
 						collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 						await member.add_roles(role)
 						print("done")
+		elif payload.message_id == 750233123421421569:
+			guild_id = payload.guild_id
+			guild = discord.utils.find(lambda g : g.id == guild_id, self.bot.guilds)
+			if payload.emoji.name == "🗽":
+				role = discord.utils.get(guild.roles, name="#FREEBAT9")
+			if role is not None:
+				member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
+				if member is not None:
+					await member.add_roles(role)
 def setup(bot):
 	bot.add_cog(CoinsShop(bot))

@@ -65,47 +65,39 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels: 
 				if vc.id != 745611324360228887: #Checking if channel != afk and member not muted
 					for member in vc.members:
-						if member.voice.self_mute == False:
-							if before.channel is None: #Checking for user joined
-								if len(after.channel.members) - 1 > 2: #Checking if members before changes were biggest two
-									count_status = self.get_stats(member)
-									count_status = count_status["count_status"] #Getting count status
-									if count_status == "stop": #Checkking status for stop, so as not to start counting already users in channel before
-										self.start_count(member) #Stating count
+						if before.channel is None: #Checking for user joined
+							if len(after.channel.members) - 1 > 2: #Checking if members before changes were biggest two
+								count_status = self.get_stats(member)
+								count_status = count_status["count_status"] #Getting count status
+								if count_status == "stop": #Checkking status for stop, so as not to start counting already users in channel before
+									self.start_count(member) #Stating count
 			
-								elif len(after.channel.members) >= 2: #Checking if members before changes were smallest two
-									for member in after.channel.members: #Checking all members in vc channel
-										count_status = self.get_stats(member)
-										count_status = count_status["count_status"] #Getting count status
-										if count_status == "stop": #Checking for count not started
-											print("count started for many members")
-											self.start_count(member) #Starting count
+							elif len(after.channel.members) >= 2: #Checking if members before changes were smallest two
+								for member in after.channel.members: #Checking all members in vc channel
+									count_status = self.get_stats(member)
+									count_status = count_status["count_status"] #Getting count status
+									if count_status == "stop": #Checking for count not started
+										print("count started for many members")
+										self.start_count(member) #Starting count
 
-							elif after.channel is None: #Checking for user leaved
-								if len(before.channel.members) - 1 > 2: #Checking for members after leaved be biggest two
+						elif after.channel is None: #Checking for user leaved
+							if len(before.channel.members) - 1 > 2: #Checking for members after leaved be biggest two
+								count_status = self.get_stats(member)
+								count_status = count_status["count_status"] #Getting count status
+								if count_status == "start": #Checking for count not stopped
+									print("count stoped for 1 member")
+									self.stop_count(member) #Stopping count
+
+							elif len(before.channel.members) - 1 < 2: #Checking for members after user leaved be smallest two
+								for member in before.channel.members: #Checking all members in vc channel
 									count_status = self.get_stats(member)
 									count_status = count_status["count_status"] #Getting count status
 									if count_status == "start": #Checking for count not stopped
-										print("count stoped for 1 member")
 										self.stop_count(member) #Stopping count
-
-								elif len(before.channel.members) - 1 < 2: #Checking for members after user leaved be smallest two
-									for member in before.channel.members: #Checking all members in vc channel
-										count_status = self.get_stats(member)
-										count_status = count_status["count_status"] #Getting count status
-										if count_status == "start": #Checking for count not stopped
-											self.stop_count(member) #Stopping count
-									count_status = self.get_stats(member)
-									count_status = count_status["count_status"] #Getting count status
-									if count_status == "start": #Checking for count not stopped
-										self.stop_count(member) #Stopping count for leaved member
-										
-						elif member.voice.self_mute == True:
-							count_status = self.get_stats(member)
-							count_status = count_status["count_status"]
-							if count_status == "start":
-								self.stop_count(member) #Stopping count
-
+								count_status = self.get_stats(member)
+								count_status = count_status["count_status"] #Getting count status
+								if count_status == "start": #Checking for count not stopped
+									self.stop_count(member) #Stopping count for leaved member
 				else:
 					channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK') #Getting afk channel object
 					for member in channel.members:

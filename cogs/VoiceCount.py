@@ -14,6 +14,7 @@ class VoiceCount(commands.Cog):
 	def get_balance(self, guild_id: int = None,member_id: int = None):
 		guild_id = guild_id
 		member_guild = discord.utils.find(lambda g : g.id == guild_id, self.bot.guilds)
+		print(member_guild.name)
 		member = discord.utils.find(lambda m: m.id == member_id, member_guild.members)
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)

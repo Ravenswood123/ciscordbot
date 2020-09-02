@@ -11,15 +11,12 @@ class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		
-	def get_balance(self, guild_id: int = None,member_id: int = None):
-		guild_id = guild_id
-		member_guild = discord.utils.find(lambda g : g.id == guild_id, self.bot.guilds)
-		print(member_guild.name)
-		member = discord.utils.find(lambda m: m.id == member_id, member_guild.members)
+	def get_balance(self, member: discord.Member):
+		print(member.id)
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
-		collection = db[f"{member_guild.id}"]
+		collection = db[f"{member.guild.id}"]
 		coins = collection.find_one({"id": member.id})
 		coins = coins["coins"]
 		print(coins)
@@ -83,7 +80,7 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
 					for member in vc.members:
-						self.get_balance(member.id, member.guild.id)
+						self.get_balance(member)
 						if before.channel is None:
 							print(len(after.channel.members))
 							print(len(after.channel.members) - 1)

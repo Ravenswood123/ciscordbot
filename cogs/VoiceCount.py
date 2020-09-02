@@ -11,25 +11,14 @@ class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		
-	def get_balance(self, member: discord.Member):
-		print(member.name)
-		print(member.guild.name)
+	def get_stats(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
 		results = collection.find_one({"id": member.id})
 		return results
-	
-	def get_count_status(self, member: discord.Member):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f"{member.guild.name}"]
-		count_status = collection.find_one({"id": member.id})
-		count_status = count_status["count_status"]
-		return count_status
-	
+			
 	def start_count(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
@@ -70,7 +59,7 @@ class VoiceCount(commands.Cog):
 		time = "NO INFO"
 		count_status = "stop"
 		collection.update_one({"id": member.id}, {"$set":{"coins": coins, "minvoice": minvoice, "count_status": "stop"}}, upsert = False)
-		print("db updated")
+		print("------------------------------------------------------------------------------------------------------------------------------------\n{member} leaved channel, stats updated\n------------------------------------------------------------------------------------------------------------------------------------")
 		return
 
 	@commands.Cog.listener()
@@ -79,7 +68,7 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
 					for member in vc.members:
-						coins = self.get_balance(member)
+						coins = self.get_stats(member)
 						coins = coins["coins"]
 						print(coins)
 						if before.channel is None:
@@ -88,20 +77,23 @@ class VoiceCount(commands.Cog):
 							#user joined
 							#if users before member joined channel were biggest two
 							if len(after.channel.members) - 1 > 2:
-								count_status = self.get_count_status(member)
+								count_status = self.get_stats(member)
+								count_status = count_status["count_status"]
 								if count_status == "stop":
 									self.start_count(member)
 							#if users befor member joined were smallest two
 							elif len(after.channel.members) >= 2:
 								for member in after.channel.members:
-									count_status = self.get_count_status(member)
+									count_status = self.get_stats(member)
+									count_status = count_status["count_status"]
 									if count_status == "stop":
 										print("count started for many members")
 										self.start_count(member)
 
 						elif after.channel is None:
 							if len(before.channel.members) - 1 > 2:
-								count_status = self.get_count_status(member)
+								count_status = self.get_stats(member)
+								count_status = count_status["count_status"]
 								if count_status == "start":
 									print("count stoped for 1 member")
 									self.stop_count(member)
@@ -109,17 +101,20 @@ class VoiceCount(commands.Cog):
 							elif len(before.channel.members) - 1 < 2:
 								print(len(before.channel.members))
 								for member in before.channel.members:
-									count_status = self.get_count_status(member)
+									count_status = self.get_stats(member)
+									count_status = count_status["count_status"]
 									if count_status == "start":
 										self.stop_count(member)
 										
-								count_status = self.get_count_status(member)
+								count_status = self.get_stats(member)
+								count_status = count_status["count_status"]
 								if count_status == "start":
 									self.stop_count(member)
 				else:
 					channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK')
 					for member in channel.members:
-						count_status = self.get_count_status(member)
+						count_status = self.get_stats(member)
+						count_status = count_status["count_status"]
 						if count_status == "start":
 							self.stop_count(member)
 									

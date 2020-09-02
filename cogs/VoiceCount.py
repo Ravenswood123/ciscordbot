@@ -18,11 +18,8 @@ class VoiceCount(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
-		coins = collection.find_one({"id": member.id})
-		print(coins)
-		coins = coins["minvoice"]
-		print(coins)
-		return coins
+		results = collection.find_one({"id": member.id})
+		return results
 	
 	def get_count_status(self, member: discord.Member):
 		mongo_token=os.environ.get('MONGO_TOKEN')
@@ -82,7 +79,9 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels:
 				if vc.id != 745611324360228887:
 					for member in vc.members:
-						self.get_balance(member)
+						coins = self.get_balance(member)
+						coins = coins["coins"]
+						print(coins)
 						if before.channel is None:
 							print(len(after.channel.members))
 							print(len(after.channel.members) - 1)

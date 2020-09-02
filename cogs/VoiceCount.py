@@ -19,7 +19,8 @@ class VoiceCount(commands.Cog):
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.id}"]
 		coins = collection.find_one({"id": member.id})
-		coins = coins["coins"]
+		print(coins)
+		coins = coins["minvoice"]
 		print(coins)
 		return coins
 	

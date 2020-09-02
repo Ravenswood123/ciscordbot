@@ -65,7 +65,7 @@ class VoiceCount(commands.Cog):
 			for vc in guild.voice_channels: 
 				if vc.id != 745611324360228887: #Checking if channel != afk
 					for member in vc.members:
-						print(member.self_mute)
+						print(member.voice.self_mute)
 						if before.channel is None: #Checking for user joined
 							if len(after.channel.members) - 1 > 2: #Checking if members before changes were biggest two
 								count_status = self.get_stats(member)

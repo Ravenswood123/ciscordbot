@@ -17,7 +17,7 @@ class VoiceCount(commands.Cog):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
-		collection = db[f"{member.guild.id}"]
+		collection = db[f"{member.guild.name}"]
 		coins = collection.find_one({"id": member.id})
 		print(coins)
 		coins = coins["minvoice"]

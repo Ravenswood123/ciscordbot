@@ -4,22 +4,13 @@ import pymongo
 import datetime
 import os
 import random
-import VoiceCount
-from VoiceCount import VoiceCount
 from pymongo import MongoClient
 import json
 from discord.ext import commands
 class Coins(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-	@coinscmd.command(name='stest')
-	async def stest_subcommand(self, ctx, member: discord.Member):
-		stats = VoiceCount.get_balance(member)
-		print(stats)
-		emb = discord.Embed(title = 'Статистика участника:', colour=0xFFC700)
-		emb.add_field(name='**Кол-во коинов**',value=f'{stats["coins"]}', inline=False)
-		emb.add_field(name='**Часы в голосовых каналах**',value=f'{stats["minvoice"]}', inline=False)
-		await ctx.send(embed=emb)
+		
 	@commands.group(name='coins', invoke_without_command=True)
 	async def coinscmd(self, ctx):
 		emb = discord.Embed(description='**Коины** - это основная валюта на сервере\nПри общение в голосовых каналах вам будет даватся **1 коин = 1 минута**, при условии того что в воисе сидит ещё как минимум один человек',colour=0xFFC700)

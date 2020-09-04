@@ -26,8 +26,9 @@ class Create(commands.Cog):
 		member_coins = results["coins"]
 		print(member_coins)
 		name = "⡇" + str(name)
-		channel = self.bot.get_channel(745596012927909899)
-		print(channel.name)
+		category = self.bot.get_channel(745596012927909899)
+		print(category.name)
+		print(category.voice_channels)
 		await ctx.author.guild.create_voice_channel(name=name)
 
 def setup(bot):

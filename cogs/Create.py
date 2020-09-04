@@ -30,7 +30,6 @@ class Create(commands.Cog):
             if name is not None:
 		name = "⡇" + name
 		await guild.create_voice_channel('warn-logs', category='▬▬▬▬▬Private (10/15)▬▬▬▬')
-        pass
 
 def setup(bot):
 	bot.add_cog(Create(bot))

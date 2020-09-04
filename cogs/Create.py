@@ -25,6 +25,7 @@ class Create(commands.Cog):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
 		print(member_coins)
+		name = "⡇" + str(name)
 		await ctx.author.guild.create_voice_channel(name=name)
 
 def setup(bot):

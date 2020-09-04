@@ -25,11 +25,7 @@ class Create(commands.Cog):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
 		print(member_coins)
-		if member_coins - 5000 >= 0:
-			if name is not None:
-				name = "⡇" + f"{name}"
-				print(name)
-				await create_voice_channel(name=name)
+		await create_voice_channel(name="2323")
 
 def setup(bot):
 	bot.add_cog(Create(bot))

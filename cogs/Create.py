@@ -27,7 +27,9 @@ class Create(commands.Cog):
         results = self.get_stats(ctx.author)
         member_coins = results["coins"]
         if member_coins - 5000 >= 0:
-            print("Сможет купить")
+            if name is not None:
+		name = "⡇" + name
+		await guild.create_voice_channel('warn-logs', category='▬▬▬▬▬Private (10/15)▬▬▬▬')
         pass
 
 def setup(bot):

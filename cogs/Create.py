@@ -29,7 +29,7 @@ class Create(commands.Cog):
 			if name is not None:
 				name = "⡇" + f"{name}"
 				print(name)
-				await self.bot.create_voice_channel('warn-logs', category='▬▬▬▬▬Private (10/15)▬▬▬▬')
+				await create_voice_channel(name, category='▬▬▬▬▬Private (10/15)▬▬▬▬')
 
 def setup(bot):
 	bot.add_cog(Create(bot))

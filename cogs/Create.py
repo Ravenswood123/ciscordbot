@@ -24,9 +24,11 @@ class Create(commands.Cog):
 	async def vc_subcommand(self, ctx, name: str = None):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
+		print(member_coins)
 		if member_coins - 5000 >= 0:
 			if name is not None:
 				name = "⡇" + f"{name}"
+				print(name)
 				await guild.create_voice_channel('warn-logs', category='▬▬▬▬▬Private (10/15)▬▬▬▬')
 
 def setup(bot):

@@ -21,7 +21,7 @@ class Create(commands.Cog):
 		await ctx.send(embed=emb)
 	
 	@createcmd.command(name='vc')
-	async def vc_subcommand(self, ctx, name: str = None):
+	async def vc_subcommand(self, ctx, name: str = ctx.author.name):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
 		print(member_coins)

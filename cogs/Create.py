@@ -5,9 +5,10 @@ from pymongo import MongoClient
 import os
 from discord.ext import commands
 
-class VoiceCount(commands.Cog):
+class Create(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+	
     def get_stats(self, member: discord.Member):
         mongo_token=os.environ.get('MONGO_TOKEN')
         cluster = MongoClient(mongo_token)

@@ -29,7 +29,7 @@ class Create(commands.Cog):
 			if name is not None:
 				name = "⡇" + f"{name}"
 				print(name)
-				await create_voice_channel(name)
+				await create_voice_channel(name=name)
 
 def setup(bot):
 	bot.add_cog(Create(bot))

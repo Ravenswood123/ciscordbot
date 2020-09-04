@@ -28,7 +28,7 @@ class Create(commands.Cog):
 		name = "⡇" + str(name)
 		category = self.bot.get_channel(745596012927909899)
 		print(category.name)
-		print(category.voice_channels)
+		print(len(category.voice_channels))
 		await ctx.author.guild.create_voice_channel(name=name)
 
 def setup(bot):

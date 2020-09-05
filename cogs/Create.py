@@ -49,7 +49,7 @@ class Create(commands.Cog):
 					len_vc = len(category.voice_channels)
 					print(len_vc)
 					category_name = f"▬▬▬▬▬Private ({len_vc}/15)▬▬▬▬"
-					await category.edit(name = "nice")
+					await category.edit(name = category_name)
 			elif len(category.voice.channels) + 1 > 15:
 				await ctx.message.delete()
 				emb = discord.Embed(description = f'Максимальное количество голосовых комнат. Подождите удаления комнат, чтобы создать голосовой канал',colour=0xFFC700, timestamp=datetime.datetime.now())

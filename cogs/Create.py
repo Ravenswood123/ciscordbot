@@ -47,7 +47,7 @@ class Create(commands.Cog):
 				name = "⡇" + str(ctx.author.name)
 			if len(category.voice_channels) + 1 <= 15:
 				buy_result = self.buy(ctx.author, 5000)
-				print(buy_result
+				print(buy_result)
 				if but_result == True:
 				      channel = await ctx.author.guild.create_voice_channel(name=name, category=category)
 				      await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)

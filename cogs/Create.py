@@ -39,7 +39,8 @@ class Create(commands.Cog):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
 		name = "⡇" + str(ctx.author.name)
-		print(member_coins)name = "⡇" + str(name)
+		print(member_coins)
+		name = "⡇" + str(name)
 		category = self.bot.get_channel(745596012927909899)
 		print(category.name)
 		if member_coins - 5000 >= 0:

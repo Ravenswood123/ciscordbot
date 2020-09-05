@@ -21,8 +21,11 @@ class Create(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
+		print(collection)
 		results = collection.find_one({"id": member.id}) #Find user`s data
+		print(results)
 		coins = results["coins"] - ammout
+		print(coins)
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 		
 	@commands.group(name='create', invoke_without_command=True)

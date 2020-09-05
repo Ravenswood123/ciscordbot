@@ -21,11 +21,8 @@ class Create(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f"{member.guild.name}"]
-		print(collection)
 		results = collection.find_one({"id": member.id}) #Find user`s data
-		print(results)
 		coins = results["coins"] - ammout
-		print(coins)
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 		return True
 		
@@ -49,7 +46,8 @@ class Create(commands.Cog):
 				if buy_result == True:
 					channel = await ctx.author.guild.create_voice_channel(name = name, category = category)
 					await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
-					category_name = f"▬▬▬▬▬Private ({len(category.voice_channels)}/15)▬▬▬▬"
+					len_voice_channels = len(category.voice_channels)
+					category_name = f"▬▬▬▬▬Private ({len_voice_channels}/15)▬▬▬▬"
 					await category.edit(name = category_name)
 			elif len(category.voice.channels) + 1 > 15:
 				await ctx.message.delete()

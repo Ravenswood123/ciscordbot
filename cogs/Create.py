@@ -35,12 +35,13 @@ class Create(commands.Cog):
 	async def vc_subcommand(self, ctx, name: str = None):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
-		len_vc = len(category.voice_channels)
 		if name is not None:
 			name = "⡇" + str(name)
 		else:
 			name = "⡇" + str(ctx.author.name)
 		category = self.bot.get_channel(745596012927909899)
+		len_vc = len(category.voice_channels)
+		print(len_vc)
 		if member_coins - 5000 >= 0 and len_vc + 1 <= 15:
 			buy_result = self.buy(ctx.author, 5000)
 			if buy_result == True:

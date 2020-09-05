@@ -15,6 +15,16 @@ class Create(commands.Cog):
 		collection = db[f"{member.guild.name}"]
 		results = collection.find_one({"id": member.id}) #Find user`s data
 		return results
+	
+	def buy(self, member: discord.Memberm, ammout):
+		mongo_token=os.environ.get('MONGO_TOKEN')
+		cluster = MongoClient(mongo_token)
+		db = cluster["ciscord"]
+		collection = db[f"{member.guild.name}"]
+		results = collection.find_one({"id": member.id}) #Find user`s data
+		coins = results["coins"] - ammout
+		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
+		
 	@commands.group(name='create', invoke_without_command=True)
 	async def createcmd(self, ctx):
 		emb = discord.Embed(description='Вы можете воспльзоваться функциями данной группа команд для создания. Вы можете создать клан или голосовую комнату за соответствующее количество коинов',colour=0xFFC700)
@@ -28,9 +38,24 @@ class Create(commands.Cog):
 		name = "⡇" + str(name)
 		category = self.bot.get_channel(745596012927909899)
 		print(category.name)
-		if len(category.voice_channels) + 1 <= 15:
-			channel = await ctx.author.guild.create_voice_channel(name=name, category=category)
-			await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
+		if member_coins - 5000 >= 0:
+			if name is None:
+				name = "⡇" + str(ctx.author.name)
+			if len(category.voice_channels) + 1 <= 15:
+				await self.buy(ctx.author, 5000)
+				channel = await ctx.author.guild.create_voice_channel(name=name, category=category)
+				await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
+				category_name = f"▬▬▬▬▬Private ({category.voice_channels}/15)▬▬▬▬"
+				await category.edit(name = category_name)
+			elif len(category.voice.channels) + 1 > 15:
+				await ctx.message.delete()
+				emb = discord.Embed(description = f'Максимальное количество голосовых комнат. Подождите удаления комнат, чтобы создать голосовой канал',colour=0xFFC700, timestamp=datetime.datetime.now())
+				await ctx.author.send(embed = emb)
+
+		elif member_coins - 5000 < 0:
+			await ctx.message.delete()
+			emb = discord.Embed(description = f'У вас недостаточно коинов для преобретения **голосовой комнаты**',colour=0xFFC700, timestamp=datetime.datetime.now())
+			await ctx.author.send(embed = emb)
 
 def setup(bot):
 	bot.add_cog(Create(bot))

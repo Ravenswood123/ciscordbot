@@ -23,15 +23,14 @@ class Create(commands.Cog):
 	@createcmd.command(name='vc')
 	async def vc_subcommand(self, ctx, name: str = None):
 		results = self.get_stats(ctx.author)
-		overwrite = discord.PermissionOverwrite()
 		member_coins = results["coins"]
 		print(member_coins)
 		name = "⡇" + str(name)
 		category = self.bot.get_channel(745596012927909899)
 		print(category.name)
 		if len(category.voice_channels) + 1 <= 15:
-			overwrite.manage_roles = True
-			await ctx.author.guild.create_voice_channel(name=name, overwrites = overwrite, category=category)
+			channel = await ctx.author.guild.create_voice_channel(name=name, category=category)
+			await channel.set_permissions(ctx.author, manage_roles = True)
 
 def setup(bot):
 	bot.add_cog(Create(bot))

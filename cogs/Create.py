@@ -30,7 +30,7 @@ class Create(commands.Cog):
 		print(category.name)
 		if len(category.voice_channels) + 1 <= 15:
 			channel = await ctx.author.guild.create_voice_channel(name=name, category=category)
-			await channel.set_permissions(ctx.author, manage_roles = True)
+			await channel.set_permissions(ctx.author, manage_roles = True, manage_channel = True)
 
 def setup(bot):
 	bot.add_cog(Create(bot))

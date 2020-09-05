@@ -46,8 +46,9 @@ class Create(commands.Cog):
 				if buy_result == True:
 					channel = await ctx.author.guild.create_voice_channel(name = name, category = category)
 					await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
-					len_voice_channels = len(category.voice_channels)
-					category_name = f"▬▬▬▬▬Private ({len_voice_channels}/15)▬▬▬▬"
+					len_vc = len(category.voice_channels)
+					print(len_vc)
+					category_name = f"▬▬▬▬▬Private ({len_vc}/15)▬▬▬▬"
 					await category.edit(name = "nice")
 			elif len(category.voice.channels) + 1 > 15:
 				await ctx.message.delete()

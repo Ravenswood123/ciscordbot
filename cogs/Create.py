@@ -27,6 +27,7 @@ class Create(commands.Cog):
 		coins = results["coins"] - ammout
 		print(coins)
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
+		return
 		
 	@commands.group(name='create', invoke_without_command=True)
 	async def createcmd(self, ctx):

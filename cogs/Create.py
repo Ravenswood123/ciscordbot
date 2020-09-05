@@ -16,7 +16,7 @@ class Create(commands.Cog):
 		results = collection.find_one({"id": member.id}) #Find user`s data
 		return results
 	
-	def buy(self, member: discord.Memberm, ammout):
+	def buy(self, member: discord.Member, ammout):
 		mongo_token=os.environ.get('MONGO_TOKEN')
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]

@@ -27,7 +27,7 @@ class Create(commands.Cog):
 		coins = results["coins"] - ammout
 		print(coins)
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
-		return
+		return True
 		
 	@commands.group(name='create', invoke_without_command=True)
 	async def createcmd(self, ctx):
@@ -46,11 +46,12 @@ class Create(commands.Cog):
 			if name is None:
 				name = "⡇" + str(ctx.author.name)
 			if len(category.voice_channels) + 1 <= 15:
-				await self.buy(ctx.author, 5000)
-				channel = await ctx.author.guild.create_voice_channel(name=name, category=category)
-				await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
-				category_name = f"▬▬▬▬▬Private ({category.voice_channels}/15)▬▬▬▬"
-				await category.edit(name = category_name)
+				buy_result = self.buy(ctx.author, 5000)
+				if but_result == True:
+					channel = await ctx.author.guild.create_voice_channel(name=name, category=category)
+					await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
+					category_name = f"▬▬▬▬▬Private ({category.voice_channels}/15)▬▬▬▬"
+					await category.edit(name = category_name)
 			elif len(category.voice.channels) + 1 > 15:
 				await ctx.message.delete()
 				emb = discord.Embed(description = f'Максимальное количество голосовых комнат. Подождите удаления комнат, чтобы создать голосовой канал',colour=0xFFC700, timestamp=datetime.datetime.now())

@@ -38,9 +38,11 @@ class Create(commands.Cog):
 	async def vc_subcommand(self, ctx, name: str = None):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
-		name = "⡇" + str(ctx.author.name)
+		if name is not None:
+			name = "⡇" + str(name)
+		else:
+			name = "⡇" + str(ctx.author.name)
 		print(member_coins)
-		name = "⡇" + str(name)
 		category = self.bot.get_channel(745596012927909899)
 		print(category.name)
 		if member_coins - 5000 >= 0:
@@ -50,7 +52,7 @@ class Create(commands.Cog):
 				if buy_result == True:
 					channel = await ctx.author.guild.create_voice_channel(name = name, category = category)
 					await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
-					category_name = f"▬▬▬▬▬Private ({category.voice_channels}/15)▬▬▬▬"
+					category_name = f"▬▬▬▬▬Private ({len(category.voice_channels})/15)▬▬▬▬"
 					print(category_name)
 					await category.edit(name = category_name)
 			elif len(category.voice.channels) + 1 > 15:

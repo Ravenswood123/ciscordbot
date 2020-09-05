@@ -42,24 +42,19 @@ class Create(commands.Cog):
 			name = "⡇" + str(name)
 		else:
 			name = "⡇" + str(ctx.author.name)
-		print(member_coins)
 		category = self.bot.get_channel(745596012927909899)
-		print(category.name)
 		if member_coins - 5000 >= 0:
 			if len(category.voice_channels) + 1 <= 15:
 				buy_result = self.buy(ctx.author, 5000)
-				print(buy_result)
 				if buy_result == True:
 					channel = await ctx.author.guild.create_voice_channel(name = name, category = category)
 					await channel.set_permissions(ctx.author, manage_roles = True, manage_channels = True)
 					category_name = f"▬▬▬▬▬Private ({len(category.voice_channels)}/15)▬▬▬▬"
-					print(category_name)
 					await category.edit(name = category_name)
 			elif len(category.voice.channels) + 1 > 15:
 				await ctx.message.delete()
 				emb = discord.Embed(description = f'Максимальное количество голосовых комнат. Подождите удаления комнат, чтобы создать голосовой канал',colour=0xFFC700, timestamp=datetime.datetime.now())
 				await ctx.author.send(embed = emb)
-
 		elif member_coins - 5000 < 0:
 			await ctx.message.delete()
 			emb = discord.Embed(description = f'У вас недостаточно коинов для преобретения **голосовой комнаты**',colour=0xFFC700, timestamp=datetime.datetime.now())

@@ -50,8 +50,8 @@ class VoiceCount(commands.Cog):
 			time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute #Formating hours to minutes
 			time_in_voice_all = time_in_voice_hrs + time_now.minute	 #Minutes in now hour adding minutes in hours
 			if time_in_voice_hrs == 0: #if not an hour has passed
-			time_in_voice_minute = time_now.minute - time_join.minute #Getting minutes difference
-			time_in_voice_all = time_in_voice_minute + time_in_voice_hrs #Time in voice == munutes
+				time_in_voice_minute = time_now.minute - time_join.minute #Getting minutes difference
+				time_in_voice_all = time_in_voice_minute + time_in_voice_hrs #Time in voice == munutes
 		else:
 			time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute #Formating hours to minutes
 			time_in_voice_all = time_in_voice_hrs + time_now.minute	 #Minutes in now hour adding minutes in hours

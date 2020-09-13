@@ -170,7 +170,7 @@ class Coins(commands.Cog):
 						emb = discord.Embed(description = f'{ctx.author.mention}, максимальная ставка **5000** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
 						await ctx.author.send(embed = emb)
 					else:
-						casino_members = ['bot', 'bot', 'member']
+						casino_members = ['bot', 'bot','bot', 'bot', 'bot', 'bot', 'member','member','member','member']
 						winner = random.choice(casino_members)
 						if winner == 'bot':
 							coins = coins - ammout

@@ -82,7 +82,6 @@ class VoiceCount(commands.Cog):
 										self.stop_counter(member)								
 						except AttributeError:
 							print("Юзер не перешел из одного канала в другой")
-							continue
 							
 						if before.channel is None: #Checking for user joined
 							if len(after.channel.members) - 1 >= 2: #Checking if members before changes were biggest two

@@ -66,23 +66,7 @@ class VoiceCount(commands.Cog):
 		for guild in self.bot.guilds:
 			for vc in guild.voice_channels: 
 				if vc.id != 745611324360228887: #Checking if channel != afk and member not muted
-					for member in vc.members:
-						try:
-							print("Try is working now!")
-							if before.channel is not None and after.channel is not None:
-								if len(after.channel.members) >= 2: #Checking if members before changes were biggest two
-									count_status = self.get_stats(member)
-									count_status = count_status["count_status"] #Getting count status
-									if count_status == "stop":
-										self.start_counter(member)
-								elif len(after.channel.members) < 2:
-									count_status = self.get_stats(member)
-									count_status = count_status["count_status"] #Getting count status
-									if count_status == "start": #Checkking status for stop, so as not to start counting already users in channel before
-										self.stop_counter(member)								
-						except AttributeError:
-							print("Юзер не перешел из одного канала в другой")
-							
+					for member in vc.members:	
 						if before.channel is None: #Checking for user joined
 							if len(after.channel.members) - 1 >= 2: #Checking if members before changes were biggest two
 								count_status = self.get_stats(member)

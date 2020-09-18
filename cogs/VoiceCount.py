@@ -68,7 +68,7 @@ class VoiceCount(commands.Cog):
 				if vc.id != 745611324360228887: #Checking if channel != afk and member not muted
 					for member in vc.members:	
 						if before.channel is None: #Checking for user joined
-							if len(after.channel.members) - 1 >= 2: #Checking if members before changes were biggest two
+							if len(after.channel.members) - 1 > 2: #Checking if members before changes were biggest two
 								count_status = self.get_stats(member)
 								count_status = count_status["count_status"] #Getting count status
 								if count_status == "stop": #Checkking status for stop, so as not to start counting already users in channel before

@@ -93,6 +93,12 @@ class Embedscommands(commands.Cog):
 		await ctx.message.delete()
 		emb = discord.Embed(title = 'Ивенты', description='\n<@&745597993797025813>\n**`` Отвечает за ивенты в канале <#746009517170491512>. По записи, вопросам по ивентам, расписании - к человеку с данной ролью``**\n \n <@&746009784502845440>\n``**Роль, чтобы получать уведомления об ивентах, участвовать в них. Чтобы получить вам нужно нажать на реакцию в канале``**<#746009517170491512>',colour=0xFFC700)
 		await ctx.send(embed=emb)
+		
+	@embedscmd.command(name='classicroles')		
+	async def classic_subcommand(self, ctx):
+		await ctx.message.delete()
+		emb = discord.Embed(title = 'Стандартные', description='\n<@&746007812454481920>\n**``Роль, которую могут получить все участники имеющие хороший микрофон, для этого вы должны написать любому человеку с ролью``**<@&745605489269669999>**``для проверки вашего микрофона``**\n \n<@&745608903902887956>\n**``Роль которую имеют все участники прочитавшие правила в``**<#745197415354597446>',colour=0xFFC700)
+		await ctx.send(embed=emb)
 #Add cog files
 def setup(bot):
 	bot.add_cog(Embedscommands(bot))

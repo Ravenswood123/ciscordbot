@@ -69,6 +69,13 @@ class Embedscommands(commands.Cog):
 		await ctx.message.delete()
 		emb = discord.Embed(description='**Для того, чтобы получать уведомления о различных ивентах, нажмите на реакцию снизу.**\n \nP.s Если вы хотите отключить уведомления, повторно нажмите на реакцию',colour=0xFFC700)
 		await ctx.send(embed=emb)
+		
+	@embedscmd.command(name='adminroles')	
+	async def admin_roles_subcommand(self, ctx):
+		await ctx.message.delete()
+		emb = discord.Embed(title = 'Администрация', description='<@&745189457057153055> \n**``Роль, которая может всё. Занимается внутренней частью сервера, не обращаться по вопросам, проблемам``**\n \n <@&745605489269669999>\n**``Человек с этой ролью занимается решением конфликтов, проблем, помощью с недопониманиями, и всё что связано напрямую с участниками сервера``**\n \n <@&746282842908262454>\n**``Занимается чатом и порядком в нём``**\n \n <@&746006871864770771>\n**``Создатель бота/разработчик. К нему можно обратится по вопросам бота, ошибкам (если что-то не работает)``**',colour=0xFFC700)
+		emb.set_author(name='Ивенты', icon_url=self.bot.user.avatar_url)
+		await ctx.send(embed=emb)
 #Add cog files
 def setup(bot):
 	bot.add_cog(Embedscommands(bot))

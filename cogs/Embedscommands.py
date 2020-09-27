@@ -93,12 +93,13 @@ class Embedscommands(commands.Cog):
 		await ctx.message.delete()
 		emb = discord.Embed(title = 'Ивенты', description='\n<@&745597993797025813>\n**``Отвечает за ивенты в канале``**<#746009517170491512>**``. По записи, вопросам по ивентам, расписании - к человеку с данной ролью``**\n \n <@&746009784502845440>\n``**Роль, чтобы получать уведомления об ивентах, участвовать в них. Чтобы получить вам нужно нажать на реакцию в канале``**<#746009517170491512>',colour=0xFFC700)
 		await ctx.send(embed=emb)
-		
-	@embedscmd.command(name='classicroles')		
-	async def classic_subcommand(self, ctx):
+	
+	@embedscmd.command(name='testroles')		
+	async def test_roles_subcommand(self, ctx):
 		await ctx.message.delete()
 		emb = discord.Embed(title = 'Стандартные', description='\n<@746007812454481920>\n**``Может получить любой участник при наличии хорошего микрофона. Чтобы её получить вы должны написать``**<@&745605489269669999>\n \n**`Выдаётся при ознакомлении с правилами в канале``**<#745197415354597446>',colour=0xFFC700)
 		await ctx.send(embed=emb)
+
 	
 	@embedscmd.command(name='muteroles')		
 	async def classic_subcommand(self, ctx):

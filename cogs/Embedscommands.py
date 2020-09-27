@@ -99,6 +99,12 @@ class Embedscommands(commands.Cog):
 		await ctx.message.delete()
 		emb = discord.Embed(title = 'Стандартные', description='\n<@&746007812454481920>\n**``Роль, которую могут получить все участники имеющие хороший микрофон, для этого вы должны написать любому человеку с ролью``**<@&745605489269669999>**``для проверки вашего микрофона``**\n \n<@&745608903902887956>\n**``Роль которую имеют все участники прочитавшие правила в``**<#745197415354597446>',colour=0xFFC700)
 		await ctx.send(embed=emb)
+	
+	@embedscmd.command(name='muteroles')		
+	async def classic_subcommand(self, ctx):
+		await ctx.message.delete()
+		emb = discord.Embed(title = 'Нарушение правил', description='\n<@&745609960901312553>**``Роль которую вы имеете, во время того, пока вы в муте``**\n \n<@&746008294132416512>, <@&746008239086501988>,<@&746008073704964097>, <@&745610323653820447>, <@&745610141382082562>**``Роли которые выдаются при получении варнов соответствующего количества``**',colour=0xFFC700)
+		await ctx.send(embed=emb)
 #Add cog files
 def setup(bot):
 	bot.add_cog(Embedscommands(bot))

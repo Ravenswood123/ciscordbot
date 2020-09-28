@@ -29,8 +29,8 @@ class Coins(commands.Cog):
 			status = find_results["count_status"]
 			if status == "stop":
 				status = "Начисление остановлено"
-			if status == "started":
-				status = "Начисление идёт"
+			if status == "start":
+				status = "Начисление активно"
 			minvoice = find_results["minvoice"]
 			hrsvoice = minvoice // 60
 			emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())

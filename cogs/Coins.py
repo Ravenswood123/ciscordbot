@@ -34,9 +34,9 @@ class Coins(commands.Cog):
 			minvoice = find_results["minvoice"]
 			hrsvoice = minvoice // 60
 			emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())
-			emb.add_field(name='**Кол-во коинов:**',value=f'{coins}', inline=False)
-			emb.add_field(name='**Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
-			emb.add_field(name='**Статус начисления:**',value=f'{status}', inline=False)
+			emb.add_field(name='**:money_with_wings: Количество коинов:**',value=f'{coins}', inline=False)
+			emb.add_field(name='**:clock3: Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
+			emb.add_field(name='**:chart_with_upwards_trend: Статус начисления:**',value=f'{status}', inline=False)
 			emb.set_author(name=member.name, icon_url=member.avatar_url)
 			await ctx.send(embed=emb)
 		else:
@@ -62,9 +62,9 @@ class Coins(commands.Cog):
 				minvoice = find_results["minvoice"]
 				hrsvoice = minvoice // 60
 				emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())
-				emb.add_field(name='**Кол-во коинов:**',value=f'{coins}', inline=False)
-				emb.add_field(name='**Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
-				emb.add_field(name='**Статус начисления:**',value=f'{status}', inline=False)
+				emb.add_field(name='**:money_with_wings: Количество коинов:**',value=f'{coins}', inline=False)
+				emb.add_field(name='**:clock3: Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
+				emb.add_field(name='**:chart_with_upwards_trend: Статус начисления:**',value=f'{status}', inline=False)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 				await ctx.send(embed=emb)
 			else:

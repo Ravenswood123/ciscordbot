@@ -26,11 +26,17 @@ class Coins(commands.Cog):
 			collection = db[f'{ctx.author.guild.name}']
 			find_results = collection.find_one({"id": int(member.id)})
 			coins = find_results["coins"]
+			status = find_results["count_status"]
+			if status == "stop":
+				status = "Начисление остановлено"
+			if status == "started":
+				status = "Начисление идёт"
 			minvoice = find_results["minvoice"]
 			hrsvoice = minvoice // 60
-			emb = discord.Embed(title = 'Статистика участника:', colour=0xFFC700)
-			emb.add_field(name='**Кол-во коинов**',value=f'{coins}', inline=False)
-			emb.add_field(name='**Часы в голосовых каналах**',value=f'{hrsvoice}', inline=False)
+			emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())
+			emb.add_field(name='**Кол-во коинов:**',value=f'{coins}', inline=False)
+			emb.add_field(name='**Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
+			emb.add_field(name='**Статус начисления:**',value=f'{status}', inline=False)
 			emb.set_author(name=member.name, icon_url=member.avatar_url)
 			await ctx.send(embed=emb)
 		else:
@@ -60,7 +66,6 @@ class Coins(commands.Cog):
 				emb.add_field(name='**Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
 				emb.add_field(name='**Статус начисления:**',value=f'{status}', inline=False)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-				emb.set_thumbnail(url = ctx.author.avatar_url)
 				await ctx.send(embed=emb)
 			else:
 				await ctx.message.delete()

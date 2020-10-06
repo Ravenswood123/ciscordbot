@@ -69,6 +69,7 @@ class VoiceCount(commands.Cog):
 					for member in vc.members:
 						stats = self.get_stats(member)
 						if stats["count_status"] == "stop":
+							print(f"{member.voice.self_mute}")
 							if member.voice.self_mute == False:
 								if before.channel != None and after.channel != None:
 										if member.voice.self_mute == False:

@@ -82,7 +82,7 @@ class VoiceCount(commands.Cog):
 										if len(after.channel.members) >= 2 and len(before.channel.members) < 2: #If member moved, in before channel users < 2, after users > 2
 											for member in after.channel.members: #Checks all members in vc
 												self.start_count(member)
-								else:
+								finally:
 									if before.channel is None: #Check for user joined
 										if len(after.channel.members) - 1 >= 2: #If after biggest two before user join
 											self.start_count(member)

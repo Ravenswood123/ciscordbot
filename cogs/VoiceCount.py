@@ -66,47 +66,56 @@ class VoiceCount(commands.Cog):
 		for guild in self.bot.guilds:
 			for vc in guild.voice_channels: 
 				if vc.id != 745611324360228887: #Checking if channel != afk and member not muted
-					for member in vc.members:	
-						if before.channel is None: #Checking for user joined
-							if len(after.channel.members) - 1 > 2: #Checking if members before changes were biggest two
-								count_status = self.get_stats(member)
-								count_status = count_status["count_status"] #Getting count status
-								if count_status == "stop": #Checkking status for stop, so as not to start counting already users in channel before
-									self.start_count(member) #Stating count
-			
-							elif len(after.channel.members) >= 2: #Checking if members before changes were smallest two
-								for member in after.channel.members: #Checking all members in vc channel
-									count_status = self.get_stats(member)
-									count_status = count_status["count_status"] #Getting count status
-									if count_status == "stop": #Checking for count not started
-										print("count started for many members")
-										self.start_count(member) #Starting count
+					for member in vc.members:
+						stats = self.get_stats(member)
+						if stats["count_status"] == "stop":
+							if member.voice.self_mute == False:
+								try:
+									if member.voice.self_mute == False:
+										if before.channel == after.channel: # If user now unmuted, before muted
+											if len(after.channel.members) - 1 >= 2: #If count stopped for 1 member, start for him
+												self.start_count(member)
 
-						elif after.channel is None: #Checking for user leaved
-							if len(before.channel.members) - 1 > 2: #Checking for members after leaved be biggest two
-								count_status = self.get_stats(member)
-								count_status = count_status["count_status"] #Getting count status
-								if count_status == "start": #Checking for count not stopped
-									print("count stoped for 1 member")
-									self.stop_count(member) #Stopping count
+											elif len(after.channel.members) >= 2: #If count stopped for all, start count for all
+												for member in after.channel.members: #Started count for all
+													self.start_count(member)
+										if len(after.channel.members) >= 2 and len(before.channel.members) < 2: #If member moved, in before channel users < 2, after users > 2
+											for member in after.channel.members: #Checks all members in vc
+												self.start_count(member)
+								else:
+									if before.channel is None: #Check for user joined
+										if len(after.channel.members) - 1 >= 2: #If after biggest two before user join
+											self.start_count(member)
 
-							elif len(before.channel.members) - 1 < 2: #Checking for members after user leaved be smallest two
-								for member in before.channel.members: #Checking all members in vc channel
-									count_status = self.get_stats(member)
-									count_status = count_status["count_status"] #Getting count status
-									if count_status == "start": #Checking for count not stopped
-										self.stop_count(member) #Stopping count
-								count_status = self.get_stats(member)
-								count_status = count_status["count_status"] #Getting count status
-								if count_status == "start": #Checking for count not stopped
-									self.stop_count(member) #Stopping count for leaved member
+										elif len(after.channel.members) >= 2: #Elif after biggest two, before smallest two
+											for member in after.channel.members: #Checks all member in vc
+												self.start_count(member)
+
+						elif stats["count_status"] == "start": #Elif count already started
+							try: # 
+								if before.channel == after.channel: #If member muted
+									if member.voice.self_mute == True:
+										if len(after.channel.members) - 1 < 2: #If other users < 2
+											for member in after.channel.members: #Stopping count for all
+												self.stop_count(member)
+										elif len(after.channel.members) - 1 >= 2: #Elif other users > 2
+											self.stop_count(member) #Stopping count for 1 member
+								if len(after.channel.members) < 2 and len(before.channel.members) >= 2: #If member moved
+									for member in before.channel.members:#Checks all member in vc
+									self.stop_count(member)
+
+							else:
+								if after.channel is None: #if member leaved
+									if len(before.channel.members) - 1 < 2: #If members before leave < 2
+										for member in before.channel.members: #Checks all members in vc
+											self.stop_count(member)
+									elif len(before.channel.members) - 1 >= 2:
+										self.stop_count(member) #Stopping count for 1 member
 				else:
-					channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK') #Getting afk channel object
-					for member in channel.members:
-						count_status = self.get_stats(member)
-						count_status = count_status["count_status"] #Getting count status
-						if count_status == "start": #Checking for count not stopped
-							self.stop_count(member) #Stopping coint for afk members
-									
+					stats = self.get_stats(member)
+					if stats["count_status"] == "start":
+						afk_channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK') #Getting afk channel object
+						for member in afk_channel.members:
+							self.stop_count(member)						
 def setup(bot):
 	bot.add_cog(VoiceCount(bot))

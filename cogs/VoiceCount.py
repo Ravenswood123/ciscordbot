@@ -60,7 +60,7 @@ class VoiceCount(commands.Cog):
 		count_status = "stop"
 		collection.update_one({"id": member.id}, {"$set":{"coins": coins, "minvoice": minvoice, "count_status": "stop"}}, upsert = False) #Updating db
 		return
-		
+
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
 		for guild in self.bot.guilds:
@@ -111,11 +111,9 @@ class VoiceCount(commands.Cog):
 											self.stop_count(member)
 									elif len(before.channel.members) - 1 >= 2:
 										self.stop_count(member) #Stopping count for 1 member
-				else:
-					stats = self.get_stats(member)
-					if stats["count_status"] == "start":
-						afk_channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK') #Getting afk channel object
-						for member in afk_channel.members:
-							self.stop_count(member)					
-def setup(bot):
-	bot.add_cog(VoiceCount(bot))
+			elif vc.id == 745611324360228887:
+				stats = self.get_stats(member)
+				if stats["count_status"] == "start":
+					afk_channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK') #Getting afk channel object
+					for member in afk_channel.members:
+						self.stop_count(member)

@@ -65,7 +65,7 @@ class Coins(commands.Cog):
 				emb.add_field(name='**:money_with_wings: Количество коинов:**',value=f'{coins}', inline=False)
 				emb.add_field(name='**:clock3: Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
 				emb.add_field(name='**:chart_with_upwards_trend: Статус начисления:**',value=f'{status}', inline=False)
-				emb.add_field(name='**Test**',value=f'member.voice.self_mute', inline=False)
+				emb.add_field(name='**Test**',value=f'{member.voice.self_mute}', inline=False)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 				await ctx.send(embed=emb)
 			else:

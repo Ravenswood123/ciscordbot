@@ -63,12 +63,10 @@ class VoiceCount(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
-		print(before.channel.members)
-		print(after.channel.members)
+		print(member)
 		for guild in self.bot.guilds:
 			for vc in guild.voice_channels: 
 				if vc.id != 745611324360228887: #Checking if channel != afk and member not muted
-					print(member)
 					for member in vc.members:
 						stats = self.get_stats(member)
 						if stats["count_status"] == "stop":

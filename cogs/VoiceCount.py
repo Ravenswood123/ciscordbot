@@ -102,7 +102,7 @@ class VoiceCount(commands.Cog):
 											self.stop_count(member) #Stopping count for 1 member
 								if len(after.channel.members) < 2 and len(before.channel.members) >= 2: #If member moved
 									for member in before.channel.members:#Checks all member in vc
-									self.stop_count(member)
+										self.stop_count(member)
 
 							else:
 								if after.channel is None: #if member leaved

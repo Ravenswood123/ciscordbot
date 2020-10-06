@@ -117,3 +117,5 @@ class VoiceCount(commands.Cog):
 						afk_channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK') #Getting afk channel object
 						for member in afk_channel.members:
 							self.stop_count(member)
+def setup(bot):
+	bot.add_cog(VoiceCount(bot))

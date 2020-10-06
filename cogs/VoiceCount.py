@@ -94,10 +94,10 @@ class VoiceCount(commands.Cog):
 						if before.channel != None and after.channel != None:
 							if before.channel == after.channel: #If member muted
 								if member.voice.self_mute == True:
-									if len(after.channel.members) - 1 < 2: #If other users < 2
-										for member in after.channel.members: #Stopping count for all
+									if len(vc.members) - 1 < 2: #If other users < 2
+										for member in vc.members: #Stopping count for all
 											self.stop_count(member)
-									elif len(after.channel.members) - 1 >= 2: #Elif other users > 2
+									elif len(vc.members) - 1 >= 2: #Elif other users > 2
 										self.stop_count(member) #Stopping count for 1 member
 							if len(after.channel.members) < 2 and len(before.channel.members) >= 2: #If member moved
 								for member in before.channel.members:#Checks all member in vc

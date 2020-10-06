@@ -116,6 +116,7 @@ class VoiceCount(commands.Cog):
 								elif len(before.channel.members) - 1 >= 2:
 									self.stop_count(member) #Stopping count for 1 member
 				elif vc.id == 745611324360228887:
+					print("1")
 					stats = self.get_stats(member)
 					if stats["count_status"] == "start":
 						afk_channel = discord.utils.get(guild.voice_channels, name='⡇🔕AFK') #Getting afk channel object

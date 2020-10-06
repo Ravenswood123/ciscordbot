@@ -72,10 +72,10 @@ class VoiceCount(commands.Cog):
 						print(f"{member.voice.self_mute}")
 						if member.voice.self_mute == False:
 							if before.channel != None and after.channel != None:
-									if member.voice.self_mute == False:
-										if before.channel == after.channel: # If user now unmuted, before muted
-											if len(after.channel.members) - 1 >= 2: #If count stopped for 1 member, start for him
-												self.start_count(member)
+								if member.voice.self_mute == False:
+									if before.channel == after.channel: # If user now unmuted, before muted
+										if len(after.channel.members) - 1 >= 2: #If count stopped for 1 member, start for him
+											self.start_count(member)
 
 											elif len(after.channel.members) >= 2: #If count stopped for all, start count for all
 												for member in after.channel.members: #Started count for all

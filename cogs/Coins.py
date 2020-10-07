@@ -51,6 +51,7 @@ class Coins(commands.Cog):
 			print("true")
 		if isinstance(error, commands.MissingRequiredArgument):
 			if ctx.channel.id == 747433532770746469:
+				print(ctx.author.voice.channel)
 				mongo_token=os.environ.get('MONGO_TOKEN')
 				cluster = MongoClient(mongo_token)
 				db = cluster["ciscord"]

@@ -17,10 +17,15 @@ class Coins(commands.Cog):
 		emb.add_field(name='**``coins balance <участник>``**' ,value = 'Можно узнать ваш баланс коинов', inline=False)
 		await ctx.send(embed=emb)
 
+	@coinscmd.command(name = 'balance')
+	async def balance_subcommand(self, ctx, member: discord.Member)
 	@coinscmd.command(name='balance')
-	async def balance_subcommand(self, ctx, member: discord.Member):
-		print(member)
-		if ctx.channel.id == 747433532770746469:
+	if ctx.channel.id == 747433532770746469:
+		try:
+			object = member
+		except NameError:
+			object = ctx.author
+		finally:
 			mongo_token=os.environ.get('MONGO_TOKEN')
 			cluster = MongoClient(mongo_token)
 			db = cluster["ciscord"]
@@ -40,41 +45,6 @@ class Coins(commands.Cog):
 			emb.add_field(name='**:chart_with_upwards_trend: Статус начисления:**',value=f'{status}', inline=False)
 			emb.set_author(name=member.name, icon_url=member.avatar_url)
 			await ctx.send(embed=emb)
-		else:
-			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now())
-			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-			await ctx.send(embed = emb)
-	@balance_subcommand.error
-	async def balance_error(self, ctx, error):
-		if member == True:
-			print("true")
-		if isinstance(error, commands.MissingRequiredArgument):
-			if ctx.channel.id == 747433532770746469:
-				mongo_token=os.environ.get('MONGO_TOKEN')
-				cluster = MongoClient(mongo_token)
-				db = cluster["ciscord"]
-				collection = db[f'{ctx.author.guild.name}']
-				find_results = collection.find_one({"id": int(ctx.author.id)})
-				coins = find_results["coins"]
-				status = find_results["count_status"]
-				if status == "stop":
-					status = "Начисление остановлено"
-				if status == "start":
-					status = "Начисление активно"
-				minvoice = find_results["minvoice"]
-				hrsvoice = minvoice // 60
-				emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())
-				emb.add_field(name='**:money_with_wings: Количество коинов:**',value=f'{coins}', inline=False)
-				emb.add_field(name='**:clock3: Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
-				emb.add_field(name='**:chart_with_upwards_trend: Статус начисления:**',value=f'{status}', inline=False)
-				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-				await ctx.send(embed=emb)
-			else:
-				await ctx.message.delete()
-				emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700)
-				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-				await ctx.send(embed = emb, delete_after=15)
 	@coinscmd.command(name='send')
 	async def send_subcommand(self, ctx, member: discord.Member, coins_sum=1):
 		if ctx.channel.id == 747433532770746469:

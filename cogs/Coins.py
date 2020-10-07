@@ -63,14 +63,14 @@ class Coins(commands.Cog):
 				if status == "start":
 					status = "Начисление активно"
 				if status == "stop":
-					if member.voice.channel == None:
+					if ctx.author.voice.channel == None:
 						status = ":no_entry_sign: Вы не в голосовом канале"
 					else:
-						if len(member.voice.channel.members) < 2 and member.voice.self_mute == True:
+						if len(ctx.author.voice.channel.members) < 2 and ctx.author.voice.self_mute == True:
 							status = ":no_entry_sign: Причина: отключен микрофон/звук, участников в канале меньше 2-х"
-						if len(member.voice.channel.members) < 2:
+						if len(ctx.author.voice.channel.members) < 2:
 							status = ":no_entry_sign: Причина: участников в канале меньше 2-х"
-						elif member.voice.self_mute == True:
+						elif ctx.author.voice.self_mute == True:
 							status = ":no_entry_sign: Причина: отключен микрофон/звук"		
 				minvoice = find_results["minvoice"]
 				hrsvoice = minvoice // 60

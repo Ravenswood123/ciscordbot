@@ -49,7 +49,6 @@ class Coins(commands.Cog):
 	async def balance_error(self, ctx, error):
 		if isinstance(error, commands.MissingRequiredArgument):
 			if ctx.channel.id == 747433532770746469:
-				print(ctx.author.voice.channel)
 				mongo_token=os.environ.get('MONGO_TOKEN')
 				cluster = MongoClient(mongo_token)
 				db = cluster["ciscord"]

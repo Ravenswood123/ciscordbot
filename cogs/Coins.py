@@ -60,17 +60,7 @@ class Coins(commands.Cog):
 				if status == "stop":
 					status = "Начисление остановлено"
 				if status == "start":
-					status = "Начисление активно"
-				if status == "stop":
-					if ctx.author.voice == None:
-						status = ":no_entry_sign: Вы не в голосовом канале"
-					else:
-						if len(ctx.author.voice.channel.members) < 2 and ctx.author.voice.self_mute == True:
-							status = ":no_entry_sign: Причина: отключен микрофон/звук, участников в канале меньше 2-х"
-						if len(ctx.author.voice.channel.members) < 2:
-							status = ":no_entry_sign: Причина: участников в канале меньше 2-х"
-						elif ctx.author.voice.self_mute == True:
-							status = ":no_entry_sign: Причина: отключен микрофон/звук"		
+					status = "Начисление активно"	
 				minvoice = find_results["minvoice"]
 				hrsvoice = minvoice // 60
 				emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())

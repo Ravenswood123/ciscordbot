@@ -62,7 +62,7 @@ class Coins(commands.Cog):
 				if status == "start":
 					status = "Начисление активно"
 				if status == "stop":
-					if ctx.author.voice.channel == None:
+					if ctx.author.voice == None:
 						status = ":no_entry_sign: Вы не в голосовом канале"
 					else:
 						if len(ctx.author.voice.channel.members) < 2 and ctx.author.voice.self_mute == True:

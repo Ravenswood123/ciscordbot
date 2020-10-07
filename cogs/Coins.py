@@ -18,8 +18,7 @@ class Coins(commands.Cog):
 		await ctx.send(embed=emb)
 
 	@coinscmd.command(name = 'balance')
-	async def balance_subcommand(self, ctx, member: discord.Member)
-	@coinscmd.command(name='balance')
+	async def balance_subcommand(self, ctx, member: discord.Member):
 	if ctx.channel.id == 747433532770746469:
 		try:
 			object = member

@@ -19,7 +19,7 @@ class Coins(commands.Cog):
 
 	@coinscmd.command(name='balance')
 	async def balance_subcommand(self, ctx, member: discord.Member):
-		print(member.voice.channel.members)
+		print(member)
 		if ctx.channel.id == 747433532770746469:
 			mongo_token=os.environ.get('MONGO_TOKEN')
 			cluster = MongoClient(mongo_token)
@@ -47,7 +47,7 @@ class Coins(commands.Cog):
 			await ctx.send(embed = emb)
 	@balance_subcommand.error
 	async def balance_error(self, ctx, error):
-		print(ctx.author)
+		print(member)
 		if isinstance(error, commands.MissingRequiredArgument):
 			if ctx.channel.id == 747433532770746469:
 				mongo_token=os.environ.get('MONGO_TOKEN')

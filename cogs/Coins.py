@@ -47,8 +47,6 @@ class Coins(commands.Cog):
 			await ctx.send(embed = emb)
 	@balance_subcommand.error
 	async def balance_error(self, ctx, error):
-		if member == True:
-			print("true")
 		if isinstance(error, commands.MissingRequiredArgument):
 			if ctx.channel.id == 747433532770746469:
 				print(ctx.author.voice.channel)

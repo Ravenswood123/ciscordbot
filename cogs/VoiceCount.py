@@ -54,7 +54,6 @@ class VoiceCount(commands.Cog):
 		minvoice = minvoice + time_in_voice_all #Adding new data to before data
 		coins = results["coins"] #Getting coins before
 		coins = coins + time_in_voice_all #Adding new data to before data
-		print(coins)
 		print(time_in_voice_all)
 		time = "NO INFO"
 		count_status = "stop"

@@ -78,7 +78,7 @@ class VoiceCount(commands.Cog):
 												for member in after.channel.members: #Started count for all
 													self.start_count(member)
 										elif before.channel != after.channel:
-											print("moved")
+											print("moved1")
 											if len(after.channel.members) >= 2: #If member moved, in before channel users < 2, after users > 2
 												for member in after.channel.members: #Checks all members in vc
 													self.start_count(member)

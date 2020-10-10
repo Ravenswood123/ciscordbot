@@ -44,6 +44,8 @@ class VoiceCount(commands.Cog):
 		stats = self.get_stats(member) 
 		minvoice = stats["minvoice"] #Getting mintus before
 		coins = stats["coins"]
+		global time_in_voice_all
+		global coins
 		if time_now.day - time_join.day != 0:
 			if time_in_voice_hrs == 0: #if not an hour has passed
 				time_in_voice_minute = time_now.minute - time_join.minute #Getting minutes difference
@@ -53,10 +55,7 @@ class VoiceCount(commands.Cog):
 			elif time_in_voice_hrs > 0:
 				time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute #Formating hours to minutes
 				time_in_voice_all = time_in_voice_hrs + time_now.minute	 #Minutes in now hour adding minutes in hours
-			global time_in_voice_all
-			time_in_voice_all = minvoice + time_in_voice_all
-			global coins
-			coins = coins + time_in_voice_all
+		coins = coins + time_in_voice_all
 		print(time_in_voice_all)
 		time = "NO INFO"
 		count_status = "stop"

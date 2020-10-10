@@ -56,6 +56,7 @@ class VoiceCount(commands.Cog):
 				time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute #Formating hours to minutes
 				time_in_voice_all = time_in_voice_hrs + time_now.minute	 #Minutes in now hour adding minutes in hours
 		coins = coins + time_in_voice_all
+		time_in_voice_all = time_in_voice_all + minvoice
 		print(time_in_voice_all)
 		time = "NO INFO"
 		count_status = "stop"

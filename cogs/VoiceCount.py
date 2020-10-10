@@ -41,6 +41,9 @@ class VoiceCount(commands.Cog):
 		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S') #Getting now time in db time format
 		time_now = datetime.datetime.strptime(time_now, "%d-%m-%Y %H:%M:%S") #String to datetime format
 		time_in_voice_hrs = time_now.hour - time_join.hour #Getting hours difference
+		stats = self.get_stats(member) 
+		minvoice = stats["minvoice"] #Getting mintus before
+		coins = stats["coins"]
 		if time_now.day - time_join.day != 0:
 			if time_in_voice_hrs == 0: #if not an hour has passed
 				time_in_voice_minute = time_now.minute - time_join.minute #Getting minutes difference
@@ -50,11 +53,8 @@ class VoiceCount(commands.Cog):
 			elif time_in_voice_hrs > 0:
 				time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute #Formating hours to minutes
 				time_in_voice_all = time_in_voice_hrs + time_now.minute	 #Minutes in now hour adding minutes in hours
-		stats = self.get_stats(member) 
-		minvoice = stats["minvoice"] #Getting mintus before
-		minvoice = minvoice + time_in_voice_all #Adding new data to before data
-		coins = stats["coins"] #Getting coins before
-		coins = coins + time_in_voice_all #Adding new data to before data
+			time_in_voice_all = minvoice + time_in_voice_all
+			coins = coins + time_in_voice_all
 		print(time_in_voice_all)
 		time = "NO INFO"
 		count_status = "stop"

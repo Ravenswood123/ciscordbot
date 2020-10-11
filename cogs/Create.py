@@ -60,7 +60,7 @@ class Create(commands.Cog):
 			await ctx.send(embed = emb, delete_after = 5)
 			
 	@createcmd.command(name='role')
-	async def role_subcommand(self, ctx, name: str = None, colour):
+	async def role_subcommand(self, ctx, colour, name: str = None):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
 		if member_coins - 7500 >= 0:

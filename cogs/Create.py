@@ -68,10 +68,10 @@ class Create(commands.Cog):
 			#buy_result = self.buy(ctx.author, 7500)
 			#if buy_result == True:
 
-		elif member_coins - 7500 < 0:
-			await ctx.message.delete()
-			emb = discord.Embed(description = f'{ctx.author.mention}, у вас недостаточно коинов для преобретения **кастомной роли**',colour=0xFFC700, timestamp=datetime.datetime.now())
-			await ctx.send(embed = emb, delete_after = 5)
+		#elif member_coins - 7500 < 0:
+			#await ctx.message.delete()
+			#emb = discord.Embed(description = f'{ctx.author.mention}, у вас недостаточно коинов для преобретения **кастомной роли**',colour=0xFFC700, timestamp=datetime.datetime.now())
+			#await ctx.send(embed = emb, delete_after = 5)
 
 def setup(bot):
 	bot.add_cog(Create(bot))

@@ -60,13 +60,13 @@ class Create(commands.Cog):
 			await ctx.send(embed = emb, delete_after = 5)
 			
 	@createcmd.command(name='role')
-	async def role_subcommand(self, ctx, name: str = None):
+	async def role_subcommand(self, ctx, name: str, colour):
 		results = self.get_stats(ctx.author)
 		member_coins = results["coins"]
 		if member_coins - 7500 >= 0:
 			buy_result = self.buy(ctx.author, 7500)
 			if buy_result == True:
-				role = await ctx.author.guild.create_role(name = name)
+				role = await ctx.author.guild.create_role(name = name, colour = colour)
 
 		elif member_coins - 7500 < 0:
 			await ctx.message.delete()

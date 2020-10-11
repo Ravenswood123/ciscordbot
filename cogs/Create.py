@@ -66,7 +66,7 @@ class Create(commands.Cog):
 		if member_coins - 7500 >= 0:
 			buy_result = self.buy(ctx.author, 7500)
 			if buy_result == True:
-				role = await ctx.author.guild.create_role(name = name, position = 1, reason = 'Покупка роли (Осуществленна ботом)')
+				role = await ctx.author.guild.create_role(name = name)
 
 		elif member_coins - 7500 < 0:
 			await ctx.message.delete()

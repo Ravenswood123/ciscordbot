@@ -58,6 +58,20 @@ class Create(commands.Cog):
 			await ctx.message.delete()
 			emb = discord.Embed(description = f'{ctx.author.mention}, у вас недостаточно коинов для преобретения **голосовой комнаты**',colour=0xFFC700, timestamp=datetime.datetime.now())
 			await ctx.send(embed = emb, delete_after = 5)
+			
+	@createcmd.command(name='role')
+	async def role_subcommand(self, ctx, name: str = None, colour):
+		results = self.get_stats(ctx.author)
+		member_coins = results["coins"]
+		if member_coins - 7500 >= 0:
+			buy_result = self.buy(ctx.author, 7500)
+			if buy_result == True:
+				role = await ctx.author.guild.create_role(name = name, colour = colour, position = 1, reason = 'Покупка роли (Осуществленна ботом)')
+
+		elif member_coins - 7500 < 0:
+			await ctx.message.delete()
+			emb = discord.Embed(description = f'{ctx.author.mention}, у вас недостаточно коинов для преобретения **кастомной роли**',colour=0xFFC700, timestamp=datetime.datetime.now())
+			await ctx.send(embed = emb, delete_after = 5)
 
 def setup(bot):
 	bot.add_cog(Create(bot))

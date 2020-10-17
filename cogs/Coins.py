@@ -1,10 +1,10 @@
 import discord
 from discord import utils
 import pymongo
+from pymongo import MongoClient
 import datetime
 import os
 import random
-from pymongo import MongoClient
 import json
 from discord.ext import commands
 class Coins(commands.Cog):
@@ -22,9 +22,9 @@ class Coins(commands.Cog):
 	@coinscmd.command(name='balance')
 	async def balance_subcommand(self, ctx, member: discord.Member):
 		if ctx.channel.id == 747433532770746469:
-			#mongo_token=os.environ.get('MONGO_TOKEN')
-			#cluster = MongoClient(mongo_token)
-			db = self.cluster["ciscord"]
+			mongo_token=os.environ.get('MONGO_TOKEN')
+			cluster = MongoClient(mongo_token)
+			db = cluster["ciscord"]
 			collection = db[f'{ctx.author.guild.name}']
 			find_results = collection.find_one({"id": int(member.id)})
 			coins = find_results["coins"]
@@ -50,9 +50,9 @@ class Coins(commands.Cog):
 	async def balance_error(self, ctx, error):
 		if isinstance(error, commands.MissingRequiredArgument):
 			if ctx.channel.id == 747433532770746469:
-				#mongo_token=os.environ.get('MONGO_TOKEN')
-				#cluster = MongoClient(mongo_token)
-				db = self.cluster["ciscord"]
+				mongo_token=os.environ.get('MONGO_TOKEN')
+				cluster = MongoClient(mongo_token)
+				db = cluster["ciscord"]
 				collection = db[f'{ctx.author.guild.name}']
 				find_results = collection.find_one({"id": int(ctx.author.id)})
 				coins = find_results["coins"]

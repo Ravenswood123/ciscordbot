@@ -10,6 +10,8 @@ from discord.ext import commands
 class Coins(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		self.mongo_token = mongo_token
+		self.cluster = cluster
 		
 	@commands.group(name='coins', invoke_without_command=True)
 	async def coinscmd(self, ctx):
@@ -21,9 +23,9 @@ class Coins(commands.Cog):
 	async def balance_subcommand(self, ctx, member: discord.Member):
 		print(member)
 		if ctx.channel.id == 747433532770746469:
-			mongo_token=os.environ.get('MONGO_TOKEN')
-			cluster = MongoClient(mongo_token)
-			db = cluster["ciscord"]
+			#mongo_token=os.environ.get('MONGO_TOKEN')
+			#cluster = MongoClient(mongo_token)
+			db = self.cluster["ciscord"]
 			collection = db[f'{ctx.author.guild.name}']
 			find_results = collection.find_one({"id": int(member.id)})
 			coins = find_results["coins"]
@@ -49,9 +51,9 @@ class Coins(commands.Cog):
 	async def balance_error(self, ctx, error):
 		if isinstance(error, commands.MissingRequiredArgument):
 			if ctx.channel.id == 747433532770746469:
-				mongo_token=os.environ.get('MONGO_TOKEN')
-				cluster = MongoClient(mongo_token)
-				db = cluster["ciscord"]
+				#mongo_token=os.environ.get('MONGO_TOKEN')
+				#cluster = MongoClient(mongo_token)
+				db = self.cluster["ciscord"]
 				collection = db[f'{ctx.author.guild.name}']
 				find_results = collection.find_one({"id": int(ctx.author.id)})
 				coins = find_results["coins"]

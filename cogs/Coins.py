@@ -125,9 +125,11 @@ class Coins(commands.Cog):
 		coins = coins - coins_remove
 		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
 		await ctx.message.add_reaction('☑')
+		
 	@coinscmd.command(name='list')
 	async def list_subcommand(self, ctx):
 		if ctx.channel.id == 747433532770746469:
+			print("1")
 			mongo_token=os.environ.get('MONGO_TOKEN')
 			cluster = MongoClient(mongo_token)
 			db = cluster["ciscord"]

@@ -3,8 +3,6 @@ import asyncio
 from discord import utils
 import json
 import os
-import pymongo
-from pymongo import MongoClient
 import time
 from discord.ext import commands
 
@@ -14,8 +12,6 @@ def get_prefix(client, message):
 		prefixes = json.load(f)
 	return prefixes[str(message.guild.id)]
 bot = commands.Bot(command_prefix=get_prefix)
-mongo_token=os.environ.get('MONGO_TOKEN')
-cluster = MongoClient(mongo_token)
 bot_prefix = get_prefix
 bot.remove_command('help')
 

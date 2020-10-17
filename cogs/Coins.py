@@ -10,8 +10,6 @@ from discord.ext import commands
 class Coins(commands.Cog):
 	def __init__(self, bot, mongo_token, cluster):
 		self.bot = bot
-		self.mongo_token = mongo_token
-		self.cluster = cluster
 		
 	@commands.group(name='coins', invoke_without_command=True)
 	async def coinscmd(self, ctx):

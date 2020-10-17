@@ -8,7 +8,7 @@ from pymongo import MongoClient
 import json
 from discord.ext import commands
 class Coins(commands.Cog):
-	def __init__(self, bot):
+	def __init__(self, bot, mongo_token, cluster):
 		self.bot = bot
 		self.mongo_token = mongo_token
 		self.cluster = cluster

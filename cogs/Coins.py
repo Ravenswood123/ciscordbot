@@ -72,6 +72,7 @@ class Coins(commands.Cog):
 				emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700)
 				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 				await ctx.send(embed = emb, delete_after=15)
+				
 	@coinscmd.command(name='send')
 	async def send_subcommand(self, ctx, member: discord.Member, coins_sum=1):
 		if ctx.channel.id == 747433532770746469:
@@ -99,6 +100,33 @@ class Coins(commands.Cog):
 			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700)
 			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
 			await ctx.send(embed = emb, delete_after=15)
+	@coinscmd.command(name='getrole')
+	async def getrole_subcommand(self, ctx):
+		mongo_token=os.environ.get('MONGO_TOKEN')
+		cluster = MongoClient(mongo_token)
+		db = cluster["ciscord"]
+		collection = db[f'{ctx.author.guild.name}']
+		members_hrs = collection.find_one({"id": int(ctx.author.id)})[minvoice] // 60
+		print(members_hrs)
+		if members_hrs < 300:
+			pass
+		elif members_hrs > 300:
+			if members_hrs > 300 and members_hrs < 500:
+				role = discord.utils.get(guild.roles, name="🕐300 hrs voice")
+			if members_hrs > 500:
+				role = discord.utils.get(guild.roles, name="🕐500 hrs voice")
+				unrole = discord.utils.get(guild.roles, name="🕐300 hrs voice")
+			elif members_hrs > 1000:
+				role = discord.utils.get(guild.roles, name="🕐1000 hrs voice")
+				unrole = discord.utils.get(guild.roles, name="🕐500 hrs voice")
+			elif members_hrs > 5000
+				role = discord.utils.get(guild.roles, name="🕐5000 hrs voice")
+				unrole = discord.utils.get(guild.roles, name="🕐1000 hrs voice")
+			if role is not None:
+				if ctx.author is not None:
+					await ctx.author.add_roles(role)
+					if unrole != None:
+						await ctx.author.remove_roles(unrole)
 
 	@coinscmd.command(name='award')
 	@commands.has_permissions(administrator=True)

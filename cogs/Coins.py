@@ -106,7 +106,7 @@ class Coins(commands.Cog):
 		cluster = MongoClient(mongo_token)
 		db = cluster["ciscord"]
 		collection = db[f'{ctx.author.guild.name}']
-		members_hrs = collection.find_one({"id": int(ctx.author.id)})[minvoice] // 60
+		members_hrs = collection.find_one({"id": int(ctx.author.id)})["minvoice"] // 60
 		print(members_hrs)
 		if members_hrs < 300:
 			emb = discord.Embed(description = f'У вас **недостаточно** времени в голосовых каналах чтобы получить роль',colour=0xFFC700, timestamp=datetime.datetime.now())

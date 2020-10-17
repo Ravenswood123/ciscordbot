@@ -11,7 +11,8 @@ def get_prefix(client, message):
 	with open('prefixes.json', 'r') as f:
 		prefixes = json.load(f)
 	return prefixes[str(message.guild.id)]
-bot = commands.Bot(command_prefix=get_prefix)
+
+bot = commands.Bot(command_prefix=get_prefix, intents = discord.Intents.all())
 bot_prefix = get_prefix
 bot.remove_command('help')
 

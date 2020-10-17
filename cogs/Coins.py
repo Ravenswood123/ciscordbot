@@ -112,15 +112,15 @@ class Coins(commands.Cog):
 			emb = discord.Embed(description = f'У вас **недостаточно** времени в голосовых каналах чтобы получить роль',colour=0xFFC700, timestamp=datetime.datetime.now())
 			await ctx.send(embed = emb)
 		elif members_hrs > 300:
-			if members_hrs > 300 and members_hrs < 500:
+			if members_hrs >= 300 and members_hrs < 500:
 				role = discord.utils.get(guild.roles, name="🕐300 hrs voice")
-			if members_hrs > 500:
+			if members_hrs >= 500 and members_hrs < 1000:
 				role = discord.utils.get(guild.roles, name="🕐500 hrs voice")
 				unrole = discord.utils.get(guild.roles, name="🕐300 hrs voice")
-			elif members_hrs > 1000:
+			elif members_hrs >= 1000 and members_hrs < 5000:
 				role = discord.utils.get(guild.roles, name="🕐1000 hrs voice")
 				unrole = discord.utils.get(guild.roles, name="🕐500 hrs voice")
-			elif members_hrs > 5000:
+			elif members_hrs >= 5000:
 				role = discord.utils.get(guild.roles, name="🕐5000 hrs voice")
 				unrole = discord.utils.get(guild.roles, name="🕐1000 hrs voice")
 			if role is not None:

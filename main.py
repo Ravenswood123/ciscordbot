@@ -4,6 +4,7 @@ from discord import utils
 import json
 import os
 import pymongo
+from pymongo import MongoClient
 import time
 from discord.ext import commands
 

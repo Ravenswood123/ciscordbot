@@ -230,4 +230,4 @@ class Coins(commands.Cog):
 			await ctx.send(embed = emb, delete_after=15)
 		
 def setup(bot):
-	bot.add_cog(Coins(bot, mongo_token, cluster))
+	bot.add_cog(Coins(bot))

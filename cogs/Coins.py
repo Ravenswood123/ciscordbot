@@ -21,7 +21,6 @@ class Coins(commands.Cog):
 
 	@coinscmd.command(name='balance')
 	async def balance_subcommand(self, ctx, member: discord.Member):
-		print(member)
 		if ctx.channel.id == 747433532770746469:
 			#mongo_token=os.environ.get('MONGO_TOKEN')
 			#cluster = MongoClient(mongo_token)

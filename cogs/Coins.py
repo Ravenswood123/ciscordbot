@@ -142,6 +142,7 @@ class Coins(commands.Cog):
 				member_id = result["id"]
 				user = self.bot.get_user(member_id)
 				minvoice.append(member_minvoice)
+				print(user.name
 				users.append(user.name)
 			for min in minvoice:
 				hrs = min/60

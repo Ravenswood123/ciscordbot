@@ -8,7 +8,7 @@ import random
 import json
 from discord.ext import commands
 class Coins(commands.Cog):
-	def __init__(self, bot, mongo_token, cluster):
+	def __init__(self, bot):
 		self.bot = bot
 		
 	@commands.group(name='coins', invoke_without_command=True)

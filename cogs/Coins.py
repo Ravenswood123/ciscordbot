@@ -1,5 +1,4 @@
 import discord
-from discord import utils
 import pymongo
 from pymongo import MongoClient
 import datetime

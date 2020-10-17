@@ -216,7 +216,7 @@ class Coins(commands.Cog):
 						if winner == 'bot':
 							coins = coins - ammout
 							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-							emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
+							emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш составляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
 							await ctx.send(embed = emb)
 						elif winner == 'member':
 							coins = coins + ammout

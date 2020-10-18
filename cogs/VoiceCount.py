@@ -116,7 +116,7 @@ class VoiceCount(commands.Cog):
 									for member in before.channel.members: #Checks all members in vc
 										print(member)
 										self.stop_count(member)
-								elif len(after.channel.members) < 2 and len(before.channel.members) - 1 >= 2:
+								elif len(before.channel.members) - 1 >= 2:
 									print("moved")
 									self.stop_count(member) #Stopping count for 1 member
 				elif vc.id == 745611324360228887:

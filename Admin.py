@@ -52,7 +52,7 @@ class Admin(commands.Cog):
     @admincmd.command(name = "kick")
     @commands.has_permissions(administrator = True)
     async def kick_subcommand(self, ctx, member: discord.Member, *, reason = None):
-	await ctx.message.delete()
+        await ctx.message.delete()
         await member.kick(reason = f"{ctx.author.name} исключил пользователя {member.name}")
         emb = discord.Embed(description = f":white_check_mark: {member.mention} был **кикнут** с помощью {ctx.author.mention}", colour = 0x0085FF)
         await ctx.send(embed = emb, delete_after = 10)
@@ -136,4 +136,4 @@ class Admin(commands.Cog):
 
 #Add cog file
 def setup(bot): 
-	bot.add_cog(Admin(bot))
+    bot.add_cog(Admin(bot))

@@ -115,7 +115,7 @@ class Admin(commands.Cog):
             if add_ammout > 0:
                 if add_category == "coins":
                     coins = collection.find_one({"id": member.id})["coins"]
-                    collection.update_one({"id": member.id}, {"$set": {"minvoice": coins + add_ammout}})
+                    collection.update_one({"id": member.id}, {"$set": {"coins": coins + add_ammout}})
                     await ctx.message.add_reaction('☑')
                 elif add_category == "hrs":
                     minvoice = collection.find_one({"id": member.id})["minvoice"]

@@ -34,9 +34,9 @@ class Admin(commands.Cog):
         else:
             emb = discord.Embed(description = f"Вы замьючены на сервере на {mute_time // 60} минут", colour = 0x0085FF, timestamp = datetime.datetime.now())
         await member.send(embed = emb) #dm message to member
+	await ctx.message.add_reaction("☑")
         role = discord.utils.get(member.guild.roles, name = "🤐Mute") #find role
         await member.add_roles(role) #adding role to member
-	await ctx.message.add_reaction("☑")
         await self.bot.loop.create_task(asyncio.sleep(mute_time)) #create background task
         await member.remove_roles(role) #remove role after time is up
 

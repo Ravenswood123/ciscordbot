@@ -39,7 +39,8 @@ class Events(commands.Cog):
 	async def on_message(self, message, guild: discord.Guild = None):
 		guild = message.guild
 		print(f"{message.created_at} : {guild.name} : {message.id} : {message.author} : {message.content}\n" + "-" * 130)
-		if str(message.channel.id) == "746260296720580700": #adding reactions for messages in current channel
+		channels_id = [770150613199618069, 746260296720580700]
+		if message.channel.id in channels_id: #adding reactions for messages in current channel
 			await message.add_reaction("👍")
 			await message.add_reaction("👎")
 

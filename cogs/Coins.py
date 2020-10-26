@@ -101,14 +101,14 @@ class Coins(commands.Cog):
 						print(winner)
 						if winner == "bot":
 							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins - ammout}})
-							winner_object = self.bot
-							print(winner_object.id)
+							winner_object = self.bot.user.mention
+							print(winner_object)
 						elif winner == "member":
 							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins + ammout}})
-							winner_object = ctx.author
-							print(winner_object.name)
+							winner_object = ctx.author.mention
+							print(winner_object)
 						if winner_object is not None:
-							emb = discord.Embed(description = f":trophy: Победу одерживает {winner_object.mention}. Его выигрыш состовляет **{ammout}**", colour=0x0085FF, timestamp=datetime.datetime.now())
+							emb = discord.Embed(description = f":trophy: Победу одерживает {winner_object}. Его выигрыш состовляет **{ammout}**", colour=0x0085FF, timestamp=datetime.datetime.now())
 							await ctx.send(embed = emb)
 					else:
 						emb = discord.Embed(description = f"{ctx.author.mention}, у вас **недостаточно** коинов чтобы сыграть на сумму **{ammout}**", colour=0x0085FF, timestamp=datetime.datetime.now())

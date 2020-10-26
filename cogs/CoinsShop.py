@@ -58,7 +58,7 @@ class CoinsShop(commands.Cog):
 			if role is not None:
 				member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
 				if member is not None:
-					collection = self.db[f"{ctx.author.guild.name}"]
+					collection = self.db[f"{member.guild.name}"]
 					coins = collection.find_one({"id": member.id})["coins"] - price
 					if coins < 0:
 						emb = discord.Embed(description = f'У вас недостаточно коинов для преобретения данной роли.',colour = 0x0085FF, timestamp = datetime.datetime.now())

@@ -96,16 +96,17 @@ class Coins(commands.Cog):
 					collection = self.db[f"{ctx.author.guild.name}"]
 					coins = collection.find_one({"id": int(ctx.author.id)})["coins"]
 					if coins - ammout >= 0:
-						casino_members = ["bot", "bot","bot", "bot", "bot", "bot", "member","member","member","member"]
+						casino_members = ["bot", "bot","bot", "bot", "bot", "bot", "member", "member","member","member"]
 						winner = random.choice(casino_members)
+						print(winner)
 						if winner == "bot":
 							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins - ammout}})
 							winner_object = self.bot
-							print(winner_object)
+							print(winner_object.name)
 						elif winner == "member":
 							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins + ammout}})
 							winner_object = ctx.author
-							print(winner_object)
+							print(winner_object.name)
 						if winner_object is not None:
 							emb = discord.Embed(description = f":trophy: Победу одерживает {winner_object.mention}. Его выигрыш состовляет **{ammout}**", colour=0x0085FF, timestamp=datetime.datetime.now())
 							await ctx.send(embed = emb)

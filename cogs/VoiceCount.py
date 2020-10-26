@@ -1,29 +1,27 @@
 import discord
 from discord import utils
+from discord.ext import commands
 import pymongo
-import datetime
 from pymongo import MongoClient
+import datetime
 import json
 import os
-from discord.ext import commands
+
 
 class VoiceCount(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+		self.mongo_token = os.environ.get("MONGO_TOKEN")
+		self.cluster = MongoClient(self.mongo_token)
+		self.db = self.cluster["ciscord"]
 
 	def get_stats(self, member: discord.Member):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f"{member.guild.name}"]
+		collection = self.db[f"{member.guild.name}"]
 		results = collection.find_one({"id": member.id}) #Find user`s data
 		return results
 			
 	def start_count(self, member: discord.Member):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f"{member.guild.name}"]
+		collection = self.db[f"{member.guild.name}"]
 		time_now = datetime.datetime.now(tz=None).strftime('%d-%m-%Y %H:%M:%S') #Setting now time
 		time_str = str(time_now) #Formating datetime to string
 		collection.update_one({"id": member.id}, {"$set":{"time": time_str, "count_status": "start"}}, upsert = False) #Updating db
@@ -31,10 +29,7 @@ class VoiceCount(commands.Cog):
 		return
 
 	def stop_count(self, member: discord.Member):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f"{member.guild.name}"]
+		collection = self.db[f"{member.guild.name}"]
 		time_join = collection.find_one({"id": member.id}) #Find user`s data
 		time_join = time_join["time"]
 		time_join = datetime.datetime.strptime(time_join, "%d-%m-%Y %H:%M:%S") #Formating time in db to datetime format
@@ -44,21 +39,22 @@ class VoiceCount(commands.Cog):
 		stats = self.get_stats(member) 
 		minvoice = stats["minvoice"] #Getting mintus before
 		coins = stats["coins"]
-		if time_in_voice_hrs == 0: #if not an hour has passed
-			time_in_voice_minute = time_now.minute - time_join.minute #Getting minutes difference
-			time_in_voice_all = time_in_voice_minute #Time in voice == munutes
-		elif time_in_voice_hrs < 0:
-			time_in_voice_all =  (24*60) - (time_join.hour*60 + time_join.minute) + time_now.hour*60 + time_now.minute #Getting minutes difference
-		elif time_in_voice_hrs > 0:
-			time_in_voice_hrs = time_in_voice_hrs * 60 - time_join.minute #Formating hours to minutes
-			time_in_voice_all = time_in_voice_hrs + time_now.minute	 #Minutes in now hour adding minutes in hours
-		coins = coins + time_in_voice_all
-		minvoice = time_in_voice_all + minvoice
-		print(time_in_voice_all)
-		time = "NO INFO"
-		count_status = "stop"
-		collection.update_one({"id": member.id}, {"$set":{"coins": coins, "minvoice": minvoice, "count_status": "stop"}}, upsert = False) #Updating db
-		return
+		if time_now.day - time_join.day == 0:
+			if time_now.hour - time_join.hour == 0:
+				time_in_voice_all =  time_now.minute - time_join.minute
+			elif time_now.hour - time_join.hour > 0:
+				time_in_voice_all = time_in_voice_hrs * 60 - time_join.minute + time_now.minute
+		elif time_now.day - time_join.day != 0:
+			time_in_voice_all =  (24 * 60) - (time_join.hour * 60 + time_join.minute) + time_now.hour * 60 + time_now.minute
+		if time_in_voice_all is not None:
+			print(f"{member} - {time_in_voice_all}")
+			#self.update_stats(time_in_voice_all, member)
+			collection.update_one({"id": member.id}, {"$set":{"coins": coins + time_in_voice_all, "minvoice":  minvoice + time_in_voice_all, "count_status": "stop"}}, upsert = False)
+
+	def update_stats(self, add_ammout, member: discord.Member):
+		collection = self.db[f"{member.guild.name}"]
+		collection.update_one({"id": member.id}, {"$inc":{"coins": add_ammout, "minvoice": add_ammout, "count_status": "stop"}}, upsert = False)
+		print(f"{member} - {add_ammout}")
 
 	@commands.Cog.listener()
 	async def on_voice_state_update(self, member: discord.Member, before, after, guild=discord.Guild):
@@ -69,19 +65,17 @@ class VoiceCount(commands.Cog):
 					if stats["count_status"] == "stop":
 						if member.voice.self_mute == False:
 							if before.channel != None and after.channel != None:
-									if member.voice.self_mute == False:
-										if before.channel == after.channel: # If user now unmuted, before muted
-											if len(after.channel.members) - 1 >= 2: #If count stopped for 1 member, start for him
-												self.start_count(member)
+									if before.channel == after.channel: # If user now unmuted, before muted
+										if len(after.channel.members) - 1 >= 2: #If count stopped for 1 member, start for him
+											self.start_count(member)
 
-											elif len(after.channel.members) >= 2: #If count stopped for all, start count for all
-												for member in after.channel.members: #Started count for all
-													self.start_count(member)
-										elif before.channel != after.channel:
-											print("moved1")
-											if len(after.channel.members) >= 2: #If member moved, in before channel users < 2, after users > 2
-												for member in after.channel.members: #Checks all members in vc
-													self.start_count(member)
+										elif len(after.channel.members) >= 2: #If count stopped for all, start count for all
+											for member in after.channel.members: #Started count for all
+												self.start_count(member)
+									elif before.channel != after.channel:
+										if len(after.channel.members) >= 2: #If member moved, in before channel users < 2, after users > 2
+											for member in after.channel.members: #Checks all members in vc
+												self.start_count(member)
 							else:
 								if before.channel is None: #Check for user joined
 									if len(after.channel.members) - 1 >= 2: #If after biggest two before user join
@@ -95,7 +89,6 @@ class VoiceCount(commands.Cog):
 						if before.channel != None and after.channel != None:
 							if before.channel == after.channel: #If member muted
 								if member.voice.self_mute == True:
-									print("muted")
 									if len(after.channel.members) - 1 >= 2: #Elif other users > 2
 										self.stop_count(member) #Stopping count for 1 member
 									elif len(after.channel.members) - 1 < 2: #If other users < 2
@@ -116,9 +109,9 @@ class VoiceCount(commands.Cog):
 									for member in before.channel.members: #Checks all members in vc
 										print(member)
 										self.stop_count(member)
-								elif len(before.channel.members) - 1 >= 2:
-									print("moved")
+								elif len(after.channel.members) < 2 and len(before.channel.members) - 1 >= 2:
 									self.stop_count(member) #Stopping count for 1 member
+
 				elif vc.id == 745611324360228887:
 					stats = self.get_stats(member)
 					if stats["count_status"] == "start":

@@ -102,7 +102,7 @@ class Coins(commands.Cog):
 						if winner == "bot":
 							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins - ammout}})
 							winner_object = self.bot
-							print(winner_object.name)
+							print(winner_object.id)
 						elif winner == "member":
 							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins + ammout}})
 							winner_object = ctx.author

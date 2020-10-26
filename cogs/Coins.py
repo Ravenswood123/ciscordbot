@@ -1,139 +1,76 @@
 import discord
 from discord import utils
+from discord.ext import commands
 import pymongo
 from pymongo import MongoClient
 import datetime
-import os
 import random
-import json
-from discord.ext import commands
+import os
+
 class Coins(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		
-	@commands.group(name='coins', invoke_without_command=True)
+		self.mongo_token = os.environ.get("MONGO_TOKEN")
+		self.cluster = MongoClient(self.mongo_token)
+		self.db = self.cluster["ciscord"]
+
+	@commands.group(name = "coins", invoke_without_command = True)
 	async def coinscmd(self, ctx):
-		emb = discord.Embed(description='**Коины** - это основная валюта на сервере\nПри общение в голосовых каналах вам будет даватся **1 коин = 1 минута**, при условии того что в воисе сидит ещё как минимум один человек',colour=0xFFC700)
-		emb.add_field(name='**``coins balance <участник>``**' ,value = 'Можно узнать ваш баланс коинов', inline=False)
+		emb = discord.Embed(description="**Коины** - это основная валюта на сервере\nПри общение в голосовых каналах вам будет даватся **1 коин = 1 минута**, при условии, что в воисе сидит ещё как минимум один человек и у вас не выключен микрофон/звук",colour=0x0085FF)
+		emb.add_field(name="**``coins balance <участник>``**", value = "Можно узнать ваш баланс коинов", inline=False)
 		await ctx.send(embed=emb)
-	@coinscmd.command(name='balance')
-	async def balance_subcommand(self, ctx, member: discord.Member):
+	
+	@coinscmd.command(name = "balance")
+	async def balance_subcommand(self, ctx, member: discord.Member = None):
 		if ctx.channel.id == 747433532770746469:
-			mongo_token=os.environ.get('MONGO_TOKEN')
-			cluster = MongoClient(mongo_token)
-			db = cluster["ciscord"]
-			collection = db[f'{ctx.author.guild.name}']
-			find_results = collection.find_one({"id": int(member.id)})
-			coins = find_results["coins"]
-			status = find_results["count_status"]
+			if member is None:
+				user = ctx.author
+			elif member is not None:
+				user = member
+			collection = self.db[f"{ctx.author.guild.name}"]
+			results = collection.find_one({"id": user.id})
+			coins = results["coins"]
+			status = results["count_status"]
 			if status == "stop":
 				status = "Начисление остановлено"
 			if status == "start":
 				status = "Начисление активно"
-			minvoice = find_results["minvoice"]
-			hrsvoice = minvoice // 60
-			emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())
-			emb.add_field(name='**:money_with_wings: Количество коинов:**',value=f'{coins}', inline=False)
-			emb.add_field(name='**:clock3: Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
-			emb.add_field(name='**:chart_with_upwards_trend: Статус начисления:**',value=f'{status}', inline=False)
-			emb.set_author(name=member.name, icon_url=member.avatar_url)
-			await ctx.send(embed=emb)
-		else:
-			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now())
-			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
+			hrsvoice = results["minvoice"] // 60
+			emb = discord.Embed(title = "Ваша статистика:", colour = 0x0085FF, timestamp = datetime.datetime.now())
+			emb.add_field(name = "**:money_with_wings: Количество коинов:**",value = f"{coins}", inline = False)
+			emb.add_field(name = "**:clock3: Часы в голосовых каналах:**",value = f"{hrsvoice}", inline = False)
+			emb.add_field(name = "**:chart_with_upwards_trend: Статус начисления:**",value = f"{status}", inline = False)
+			emb.set_author(name = user.name, icon_url = user.avatar_url)
 			await ctx.send(embed = emb)
-	@balance_subcommand.error
-	async def balance_error(self, ctx, error):
-		if isinstance(error, commands.MissingRequiredArgument):
-			if ctx.channel.id == 747433532770746469:
-				mongo_token=os.environ.get('MONGO_TOKEN')
-				cluster = MongoClient(mongo_token)
-				db = cluster["ciscord"]
-				collection = db[f'{ctx.author.guild.name}']
-				find_results = collection.find_one({"id": int(ctx.author.id)})
-				coins = find_results["coins"]
-				status = find_results["count_status"]
-				if status == "stop":
-					status = "Начисление остановлено"
-				if status == "start":
-					status = "Начисление активно"	
-				minvoice = find_results["minvoice"]
-				hrsvoice = minvoice // 60
-				emb = discord.Embed(title = 'Ваша статистика:', colour=0xFFC700, timestamp=datetime.datetime.now())
-				emb.add_field(name='**:money_with_wings: Количество коинов:**',value=f'{coins}', inline=False)
-				emb.add_field(name='**:clock3: Часы в голосовых каналах:**',value=f'{hrsvoice}', inline=False)
-				emb.add_field(name='**:chart_with_upwards_trend: Статус начисления:**',value=f'{status}', inline=False)
-				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-				await ctx.send(embed=emb)
+
+	@coinscmd.command(name = "send")
+	async def send_subcommand(self, ctx, member: discord.Member = None, coins_sum: int = None):
+		collection = self.db[f"{ctx.author.guild.name}"]
+		if ctx.channel.id == 747433532770746469:
+			if coins_sum != None and coins_sum > 0 and member is not None:
+				coins = collection.find_one({"id": ctx.author.id})["coins"]
+				if coins - coins_sum >= 0:
+					collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins - coins_sum}})
+					member_coins = collection.find_one({"id": member.id})["coins"]
+					collection.update_one({"id": member.id}, {"$set": {"coins": member_coins + coins_sum}})
+					await ctx.message.add_reaction("☑")
 			else:
 				await ctx.message.delete()
-				emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700)
-				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-				await ctx.send(embed = emb, delete_after=15)
-
-	@coinscmd.command(name='send')
-	async def send_subcommand(self, ctx, member: discord.Member, coins_sum=1):
-		if ctx.channel.id == 747433532770746469:
-			mongo_token=os.environ.get('MONGO_TOKEN')
-			cluster = MongoClient(mongo_token)
-			db = cluster["ciscord"]
-			collection = db[f'{ctx.author.guild.name}']
-			coins = collection.find_one({"id": int(ctx.author.id)})
-			coins = coins["coins"]
-			coins = coins - coins_sum
-			if coins < 0:
-				emb = discord.Embed(description=f'У вас недостаточно коинов для перевода', colour=0xFFC700)
-				emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-				await ctx.send(embed = emb)
-			else:
-				collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-				collection = db[f'{ctx.author.guild.name}']
-				member_coins = collection.find_one({"id": int(member.id)})
-				member_coins = member_coins["coins"]
-				member_coins = member_coins + coins_sum
-				collection.update_one({"id": member.id}, {"$set": {"coins": member_coins}})
-				await ctx.message.add_reaction('☑')
-		else:
-			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700)
-			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-			await ctx.send(embed = emb, delete_after=15)
-			
-	@coinscmd.command(name='award')
-	@commands.has_permissions(administrator=True)
-	async def award_subcommand(self, ctx, member: discord.Member, coins_add=1):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f'{member.guild.name}']
-		coins = collection.find_one({"id": int(member.id)})
-		coins = coins["coins"]
-		coins = coins + coins_add
-		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
-		await ctx.message.add_reaction('☑')
+				if member is None:
+					emb = discord.Embed(description = f"{ctx.author.mention}, **укажите пользователя** которому нужно сделать перевод", colour = 0x0085FF)
+					await ctx.author.send(embed = emb)
+				elif coins_sum == None:
+					emb = discord.Embed(description = f"{ctx.author.mention}, **укажите сумму** перевода", colour = 0x0085FF)
+					await ctx.author.send(embed = emb)
+				elif coins_sum < 0:
+					emb = discord.Embed(description = f"{ctx.author.mention}, **укажите сумму** перевода больше чем **0**", colour = 0x0085FF)
+					await ctx.author.send(embed = emb)
 		
-	@coinscmd.command(name='remove')
-	@commands.has_permissions(administrator=True)
-	async def remove_subcommand(self, ctx, member: discord.Member, coins_remove=1):
-		mongo_token=os.environ.get('MONGO_TOKEN')
-		cluster = MongoClient(mongo_token)
-		db = cluster["ciscord"]
-		collection = db[f'{member.guild.name}']
-		coins = collection.find_one({"id": int(member.id)})
-		coins = coins["coins"]
-		coins = coins - coins_remove
-		collection.update_one({"id": member.id}, {"$set": {"coins": coins}})
-		await ctx.message.add_reaction('☑')
-		
-	@coinscmd.command(name='list')
+	@coinscmd.command(name = "list")
 	async def list_subcommand(self, ctx):
 		if ctx.channel.id == 747433532770746469:
-			mongo_token=os.environ.get('MONGO_TOKEN')
-			cluster = MongoClient(mongo_token)
-			db = cluster["ciscord"]
-			collection = db[f'CisCord']
-			find_result = collection.find().sort('minvoice', -1).limit(10)
+			collection = self.db[f"{ctx.author.guild.name}"]
+			find_result = collection.find().sort("minvoice", -1).limit(10)
 			minvoice = []
 			users = []
 			hrsvoice = []
@@ -146,61 +83,41 @@ class Coins(commands.Cog):
 				users.append(user.name)
 			for min in minvoice:
 				hrs = min/60
-				hrsvoice.append('%.1f' % hrs)
-			emb = discord.Embed(description=f'🥇 **{users[0]}** : **{hrsvoice[0]}**\n \n 🥈 **{users[1]}** : **{hrsvoice[1]}**\n \n 🥉 **{users[2]}** : **{hrsvoice[2]}**\n \n 4️⃣ {users[3]} : {hrsvoice[3]}\n \n 5️⃣ {users[4]} : {hrsvoice[4]}\n \n 6️⃣ {users[5]} : {hrsvoice[5]}\n \n 7️⃣ {users[6]} : {hrsvoice[6]}\n \n 8️⃣ {users[7]} : {hrsvoice[7]}\n \n 9️⃣ {users[8]} : {hrsvoice[8]}\n \n 🔟 {users[9]} : {hrsvoice[9]}',colour=0xFFC700, timestamp=datetime.datetime.now())
-			emb.set_author(name='Топ участников по часам в голосовых каналах', icon_url=self.bot.user.avatar_url)
+				hrsvoice.append("%.1f" % hrs)
+			emb = discord.Embed(description=f"🥇 **{users[0]}** : **{hrsvoice[0]}**\n \n 🥈 **{users[1]}** : **{hrsvoice[1]}**\n \n 🥉 **{users[2]}** : **{hrsvoice[2]}**\n \n 4️⃣ {users[3]} : {hrsvoice[3]}\n \n 5️⃣ {users[4]} : {hrsvoice[4]}\n \n 6️⃣ {users[5]} : {hrsvoice[5]}\n \n 7️⃣ {users[6]} : {hrsvoice[6]}\n \n 8️⃣ {users[7]} : {hrsvoice[7]}\n \n 9️⃣ {users[8]} : {hrsvoice[8]}\n \n 🔟 {users[9]} : {hrsvoice[9]}",colour=0x0085FF, timestamp=datetime.datetime.now())
+			emb.set_author(name = "Топ участников по часам в голосовых каналах", icon_url = self.bot.user.avatar_url)
 			await ctx.send(embed = emb)
-		else:
-			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now)
-			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-			await ctx.send(embed = emb, delete_after=15)
-	@coinscmd.command(name='casino')
+
+	@coinscmd.command(name = "casino")
 	async def casino_subcommand(self, ctx, ammout: int = None):
 		if ctx.channel.id == 747433532770746469:
-			if ammout is None:
-				await ctx.message.delete()
-				emb = discord.Embed(description = f'{ctx.author.mention}, укажите сумму на которую будете играть',colour=0xFFC700, timestamp=datetime.datetime.now())
-				await ctx.author.send(embed = emb)
-			else:
-				mongo_token=os.environ.get('MONGO_TOKEN')
-				cluster = MongoClient(mongo_token)
-				db = cluster["ciscord"]
-				collection = db[f'{ctx.author.guild.name}']
-				coins = collection.find_one({"id": int(ctx.author.id)})
-				coins = coins["coins"]
-				print(coins)
-				if coins - ammout <= 0:
-					await ctx.message.delete()
-					emb = discord.Embed(description = f'{ctx.author.mention}, у вас **недостаточно** средств, чтобы сыграть на эту сумму',colour=0xFFC700, timestamp=datetime.datetime.now())
-					await ctx.author.send(embed = emb)
-				else:
-					if ammout < 49:
-						await ctx.message.delete()
-						emb = discord.Embed(description = f'{ctx.author.mention}, минимальная ставка **50** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
-						await ctx.author.send(embed = emb)
-					elif ammout > 5000 :
-						await ctx.message.delete()
-						emb = discord.Embed(description = f'{ctx.author.mention}, максимальная ставка **5000** коинов',colour=0xFFC700, timestamp=datetime.datetime.now())
-						await ctx.author.send(embed = emb)
-					else:
-						casino_members = ['bot', 'bot','bot', 'bot', 'bot', 'bot', 'member','member','member','member']
+			if ammout is not None: #if users gived ammout
+				if ammout >= 50 and ammout <= 5000:
+					collection = self.db[f"{ctx.author.guild.name}"]
+					coins = collection.find_one({"id": int(ctx.author.id)})["coins"]
+					if coins - ammout >= 0:
+						casino_members = ["bot", "bot","bot", "bot", "bot", "bot", "member","member","member","member"]
 						winner = random.choice(casino_members)
-						if winner == 'bot':
-							coins = coins - ammout
-							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-							emb = discord.Embed(description = f'🏆Победу одерживает {self.bot.user.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
+						if winner == "bot":
+							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins - ammout}})
+							winner_object = self.bot
+						elif winner == "member":
+							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins + ammout}})
+							winner_object = ctx.author
+						if winner_object is not None:
+							emb = discord.Embed(description = f":trophy: Победу одерживает {winner_object.mention}. Его выигрыш состовляет **{ammout}**", colour=0x0085FF, timestamp=datetime.datetime.now())
 							await ctx.send(embed = emb)
-						elif winner == 'member':
-							coins = coins + ammout
-							collection.update_one({"id": ctx.author.id}, {"$set": {"coins": coins}})
-							emb = discord.Embed(description = f'🏆 Победу одерживает {ctx.author.mention}. Его выигрыш состовляет **{ammout}**',colour=0xFFC700, timestamp=datetime.datetime.now())
-							await ctx.send(embed = emb)
-		else:
-			await ctx.message.delete()
-			emb = discord.Embed(description = f'В этом чате **запрещено** использовать комманды! Чат для комманд - <#747433532770746469>',colour=0xFFC700, timestamp=datetime.datetime.now)
-			emb.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-			await ctx.send(embed = emb, delete_after=15)
+					else:
+						emb = discord.Embed(description = f"{ctx.author.mention}, у вас **недостаточно** коинов чтобы сыграть на сумму **{ammout}**", colour=0x0085FF, timestamp=datetime.datetime.now())
+						await ctx.author.send(embed = emb)
+				else:
+					emb = discord.Embed(description = f"{ctx.author.mention}, сумма ставки должна быть в пороге от **50** до **5000**", colour = 0x0085FF, timestamp=datetime.datetime.now())
+					await ctx.author.send(embed = emb)
+
+			elif ammout is None:
+				await ctx.message.delete()
+				emb = discord.Embed(description = f"{ctx.author.mention}, укажите сумму на которую будете играть", colour=0x0085FF, timestamp=datetime.datetime.now())
+				await ctx.author.send(embed = emb)
 		
 def setup(bot):
 	bot.add_cog(Coins(bot))

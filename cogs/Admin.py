@@ -85,12 +85,11 @@ class Admin(commands.Cog):
             if remove_ammout > 0:
                 if remove_category == "coins":
                     collection.update_one({"id": member.id}, {"$inc": {"coins": -remove_ammout}})
-                    await ctx.message.add_reaction('☑')
+                    await ctx.message.add_reaction("☑")
                 elif remove_category == "hrs":
-                    minvoice = collection.find_one({"id": member.id})["minvoice"]
                     hrsremove_ammout = remove_ammout * 60
-                    collection.update_one({"id": member.id}, {"$set": {"minvoice": minvoice - hrsremove_ammout}})
-                    await ctx.message.add_reaction('☑')
+                    collection.update_one({"id": member.id}, {"$inc": {"minvoice": -hrsremove_ammout}})
+                    await ctx.message.add_reaction("☑")
                 elif remove_ammout <= 0:
                     emb = discord.Embed(description = f"{ctx.author.mention}, укажите сумму спысывания больше, чем **0**", colour = 0x0085FF)
                     await ctx.author.send(embed = emb)
@@ -114,13 +113,12 @@ class Admin(commands.Cog):
             if add_ammout > 0:
                 if add_category == "coins":
                     collection.update_one({"id": member.id}, {"$inc": {"coins": add_ammout}})
-                    await ctx.message.add_reaction('☑')
+                    await ctx.message.add_reaction("☑")
 							   
                 elif add_category == "hrs":
-                    minvoice = collection.find_one({"id": member.id})["minvoice"]
                     hrsadd_ammout = add_ammout * 60
-                    collection.update_one({"id": member.id}, {"$set": {"minvoice": minvoice + hrsadd_ammout}})
-                    await ctx.message.add_reaction('☑')
+                    collection.update_one({"id": member.id}, {"$inc": {"minvoice": hrsadd_ammout}})
+                    await ctx.message.add_reaction("☑")
                 elif add_ammout <= 0:
                     emb = discord.Embed(description = f"{ctx.author.mention}, **укажите сумму** увеличения больше, чем **0**", colour = 0x0085FF)
                     await ctx.author.send(embed = emb)

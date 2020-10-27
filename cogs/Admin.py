@@ -24,8 +24,6 @@ class Admin(commands.Cog):
         emb.add_field(name = "**``admin unban <участник>``**", value = "Снимает бан у выбранного участника с сервера", inline = False)
         await ctx.send(embed = emb)
 
-    async def mute_submission(self, member, mute_time): #background task
-        await asyncio.sleep(mute_time) #Wait time to unmute
     @admincmd.command(name = "mute")
     @commands.has_permissions(administrator = True)
     async def mute_subcommand(self, ctx, member: discord.Member, mute_time: int = 1):
